@@ -1,16 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 const Swagger = require('swagger-client');
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class SwaggerService {
+export class SwaggerService implements OnInit {
   specUrl = 'http://forge.local/openapi/spec.json';
   apiDataSubject: BehaviorSubject<any>;
 
   constructor() {
     this.apiDataSubject = new BehaviorSubject(undefined);
+  }
 
+  ngOnInit() {
     this.initSwagger()
       .then(apiData => {
         this.setApiData(apiData);
