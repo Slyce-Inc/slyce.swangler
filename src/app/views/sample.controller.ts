@@ -15,11 +15,48 @@ import {
 export class SampleViewComponent {
 
   constructor() {
-
   }
 
+  accounts = {
+    'post': {
+      'operationId': 'Accounts.create_account',
+      'summary': 'Create a new account',
+      'description': 'Create a new account.',
+      'consumes': [
+        'application/json'
+      ],
+      'produces': [
+        'application/json'
+      ],
+      'tags': [
+        'Accounts'
+      ],
+      'parameters': [{
+        'type': 'object',
+        'name': 'body',
+        'required': true,
+        'in': 'body',
+        'schema': {
+          '$ref': '#/definitions/NewAccountDoc'
+        }
+      }],
+      'responses': {
+        '200': {
+          'description': 'Successful Operation',
+          'schema': {
+            'type': 'object',
+            '$ref': '#/definitions/NewJobDoc'
+          }
+        },
+        '202': {
+          'description': 'Processing request.'
+        }
+      }
+    }
+  };
+
   public sampleContent2 = {
-    type:'schema',
+    type: 'schema',
     data: {
       header: 'Monster Pets',
       fields: [
@@ -70,13 +107,13 @@ export class SampleViewComponent {
 
 
   public sampleContent1 = {
-    type:'sample',
+    type: 'sample',
     data: "" +
     "{" +
     "'type':'hello'" +
     "}" +
     ""
-  }
+  };
 
   data = {
     'accounts': {
