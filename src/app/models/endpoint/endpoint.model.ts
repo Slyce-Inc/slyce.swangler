@@ -243,11 +243,7 @@ export class RequestInitiator {
         if (!this[request.parameterFields[entry].in]) {
           this[request.parameterFields[entry].in] = {};
         }
-        if (entry === 'body') {
-          this[request.parameterFields[entry].in] = request.parameterFields[entry].value;
-        } else {
-          this[request.parameterFields[entry].in][entry] = request.parameterFields[entry].value;
-        }
+        this[request.parameterFields[entry].in][entry] = request.parameterFields[entry].value;
       });
     }
   }
