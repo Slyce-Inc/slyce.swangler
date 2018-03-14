@@ -8,7 +8,7 @@ import { AuthComponent } from './components/auth-component/auth-component.contro
 import { LocalStorageService } from './services/local-storage.service';
 import { FormsModule } from '@angular/forms';
 
-import {BsDatepickerModule, ModalModule} from 'ngx-bootstrap';
+import {BsDatepickerModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
@@ -51,6 +51,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     BrowserModule,
     BsDatepickerModule.forRoot(),
     CollapseModule.forRoot(),
+    TabsModule.forRoot(),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,

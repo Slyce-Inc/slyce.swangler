@@ -78,6 +78,11 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     const requestInitiator: RequestInitiator = new RequestInitiator(request, this.localDataService);
     this.swaggerService.testEndpoint(requestInitiator).subscribe( res => {
       this.setRes(res, request);
+
+      // Mock
+      this.result['messages'] = ['test', 'test2', 'test3'];
+      // this.result['websocket'] = true;
+
       modal.show();
     }, error => {
       this.setRes(error, request);

@@ -11,3 +11,12 @@
 .no-endpoint-data{
   padding: 1rem
 }
+
+tab{
+  pre{
+    font-size: 0;
+    code{
+      font-size: 1rem;
+    }
+  }
+}
