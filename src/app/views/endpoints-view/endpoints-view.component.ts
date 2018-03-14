@@ -7,6 +7,7 @@ import {RequestInitiator} from '../../models/endpoint/endpoint.model';
 import {LocalStorageService} from '../../services/local-storage.service';
 import * as hl from '../../../../node_modules/highlight.js/';
 import { NotificationsService } from 'angular2-notifications';
+import { ImageBytesService } from '../../services/image-bytes.service';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public swaggerService: SwaggerService,
     private localDataService: LocalStorageService,
-    public notify: NotificationsService
+    public notify: NotificationsService,
+    public imageBytesService: ImageBytesService
   ) {}
 
   ngOnInit() {
@@ -48,6 +50,10 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     this.swaggerService.getApiData().subscribe(data => {
       this.apiData = data;
     });
+  }
+
+  convert(file) {
+    this.imageBytesService.getImageBytes(file).subscribe(a => console.log(a));
   }
 
 

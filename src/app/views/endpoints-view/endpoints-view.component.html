@@ -31,6 +31,14 @@
     <div id="resources_container" class="col-lg-9 col-xl-10">
       <div id="resources" class="">
         <div id="resource_Accounts" class="resource">
+
+            <form>
+              <div class="form-group">
+                <label for="exampleFormControlFile1">Example file input</label>
+                <input type="file" class="form-control-file" #file (change)="convert(file)">
+              </div>
+            </form>
+
           <h5 *ngIf="this.wrongTag" class="no-endpoint-data">No data for {{this.endpointTag}}</h5>
           <div *ngIf="!this.wrongTag" class="endpoints" id="Accounts_endpoint_list">
             <app-endpoint (clickedTestEndPoint)="this.clickTest($event, modal)" *ngFor="let endpoint of endpoints" [endpointData]="endpoint"
