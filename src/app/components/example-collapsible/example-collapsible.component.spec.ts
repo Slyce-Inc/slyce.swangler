@@ -5,9 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { SwaggerService } from '../../services/swagger.service';
 import { ParamConsoleComponent } from '../param-console/param-console.component';
-import {RequestSchema, ResponseSchema} from '../../models/endpoint/endpoint.model';
-import { DebugElement } from '@angular/core';
+import {Schema} from '../../models/endpoint/endpoint.model';
 import { By } from '@angular/platform-browser';
+import {REQUEST_SCHEMA, RESPONSE_SCHEMA} from '../../models/MOCK_DATA';
 
 const SwaggerServiceStub: Partial<SwaggerService> = {
   getApiData: () => {
@@ -32,7 +32,7 @@ describe('ExampleCollapsibleComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ExampleCollapsibleComponent);
     component = fixture.componentInstance;
-    component.schema = ResponseSchema.MOCK_DATA as ResponseSchema;
+    component.schema = RESPONSE_SCHEMA;
     component.header = 'test';
     component.type = 'test';
     fixture.detectChanges();
@@ -85,14 +85,14 @@ describe('ExampleCollapsibleComponent', () => {
   });
 
   it('should generate sample from object with examples even if no property field exist for examples', () => {
-    const res = component.generateSampleFromObject(RequestSchema.MOCK_DATA);
+    const res = component.generateSampleFromObject(REQUEST_SCHEMA);
     expect(res).toEqual('{ \n' +
       '"name": "DemoAPIKey","acl" : { \n' +
       '"create-space": "false","get-space-by-id": "true"}}');
   });
 
   it('should generate sample from array', () => {
-    const responseSchema: ResponseSchema = component.schema as ResponseSchema;
+    const responseSchema: RESPONSE_SCHEMA = component.schema as Schema;
     const res = component.generateSampleFromArray(responseSchema.properties.items);
     expect(res).toEqual('[\n' +
       '{ \n' +
@@ -102,7 +102,7 @@ describe('ExampleCollapsibleComponent', () => {
   });
 
   it('should generate sample from array if no sample for that array is provided instead provide datatype', () => {
-    const responseSchema: ResponseSchema = component.schema as ResponseSchema;
+    const responseSchema: RESPONSE_SCHEMA = component.schema as Schema;
     const res = component.generateSampleFromArray(responseSchema.properties.sampleItems);
     expect(res).toEqual('["string"]');
   });

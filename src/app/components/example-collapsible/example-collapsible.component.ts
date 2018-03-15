@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
-  RequestSchema,
-  ResponseProperty, ResponseSchema,
+  Property,
   Schema
 } from '../../models/endpoint/endpoint.model';
 import * as hl from '../../../../node_modules/highlight.js/';
@@ -15,7 +14,7 @@ import {SwaggerService} from '../../services/swagger.service';
 export class ExampleCollapsibleComponent implements OnInit {
   @Input('header') header;
   @Input('type') type: string; // sample or schema
-  @Input('schema') schema: Schema | ResponseSchema | RequestSchema;
+  @Input('schema') schema: Schema;
   /* Returns JSON of Sample*/
   @Output('clickedSample') clickedSample: EventEmitter<any> = new EventEmitter();
   public collapsed = true;
@@ -101,7 +100,7 @@ export class ExampleCollapsibleComponent implements OnInit {
               const schema2 = schema.properties[keys[i]];
               temp = temp + ' : ' + this.generateSample(schema2);
             } else {
-              const property: ResponseProperty = schema.properties[keys[i]];
+              const property: Property = schema.properties[keys[i]];
               temp = `${temp}: "${property.example}"`;
             }
             if ( i < keys.length - 1 ) {

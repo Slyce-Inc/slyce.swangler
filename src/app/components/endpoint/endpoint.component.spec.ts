@@ -7,6 +7,7 @@ import {AppEndPoint} from '../../models/endpoint/endpoint.model';
 import {EndpointsSharedService} from '../../services/endpoints-shared.service';
 import {NotificationsService} from 'angular2-notifications';
 import {By} from '@angular/platform-browser';
+import {APPENDPOINT} from '../../models/MOCK_DATA';
 
 describe('EndpointComponent', () => {
 
@@ -41,7 +42,7 @@ describe('EndpointComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EndpointComponent);
     component = fixture.componentInstance;
-    component.endpointData = JSON.parse(JSON.stringify(AppEndPoint.MOCK_DATA));
+    component.endpointData = JSON.parse(JSON.stringify(APPENDPOINT));
     this.endpointsSharedService = TestBed.get(EndpointsSharedService);
     fixture.detectChanges();
   });
@@ -76,7 +77,7 @@ describe('EndpointComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should populate .param-property with data from endpointData.parameters ', () => {
-    component.endpointData = JSON.parse(JSON.stringify(AppEndPoint.MOCK_DATA));
+    component.endpointData = JSON.parse(JSON.stringify(APPENDPOINT));
     fixture.detectChanges();
     component.endpointData.parameters.forEach( parm => {
       const element = fixture.debugElement.query(By.css(`#${parm.name}`));

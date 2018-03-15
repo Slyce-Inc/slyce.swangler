@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AppEndPoint, RequestSchema, ResponseSchema} from '../../models/endpoint/endpoint.model';
+import {AppEndPoint, Schema} from '../../models/endpoint/endpoint.model';
 
 @Component({
   selector: 'app-example-side-bar',
@@ -10,8 +10,8 @@ export class ExampleSideBarComponent implements OnInit {
   @Input('endpoint') endpoint: AppEndPoint;
   @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
 
-  public bodySchema: RequestSchema;
-  public responseSchema: ResponseSchema;
+  public bodySchema: Schema;
+  public responseSchema: Schema;
   ngOnInit() {
     if (this.endpoint.parameters !== null) {
       this.endpoint.parameters.forEach(p => {
