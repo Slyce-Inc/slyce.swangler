@@ -21,7 +21,7 @@ const LocalStorageServiceStub: Partial<LocalStorageService> = {
 
 const requestMockData = RequestInitiator.MOCK_DATA;
 
-fdescribe('SwaggerService', () => {
+describe('SwaggerService', () => {
   let service: SwaggerService;
   let localStorageService: LocalStorageService;
   beforeEach(() => {

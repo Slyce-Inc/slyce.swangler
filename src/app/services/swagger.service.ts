@@ -43,7 +43,6 @@ export class SwaggerService {
   ) {
     this.apiDataSubject = new BehaviorSubject(null);
     this.endpointsSubject = new BehaviorSubject(null);
-
     // for testing purposes
 
     // this.getApiData().subscribe( a => {
