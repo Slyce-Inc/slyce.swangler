@@ -152,42 +152,12 @@ export class Parameter {
   public name: string;
   public required: boolean;
   public type: string;
-  public schema?: RequestSchema;
+  public schema?: Schema;
   public default?: any;
   public example?: any;
   public description?: string;
   public format?: string;
   public value?: any;
-}
-
-export class Schema {
-  public static MOCK_DATA?: any = {
-    'type': 'object',
-    'required': [
-      'id',
-      'name'
-    ],
-    'properties': {
-      'id': {
-        'type': 'string',
-        'description': 'The url safe id for the account (this cannot be changed).',
-        'required': true,
-        'example': 'test_inc'
-      },
-      'name': {
-        'type': 'string',
-        'description': 'The name of the account (this can be changed).',
-        'required': true,
-        'example': 'Test, Inc.'
-      }
-    },
-    'name': 'body',
-    '$$ref': '#/definitions/NewAccountDoc'
-  };
-  public type: string;
-  public $$ref?: string;
-  public description?: string;
-  public required?: any;
 }
 
 /* APP_END_POINT */
@@ -196,7 +166,7 @@ export class SecurityRequirement {
   [name: string]: Array<any>;
 }
 /* REQUEST */
-export class RequestSchema extends Schema {
+export class Schema {
   public static MOCK_DATA: any = {
       'type': 'object',
       'required': [
@@ -222,22 +192,17 @@ export class RequestSchema extends Schema {
       'name': 'body',
       '$$ref': '#/definitions/NewAPIKeyDoc'
     };
-  public name: string;
-  public required: string[];
-  public properties: RequestProperties;
+  public type: string;
+  public $$ref?: string;
   public description?: string;
+  public required?: any;
+  public name: string;
+  public properties: Properties;
   public example?: object;
 }
 
-export class RequestProperty {
-  public description?: string;
-  public type: string;
-  public example?: any;
-  public required?: boolean;
-}
-
-export class RequestProperties {
-  [name: string]: RequestProperty | Schema;
+export class Properties {
+  [name: string]: Property | Schema;
 }
 
 /* RESPONSE */
@@ -247,107 +212,13 @@ export class Responses {
 
 export class Response {
   public description: string;
-  public schema?: ResponseSchema;
+  public schema?: Schema;
 }
-
-export class ResponseSchema extends Schema {
-  public static MOCK_DATA =  {
-    'type': 'object',
-    'properties': {
-      'sampleItems': {
-        'type': 'array',
-        'items': {
-          'type': 'string',
-          'required': []
-        }
-      },
-      'items': {
-        'type': 'array',
-        'items': {
-          'type': 'object',
-          'required': [],
-          'properties': {
-            'created_at': {
-              'type': 'string',
-              'format': 'date-time',
-              'description': 'The timestamp the item was created',
-              'example': '2018-01-04T20:13:55.373557+0000'
-            },
-            'created_by': {
-              'type': 'string',
-              'description': 'The user that created the item',
-              'example': 'system'
-            },
-            'updated_at': {
-              'type': 'string',
-              'format': 'date-time',
-              'description': 'The timestamp the item was last updated',
-              'example': '2018-01-04T20:13:55.373557+0000'
-            },
-            'updated_by': {
-              'type': 'string',
-              'description': 'The user that last updated the item',
-              'example': 'system'
-            },
-            'id': {
-              'type': 'string',
-              'description': 'The account id',
-              'example': 'test_inc'
-            },
-            'name': {
-              'type': 'string',
-              'description': 'The name of the account',
-              'example': 'Test, Inc.'
-            },
-            'is_active': {
-              'type': 'boolean',
-              'description': 'Whether an account is active or not.'
-            }
-          },
-          '$$ref': '#/definitions/AccountDoc'
-        }
-      },
-      'page_number': {
-        'type': 'integer',
-        'format': 'int64',
-        'description': 'The current page number',
-        'example': 1
-      },
-      'page_size': {
-        'type': 'integer',
-        'format': 'int64',
-        'description': 'The number of items returned',
-        'example': 20
-      },
-      'total_pages': {
-        'type': 'integer',
-        'format': 'int64',
-        'description': 'The total number of pages available',
-        'example': 1
-      },
-      'total_items': {
-        'type': 'integer',
-        'format': 'int64',
-        'description': 'The total number of items available',
-        'example': 1
-      }
-    }
-  };
-  public required?: boolean[];
-  public properties: ResponseProperties;
-
-}
-
-export class ResponseProperty {
+export class Property {
   public description?: string;
   public type: string;
   public example?: any;
-  public required?: any [];
-}
-
-
-export class ResponseProperties {
-  [name: string]: ResponseProperty | Schema;
+  public required?: any [] | boolean;
 }
 
 export class RequestInitiator {
