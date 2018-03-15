@@ -172,6 +172,7 @@ export class SwaggerService {
 
       }
     }
+    console.log(result);
 
     return result;
   }
