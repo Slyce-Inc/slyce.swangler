@@ -13,11 +13,15 @@ export class ImageBytesService {
       const self = this;
       const file = imageInput.files[0];
       const reader = new FileReader();
-      const regex = new RegExp(/(?<=,)(\/.*)/g);
+      const regex = new RegExp(/,(\/.*)/g);
 
       this.zone.runOutsideAngular( () => {
           reader.addEventListener('load', function () {
-            self.readerSubject.next(reader.result.match(regex)[0]);
+            let binaryImage = reader.result.match(regex)[0];
+            if (binaryImage.charAt(0) === ',') {
+              binaryImage = binaryImage.substring(1);
+            }
+            self.readerSubject.next(binaryImage);
           }, false);
       });
 
