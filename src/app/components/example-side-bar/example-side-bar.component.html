@@ -21,4 +21,5 @@
     <app-example-collapsible *ngIf="m.schema" [header]="'Response Schema'" [type]="'sample'" [schema]="m.schema"></app-example-collapsible>
   </div>
 </div>
-<h5 *ngIf="!this.responseSchema && !this.bodySchema" class="no-samples text-muted">No Samples</h5>
+<h5 *ngIf="(!this.responseSchema && !this.requestSchema) || (!this.endpoint.requestMessages && !this.endpoint.responseMessages)" class="no-samples text-muted">No Samples</h5>
+git st
