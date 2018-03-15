@@ -7,8 +7,6 @@ import {RequestInitiator} from '../../models/endpoint/endpoint.model';
 import {LocalStorageService} from '../../services/local-storage.service';
 import * as hl from '../../../../node_modules/highlight.js/';
 import { NotificationsService } from 'angular2-notifications';
-import { ImageBytesService } from '../../services/image-bytes.service';
-
 
 @Component({
   selector: 'app-endpoints-view',

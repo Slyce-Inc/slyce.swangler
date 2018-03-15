@@ -5,7 +5,6 @@ import { Subject } from 'rxjs/Subject';
 export class ImageBytesService {
   readerSubject = new Subject();
   reader = new FileReader();
-  regex = new RegExp(/,(\/.*)/g);
 
   constructor(
   ) {}
@@ -15,11 +14,8 @@ export class ImageBytesService {
     const file = imageInput.files[0];
 
     this.reader.addEventListener('load', function () {
-      let binaryImage = self.reader.result.match(self.regex)[0];
-      if (binaryImage.charAt(0) === ',') {
-        binaryImage = binaryImage.substring(1);
-      }
-      self.readerSubject.next(binaryImage);
+      const imageBytes = self.fetchByteData(self.reader.result);
+      self.readerSubject.next(imageBytes);
     }, false);
 
     if (file) {
@@ -27,6 +23,15 @@ export class ImageBytesService {
     }
 
     return this.readerSubject.asObservable();
+  }
+
+  fetchByteData(string) {
+    const regex = new RegExp(/,(\/.*)/g);
+    let imageBytes = string.match(regex)[0];
+    if (imageBytes.charAt(0) === ',') {
+      imageBytes = imageBytes.substring(1);
+    }
+    return imageBytes;
   }
 
 }
