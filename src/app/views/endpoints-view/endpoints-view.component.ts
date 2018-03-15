@@ -30,8 +30,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public swaggerService: SwaggerService,
     private localDataService: LocalStorageService,
-    public notify: NotificationsService,
-    public imageBytesService: ImageBytesService
+    public notify: NotificationsService
   ) {}
 
   ngOnInit() {
@@ -51,11 +50,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
       this.apiData = data;
     });
   }
-
-  convert(file) {
-    this.imageBytesService.getImageBytes(file).subscribe(a => console.log(a));
-  }
-
 
   updateEndpoints() {
     this.swaggerService.getEndpointsSortedByTags().subscribe(data => {
