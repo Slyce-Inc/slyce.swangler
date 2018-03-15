@@ -4,7 +4,7 @@ import { ImageBytesService } from './image-bytes.service';
 
 const imageBase46 = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUSEhMVEhUVFxUWFhgVGBcVGBUYFR';
 
-fdescribe('ImageBytesService', () => {
+describe('ImageBytesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
