@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExampleSideBarComponent } from './example-side-bar.component';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AppEndPoint } from '../../models/endpoint/endpoint.model';
 import { By } from '@angular/platform-browser';
+import {APPENDPOINT} from '../../models/MOCK_DATA';
 
 @Component({
   template: '',
@@ -33,7 +33,7 @@ describe('ExampleSideBarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ExampleSideBarComponent);
     component = fixture.componentInstance;
-    component.endpoint = AppEndPoint.MOCK_DATA;
+    component.endpoint = APPENDPOINT;
   });
 
   it('should create', () => {

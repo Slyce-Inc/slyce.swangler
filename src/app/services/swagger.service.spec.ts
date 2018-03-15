@@ -9,8 +9,9 @@ import { Observable } from 'rxjs/Observable';
 import { LocalStorageService } from './local-storage.service';
 import {Access, EndpointAccesses} from '../models/endpointAccess/endpoint-access.model';
 import {ApiData} from '../models/apidata.model';
+import {APPENDPOINT, REQUEST_INITIATOR} from '../models/MOCK_DATA';
 
-const endpointsMockData = [{ 'test': AppEndPoint.MOCK_DATA }];
+const endpointsMockData = [{ 'test': APPENDPOINT }];
 
 const LocalStorageServiceStub: Partial<LocalStorageService> = {
   getStorageVar: (varName) => {
@@ -19,7 +20,7 @@ const LocalStorageServiceStub: Partial<LocalStorageService> = {
 };
 
 
-const requestMockData = RequestInitiator.MOCK_DATA;
+const requestMockData = REQUEST_INITIATOR;
 
 describe('SwaggerService', () => {
   let service: SwaggerService;
