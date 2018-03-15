@@ -9,10 +9,13 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {RequestInitiator} from '../models/endpoint/endpoint.model';
 import {EndpointAccesses} from '../models/endpointAccess/endpoint-access.model';
 
+import { WS_SPEC_MOCK } from '../models/MOCK_DATA';
+
 @Injectable()
 export class SwaggerService {
   apiDataSubject: BehaviorSubject<any>;
   endpointsSubject: BehaviorSubject<any>;
+  wsEndpointsSubject: BehaviorSubject<any>;
   specHost = '';
 
   public static applyEndpointAccesses(apiData, endpointAccesses: EndpointAccesses) {
@@ -43,49 +46,7 @@ export class SwaggerService {
   ) {
     this.apiDataSubject = new BehaviorSubject(null);
     this.endpointsSubject = new BehaviorSubject(null);
-    // for testing purposes
-
-    // this.getApiData().subscribe( a => {
-    //   console.log(this.sortApiEndpointsByTags(a.spec.paths));
-    // });
-
-    // const postRequest = {
-    //   url: 'http://forge.local/accounts/',
-    //   method: 'post',
-    //   headers: {
-    //     'slyce-account-id': 'slyce',
-    //     'Content-Type': 'application/json'ng lin
-    //   },
-    //   body: {
-    //     'id': '3212312',
-    //     'name': '31231.'
-    //   }
-    // };
-
-    // const getRequest = {
-    //   url: 'http://forge.local/accounts/',
-    //   method: 'get',
-    //   headers: {
-    //     'slyce-account-id': 'slyce',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   params: {
-    //     'page_number': 1,
-    //     'page_size': 20
-    //   }
-    // };
-
-    // this.testEndpoint(postRequest)
-    //   .subscribe( a => console.log(a));
-
-    // this.testEndpoint(getRequest)
-    //   .subscribe( a => console.log(a));
-
-    // setTimeout( () => {
-    //   this.setSpecUrl('http://petstore.swagger.io/v2/swagger.json');
-    // }, 3000);
-
-    // end for testing purposes
+    this.wsEndpointsSubject = new BehaviorSubject(null);
   }
 
   testEndpoint(callData: RequestInitiator): Observable<any> {
@@ -194,6 +155,7 @@ export class SwaggerService {
 
       }
     }
+
     console.log(result);
 
     return result;
@@ -227,11 +189,52 @@ export class SwaggerService {
         apiData = SwaggerService.applyEndpointAccesses(apiData, null);
         this.setHostUrl(apiData);
         this.setApiData(apiData);
+        this.initWsSpec();
         this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
+        this.attachWsEndpointsToRestEndpoints();
       })
       .catch( err => {
         console.error(err);
         this.notify.error('Error', 'Swagger spec JSON was not loaded');
       });
+  }
+
+  attachWsEndpointsToRestEndpoints() {
+    this.getEndpointsSortedByTags()
+      .subscribe( restEndpoints => {
+        this.getWsEndpoints()
+          .subscribe( wsEndpoints => {
+            this.appendWsEndpointToTags(restEndpoints, wsEndpoints);
+          });
+      });
+  }
+
+  appendWsEndpointToTags(restEndpoints, wsEndpoints) {
+    if (wsEndpoints && wsEndpoints.socketEndpoints) {
+      wsEndpoints.socketEndpoints.forEach(endpoint => {
+        if (endpoint && endpoint.tags && endpoint.tags.length > 0) {
+          endpoint.tags.forEach(tag => {
+            if (restEndpoints[tag]) {
+              restEndpoints[tag].push(endpoint);
+            } else {
+              restEndpoints[tag] = [];
+              restEndpoints[tag].push(endpoint);
+            }
+          });
+        }
+      });
+    }
+  }
+
+  initWsSpec() {
+    this.setWsEndpoints(WS_SPEC_MOCK);
+  }
+
+  setWsEndpoints(wsEndpointsData) {
+    this.wsEndpointsSubject.next(wsEndpointsData);
+  }
+
+  getWsEndpoints() {
+    return this.wsEndpointsSubject.asObservable();
   }
 }
