@@ -46,6 +46,24 @@ const MOCK = {
       protocol: [ 'ws', 'wss' ],
       parameters: [
         {
+          in: 'path',
+          name: 'account_id',
+          type: 'string',
+          required: true,
+        },
+        {
+          in: 'path',
+          name: 'space_id',
+          type: 'string',
+          required: true,
+        },
+        {
+          in: 'path',
+          name: 'workflow_id',
+          type: 'string',
+          required: true,
+        },
+        {
           in: 'query',
           name: 'slyce-account-id',
           required: true,
