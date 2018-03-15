@@ -10,4 +10,8 @@ describe('ImageBytesService', () => {
       ]
     });
   });
+
+  it('should be created', inject([ImageBytesService], (service: ImageBytesService) => {
+    expect(service).toBeTruthy();
+  }));
 });
