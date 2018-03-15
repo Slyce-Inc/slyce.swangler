@@ -4,7 +4,7 @@ export const SCHEMA = {
       'sampleItems': {
         'type': 'array',
         'items': {
-          'type': 'string',
+          'type': 'any',
           'required': []
         }
       },

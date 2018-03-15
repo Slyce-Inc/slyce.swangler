@@ -1,7 +1,24 @@
-<app-example-collapsible class="request-body-sample" (clickedSample)="this.clickedBodySample.emit($event)" *ngIf="this.bodySchema" [header]="'Body Sample'" [type]="'sample'" [schema]="this.bodySchema"></app-example-collapsible>
-<app-example-collapsible *ngIf="this.bodySchema" [header]="'Body Schema'" [type]="'schema'" [schema]="this.bodySchema"></app-example-collapsible>
 
-<app-example-collapsible *ngIf="this.responseSchema" [header]="'Response Sample'" [type]="'sample'" [schema]="this.responseSchema"></app-example-collapsible>
-<app-example-collapsible *ngIf="this.responseSchema" [header]="'Response Schema'" [type]="'schema'" [schema]="this.responseSchema"></app-example-collapsible>
+<div *ngIf="!this.endpoint.protocol">
+  <app-example-collapsible class="request-body-sample" (clickedSample)="this.clickedBodySample.emit($event)" *ngIf="this.requestSchema" [header]="'Body Sample'" [type]="'sample'" [schema]="this.requestSchema"></app-example-collapsible>
+  <app-example-collapsible *ngIf="this.requestSchema" [header]="'Body Schema'" [type]="'schema'" [schema]="this.requestSchema"></app-example-collapsible>
 
+  <app-example-collapsible *ngIf="this.responseSchema" [header]="'Response Sample'" [type]="'sample'" [schema]="this.responseSchema"></app-example-collapsible>
+  <app-example-collapsible *ngIf="this.responseSchema" [header]="'Response Schema'" [type]="'schema'" [schema]="this.responseSchema"></app-example-collapsible>
+</div>
+
+
+<div *ngIf="this.endpoint.protocol">
+  <!--Request Messages-->
+  <div *ngFor="let m of this.endpoint?.requestMessages">
+    <app-example-collapsible *ngIf="m.schema" [header]="'Response Schema'" [type]="'schema'" [schema]="m.schema"></app-example-collapsible>
+    <app-example-collapsible *ngIf="m.schema" [header]="'Response Schema'" [type]="'sample'" [schema]="m.schema"></app-example-collapsible>
+  </div>
+
+  <!--Response Messages-->
+  <div *ngFor="let m of this.endpoint?.responseMessages">
+    <app-example-collapsible *ngIf="m.schema" [header]="'Response Schema'" [type]="'schema'" [schema]="m.schema"></app-example-collapsible>
+    <app-example-collapsible *ngIf="m.schema" [header]="'Response Schema'" [type]="'sample'" [schema]="m.schema"></app-example-collapsible>
+  </div>
+</div>
 <h5 *ngIf="!this.responseSchema && !this.bodySchema" class="no-samples text-muted">No Samples</h5>

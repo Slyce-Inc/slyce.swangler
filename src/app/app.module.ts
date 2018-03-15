@@ -30,6 +30,7 @@ import { EndpointsSharedService } from './services/endpoints-shared.service';
 import {SimpleNotificationsModule} from 'angular2-notifications';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ImageBytesService } from './services/image-bytes.service';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { ImageBytesService } from './services/image-bytes.service';
     HttpClientModule,
     ModalModule.forRoot(),
     SimpleNotificationsModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CommonModule
   ],
   providers: [SwaggerService, LocalStorageService, EndpointsSharedService, ImageBytesService],
   bootstrap: [AppComponent]

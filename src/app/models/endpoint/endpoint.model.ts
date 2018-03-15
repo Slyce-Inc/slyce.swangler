@@ -1,17 +1,19 @@
 import {LocalStorageService} from '../../services/local-storage.service';
 
-export class AppEndPoint {
-  public consumes: string[];
-  public description?: string;
-  public method: string;
+export class Endpoint {
   public operationId: string;
+  public summary: string;
+  public url: string;
   public parameters: Parameter[];
+  public description?: string;
+  public consumes: string[];
   public produces: string[];
+  public tags: string[];
+}
+export class AppEndPoint extends Endpoint {
+  public method: string;
   public responses: Responses;
   public security: SecurityRequirement[];
-  public summary: string;
-  public tags: string[];
-  public url: string;
 }
 export class Parameter {
   public in: string;

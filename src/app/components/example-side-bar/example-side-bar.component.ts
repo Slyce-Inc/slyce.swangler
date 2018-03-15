@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AppEndPoint, Schema} from '../../models/endpoint/endpoint.model';
+import {AppEndPoint, Endpoint, Schema} from '../../models/endpoint/endpoint.model';
 
 @Component({
   selector: 'app-example-side-bar',
@@ -7,21 +7,22 @@ import {AppEndPoint, Schema} from '../../models/endpoint/endpoint.model';
   styleUrls: ['./example-side-bar.component.scss']
 })
 export class ExampleSideBarComponent implements OnInit {
-  @Input('endpoint') endpoint: AppEndPoint;
+  @Input('endpoint') endpoint: Endpoint;
   @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
 
-  public bodySchema: Schema;
+  public requestSchema: Schema;
   public responseSchema: Schema;
   ngOnInit() {
     if (this.endpoint.parameters !== null) {
       this.endpoint.parameters.forEach(p => {
         if ( p.in.toLowerCase() === 'body') {
-          this.bodySchema = p.schema;
+          this.requestSchema = p.schema;
         }
       });
     }
-    if ( this.endpoint.responses && this.endpoint.responses['200'] && this.endpoint.responses['200'].schema) {
-      this.responseSchema = this.endpoint.responses['200'].schema;
+    const endpoint: AppEndPoint = this.endpoint as AppEndPoint;
+    if ( endpoint.responses && endpoint.responses['200'] && endpoint.responses['200'].schema) {
+      this.responseSchema = endpoint.responses['200'].schema;
     }
   }
 
