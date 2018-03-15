@@ -92,7 +92,7 @@ describe('ExampleCollapsibleComponent', () => {
   });
 
   it('should generate sample from array', () => {
-    const responseSchema: RESPONSE_SCHEMA = component.schema as Schema;
+    const responseSchema = component.schema as Schema;
     const res = component.generateSampleFromArray(responseSchema.properties.items);
     expect(res).toEqual('[\n' +
       '{ \n' +
@@ -102,7 +102,7 @@ describe('ExampleCollapsibleComponent', () => {
   });
 
   it('should generate sample from array if no sample for that array is provided instead provide datatype', () => {
-    const responseSchema: RESPONSE_SCHEMA = component.schema as Schema;
+    const responseSchema = component.schema as Schema;
     const res = component.generateSampleFromArray(responseSchema.properties.sampleItems);
     expect(res).toEqual('["string"]');
   });

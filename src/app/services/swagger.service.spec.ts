@@ -175,4 +175,46 @@ describe('SwaggerService', () => {
     expect(appliedData.spec.paths['/accounts/']['post']).toBeDefined();
   });
 
+  it('should append ws endpoints to corresponding rest endpoints tags', fakeAsync(() => {
+    const fakeRestEndpoints = {
+      'test': []
+    };
+    const fakeWsEndpoints = {
+      'socketEndpoints': [{
+        tags: [
+          'test',
+          'accounts'
+        ]
+      }]
+    };
+    service.appendWsEndpointToTags(fakeRestEndpoints, fakeWsEndpoints);
+    expect(fakeRestEndpoints['test']).toBeDefined();
+    expect(fakeRestEndpoints['accounts']).toBeDefined();
+  }));
+
+  it('should create new tag in dictionary of combined endpoints', fakeAsync(() => {
+    const fakeRestEndpoints = {};
+    const fakeWsEndpoints = {
+      'socketEndpoints': [{
+        tags: [
+          'test'
+        ]
+      }]
+    };
+    service.appendWsEndpointToTags(fakeRestEndpoints, fakeWsEndpoints);
+    expect(fakeRestEndpoints['test']).toBeDefined();
+  }));
+
+  it('should not populate the dictionary of combined endpoints', fakeAsync(() => {
+    const fakeRestEndpoints = {};
+    service.appendWsEndpointToTags({}, {});
+    expect(fakeRestEndpoints).toEqual({});
+  }));
+
+  it('should set ws endpoints', fakeAsync(() => {
+    service.setWsEndpoints('test');
+    service.getWsEndpoints().subscribe(data => expect(data).toEqual('test'));
+  }));
+
+
 });
