@@ -10,16 +10,27 @@
 
 <div *ngIf="this.endpoint.protocol">
   <!--Request Messages-->
-  <div *ngFor="let m of this.endpoint?.requestMessages">
-    <app-example-collapsible *ngIf="m.schema" [header]="'Response Schema'" [type]="'schema'" [schema]="m.schema"></app-example-collapsible>
-    <app-example-collapsible *ngIf="m.schema" [header]="'Response Schema'" [type]="'sample'" [schema]="m.schema"></app-example-collapsible>
+  <div *ngFor="let m of this.endpoint?.requestMessages | getIndex: this.showRequestMessageOfIndex">
+    <app-example-collapsible (clickedSample)="this.clickedBodySample.emit($event)" *ngIf="m.schema" [header]="'Request Sample'" [type]="'sample'" [schema]="m.schema"></app-example-collapsible>
+    <app-example-collapsible *ngIf="m.schema" [header]="'Request Schema'" [type]="'schema'" [schema]="m.schema"></app-example-collapsible>
   </div>
 
-  <!--Response Messages-->
-  <div *ngFor="let m of this.endpoint?.responseMessages">
-    <app-example-collapsible *ngIf="m.schema" [header]="'Response Schema'" [type]="'schema'" [schema]="m.schema"></app-example-collapsible>
-    <app-example-collapsible *ngIf="m.schema" [header]="'Response Schema'" [type]="'sample'" [schema]="m.schema"></app-example-collapsible>
+
+  <div style="padding: 20px 20px 20px 20px">
+    <nav class="nav flex-column parent_menu">
+      <nav class="collapsable-nav-header" routerLinkActive="active">
+        <h5 class="nav-header">Responses</h5>
+        <tabset>
+          <tab *ngFor="let m of this.endpoint?.responseMessages; let i = index" heading="{{(i+1)}}" id="{{'response' + i}}">
+            <div class='socketMessageDescription'style="padding: 5px">
+              {{m.description}}
+            </div>
+            <app-example-collapsible *ngIf="m.schema" [header]="'Sample'" [type]="'sample'" [schema]="m.schema"></app-example-collapsible>
+            <app-example-collapsible *ngIf="m.schema" [header]="'Schema'" [type]="'schema'" [schema]="m.schema"></app-example-collapsible>
+          </tab>
+        </tabset>
+      </nav>
+    </nav>
   </div>
 </div>
-<h5 *ngIf="(!this.responseSchema && !this.requestSchema) || (!this.endpoint.requestMessages && !this.endpoint.responseMessages)" class="no-samples text-muted">No Samples</h5>
-git st
+<h5 *ngIf="(!this.responseSchema && !this.requestSchema) && (!this.endpoint.requestMessages && !this.endpoint.responseMessages)" class="no-samples text-muted">No Samples</h5>
