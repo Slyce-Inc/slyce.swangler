@@ -63,6 +63,9 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
         } else {
           this.endpoints = data[Object.keys(data)[0]];
         }
+
+        console.log(this.endpoints);
+
       }
     });
   }

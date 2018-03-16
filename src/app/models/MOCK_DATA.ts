@@ -482,23 +482,99 @@ export const APPENDPOINT = {
         summary: 'test endpoint summary',
         url: '/accounts/{account_id}/spaces/{space_id}/workflows/{workflow_id}',
         protocol: [ 'ws', 'wss' ],
+        name: 'message',
         parameters: [
+          {
+            type: 'object',
+            in: 'body',
+            required: true,
+            name: 'Request Type 1',
+            schema: {
+              name: 'message',
+              required: ['msg_type', 'workflow_options', 'demo_mode', 'image_bytes'],
+              properties: {
+                msg_type: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: 'execute_workflow'
+                },
+                workflow_options: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: true
+                },
+                demo_mode: {
+                  type: 'boolean',
+                  description: 'test descr',
+                  required: true,
+                  example: true,
+                },
+                image_bytes: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: 'test'
+                }
+              }
+            }
+          },
+          {
+            type: 'object',
+            name: 'Request Type 2',
+            required: true,
+            in: 'body',
+            schema: {
+              name: 'message',
+              required: ['msg_type', 'workflow_options', 'demo_mode', 'image_bytes'],
+              properties: {
+                msg_type: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: 'execute_workflow'
+                },
+                workflow_options: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: true
+                },
+                demo_mode: {
+                  type: 'boolean',
+                  description: 'test descr',
+                  required: true,
+                  example: true,
+                },
+                image_bytes: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: 'test'
+                }
+              }
+            }
+          },
           {
             in: 'path',
             name: 'account_id',
             type: 'string',
+            default: 'slyce_id',
             required: true,
           },
           {
             in: 'path',
             name: 'space_id',
             type: 'string',
+            default: '8cf3c527-6bfa-46a9-8457-014ed1b05858',
             required: true,
           },
           {
             in: 'path',
             name: 'workflow_id',
             type: 'string',
+            default: '441af309-ea03-474f-8946-42da6c89a1a9',
             required: true,
           },
           {

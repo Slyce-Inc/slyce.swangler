@@ -8,7 +8,7 @@ import { AuthComponent } from './components/auth-component/auth-component.contro
 import { LocalStorageService } from './services/local-storage.service';
 import { FormsModule } from '@angular/forms';
 
-import {BsDatepickerModule, ModalModule} from 'ngx-bootstrap';
+import {BsDatepickerModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
@@ -30,6 +30,8 @@ import { EndpointsSharedService } from './services/endpoints-shared.service';
 import {SimpleNotificationsModule} from 'angular2-notifications';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ImageBytesService } from './services/image-bytes.service';
+import { SocketEndpointComponent } from './components/socket-endpoint/socket-endpoint.component';
+import { SocketService } from './services/socket/socket-service.service';
 
 @NgModule({
   declarations: [
@@ -46,12 +48,14 @@ import { ImageBytesService } from './services/image-bytes.service';
     ExampleSideBarComponent,
     MainViewComponent,
     EndpointComponent,
-    EndpointsViewComponent
+    EndpointsViewComponent,
+    SocketEndpointComponent
   ],
   imports: [
     BrowserModule,
     BsDatepickerModule.forRoot(),
     CollapseModule.forRoot(),
+    TabsModule.forRoot(),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
@@ -59,7 +63,7 @@ import { ImageBytesService } from './services/image-bytes.service';
     SimpleNotificationsModule.forRoot(),
     BrowserAnimationsModule
   ],
-  providers: [SwaggerService, LocalStorageService, EndpointsSharedService, ImageBytesService],
+  providers: [SwaggerService, LocalStorageService, EndpointsSharedService, ImageBytesService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
