@@ -5,6 +5,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import {APPENDPOINT} from '../../models/MOCK_DATA';
 import {AppEndPoint} from '../../models/endpoint/endpoint.model';
+import {GetIndexPipe} from '../../pipes/get-index.pipe';
 
 @Component({
   template: '',
@@ -16,8 +17,25 @@ class MockExampleCollapsibleComponent {
   @Input() schema;
   @Output() clickedSample: EventEmitter<any> = new EventEmitter();
 }
+/* tslint:disable */
+@Component({
+  template: '',
+  selector: 'tab'
+})
+class MockTabComponent {
+  @Input() heading;
+  @Input() id;
+}
 
-describe('ExampleSideBarComponent', () => {
+@Component({
+  template: '',
+  selector: 'tabset'
+})
+/* tslint:enable */
+class MockTabSetComponent {
+}
+
+fdescribe('ExampleSideBarComponent', () => {
   let component: ExampleSideBarComponent;
   let fixture: ComponentFixture<ExampleSideBarComponent>;
 
@@ -25,7 +43,10 @@ describe('ExampleSideBarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ExampleSideBarComponent,
-        MockExampleCollapsibleComponent
+        MockExampleCollapsibleComponent,
+        MockTabComponent,
+        MockTabSetComponent,
+        GetIndexPipe
       ]
     })
     .compileComponents();
