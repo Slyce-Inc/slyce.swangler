@@ -43,10 +43,6 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
     this.initParameterFields();
     this.initSelectedResponse();
 
-    if (!this.endpointData.responses) {
-      this.endpointData.responses = {};
-    }
-
     // this.endpointsSharedService.onEndpointsExamplesToggle()
     //   .subscribe( value => {
     //     this.isExamplesHidden = value;
