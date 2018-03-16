@@ -13,7 +13,7 @@ export class GetIndexPipe implements PipeTransform {
    * @param index
    * @returns {Array} with single entry of the index
    */
-  transform(array: Array<any>, index?: number): Array {
+  transform(array: Array<any>, index?: number): Array<any> {
     console.log(index);
     if (index == null || index === undefined) {
       return(array);

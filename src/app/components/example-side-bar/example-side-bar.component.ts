@@ -31,4 +31,16 @@ export class ExampleSideBarComponent implements OnInit {
     }
   }
 
+  /**
+   * Check if the array exist and if it is filled with anything
+   * @param array
+   * @returns {boolean}
+   */
+  public _isArray(array) {
+    if (array && array.length > 0) {
+      return( true );
+    } else {
+      return( false );
+    }
+  }
 }
