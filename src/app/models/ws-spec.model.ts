@@ -18,3 +18,12 @@ export class Message {
   description: string;
   schema: Schema;
 }
+export class Parameter {
+  in: string;
+  name: string;
+  required: boolean;
+  type: string;
+  default?: any;
+  description?: string;
+  example?: any;
+}
