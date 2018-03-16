@@ -547,7 +547,7 @@ export const APPENDPOINT = {
                   required: true,
                   example: true,
                 },
-                image_bytes: {
+                image_url: {
                   type: 'string',
                   description: 'test descr',
                   required: true,

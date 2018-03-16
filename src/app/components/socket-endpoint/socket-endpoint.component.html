@@ -116,6 +116,8 @@
                                 <small class="text-muted">{{parm?.description}}</small>
                               </div>
                             </div>
+
+                            <input *ngIf="parm.schema.properties.image_bytes" class="image-input" type="file" accept="image/x-png,image/jpeg" (change)="this.getBytes($event)">
                           </div>
 
                         </div>

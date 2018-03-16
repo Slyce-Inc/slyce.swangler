@@ -8,6 +8,7 @@ import { EndpointsSharedService } from '../../services/endpoints-shared.service'
 import { NotificationsService } from 'angular2-notifications';
 import { SocketService } from '../../services/socket/socket-service.service';
 import { SocketObservables } from '../../models/socketObservables/socketObservables';
+import { ImageBytesService } from '../../services/image-bytes.service';
 
 
 @Component({
@@ -42,7 +43,8 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
     public notify: NotificationsService,
     public socketService: SocketService,
     public swaggerService: SwaggerService,
-    public localStorageService: LocalStorageService
+    public localStorageService: LocalStorageService,
+    public imageBytesService: ImageBytesService
   ) {
   }
 
@@ -190,6 +192,13 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
     if (this.bodyParams[this.selectedRequestType].value) {
       this.connection.socket.send(this.bodyParams[this.selectedRequestType].value);
     }
+  }
+
+  getBytes(event) {
+    this.imageBytesService.getImageBytes(event.target)
+      .subscribe(bytes => {
+        console.log(bytes);
+      });
   }
 
   buildQueryParams(params) {
