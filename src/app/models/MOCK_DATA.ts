@@ -688,7 +688,6 @@ export const APPENDPOINT = {
               }
             }
           },
-<<<<<<< HEAD
           {
             description: 'response message 2',
             schema: {
@@ -715,8 +714,6 @@ export const APPENDPOINT = {
               }
             }
           }
-=======
->>>>>>> 0aac355c11ff124de59aa5eae302583f8059b181
         ],
         errorMessages: [
           {
