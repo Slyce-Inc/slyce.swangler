@@ -171,6 +171,7 @@ describe('ExampleSideBarComponent - Socket Endpoints', () => {
     const socket: SocketModel = component.endpoint as SocketModel;
     socket.requestMessages = null;
     socket.responseMessages = null;
+    component.requestSchema = null;
     fixture.detectChanges();
     const result = fixture.debugElement.query(By.css('.no-samples'));
     expect(result != null).toBeTruthy();
@@ -179,6 +180,7 @@ describe('ExampleSideBarComponent - Socket Endpoints', () => {
     const socket: SocketModel = component.endpoint as SocketModel;
     socket.requestMessages = [];
     socket.responseMessages = [];
+    component.requestSchema = null;
     fixture.detectChanges();
     const result = fixture.debugElement.query(By.css('.no-samples'));
     expect(result != null).toBeTruthy();

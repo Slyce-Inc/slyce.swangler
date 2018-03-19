@@ -156,7 +156,7 @@ export class SwaggerService {
       }
     }
 
-    console.log(result);
+    // console.log(result);
 
     return result;
   }
