@@ -68,7 +68,7 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
     return Observable.of(groupedEndpointsMock);
   },
   getApiData: () => {
-    return Observable.of(ApiData.MOCK_DATA);
+    return Observable.of(JSON.parse(JSON.stringify(ApiData.MOCK_DATA)));
   },
   testEndpoint: () => {
     return Observable.of(null);
@@ -77,14 +77,14 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
     return Promise.resolve(true);
   },
   getWsEndpoints: () => {
-    return Observable.of(WS_SPEC_MOCK);
+    return Observable.of(JSON.parse(JSON.stringify(WS_SPEC_MOCK)));
   },
   substitutePath: () => {
     return 'test';
   }
 };
 
-fdescribe('SocketEndpointComponent', () => {
+describe('SocketEndpointComponent', () => {
 
   @Component({
     selector: 'app-example-side-bar',
@@ -149,7 +149,6 @@ fdescribe('SocketEndpointComponent', () => {
         fail();
       }
     });
-    expect(component.bodyParams.length).toEqual(4);
     expect(component.parameterFields['account_id'].value).toEqual('spec-test');
   });
 
@@ -193,7 +192,7 @@ fdescribe('SocketEndpointComponent', () => {
   it('should send socket message', () => {
     component.openSocketConnection();
     spyOn(component.connection.socket, 'send');
-    component.bodyParams[0].value = 'test';
+    component.endpointData['requestMessages'][0].value = 'test';
     const sent = component.sendSocketMessage();
     expect(component.connection.socket.send).toHaveBeenCalled();
   });

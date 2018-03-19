@@ -71,6 +71,11 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
 
   /* Init the default parameters to the parameter fields */
   private initParameterFields() {
+    for (let i = 0; i < this.endpointData['requestMessages'].length; i++) {
+      const element = this.endpointData['requestMessages'][i];
+      element.value = element.default || element.example || null;
+    }
+
     const params = this.endpointData.parameters;
     for (const p in params) {
       if (params.hasOwnProperty(p)) {
@@ -79,9 +84,9 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
         element.value = element.default;
         this.parameterFields[element.name] = element;
 
-        if (element.in.toLocaleLowerCase() === 'body') {
-          this.bodyParams.push(element);
-        }
+        // if (element.in.toLocaleLowerCase() === 'body') {
+        //   this.bodyParams.push(element);
+        // }
 
         if (this.localStorageService.getStorageVar(element.name)) {
           this.parameterFields[element.name].value = this.localStorageService.getStorageVar(element.name);
@@ -189,8 +194,8 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
   }
 
   sendSocketMessage() {
-    if (this.bodyParams[this.selectedRequestType].value) {
-      this.connection.socket.send(this.bodyParams[this.selectedRequestType].value);
+    if (this.endpointData['requestMessages'][this.selectedRequestType].value) {
+      this.connection.socket.send(this.endpointData['requestMessages'][this.selectedRequestType].value);
     }
   }
 

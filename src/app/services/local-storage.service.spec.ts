@@ -25,7 +25,7 @@ const apiData = {
 let SwaggerServiceStub: Partial<SwaggerService>;
 SwaggerServiceStub = {
   getApiData: () => {
-    return Observable.of(apiData);
+    return Observable.of(JSON.parse(JSON.stringify(apiData)));
   }
 };
 

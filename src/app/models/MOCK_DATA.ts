@@ -606,6 +606,8 @@ export const APPENDPOINT = {
         ],
         requestMessages: [
           {
+            required: true,
+            type: 'object',
             description: 'message to send 1',
             schema: {
               type: 'object',
@@ -632,6 +634,8 @@ export const APPENDPOINT = {
             }
           },
           {
+            required: true,
+            type: 'object',
             description: 'message to send 2',
             schema: {
               type: 'object',

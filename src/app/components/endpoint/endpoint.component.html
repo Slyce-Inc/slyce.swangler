@@ -41,7 +41,7 @@
             <div class="parameter-item container">
               <form #endpointForm="ngForm">
                 <div id="parameters" class="form-group row">
-                  <div class="param" *ngFor="let parm of this.endpointData?.parameters">
+                  <div id="{{parm.name}}" class="param" *ngFor="let parm of this.endpointData?.parameters">
                     <div class="row">
                       <div class="col-lg-3 col-xl-2">
                         <label class="param-property text-nowrap col-form-label">
