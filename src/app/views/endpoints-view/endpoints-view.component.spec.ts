@@ -70,6 +70,16 @@ class MockBsModalDirective {}
 
 @Component({
   template: '',
+  selector: 'app-socket-endpoint'
+})
+class MockSocketEndpointComponent {
+  @Input() endpointData;
+  @Input() scrollToId;
+  @Output() clickedTestEndPoint: EventEmitter<any> = new EventEmitter();
+}
+
+@Component({
+  template: '',
   selector: 'app-auth-component'
 })
 class MockAuthComponent {
@@ -115,7 +125,8 @@ describe('EndpointsViewComponent', () => {
         MockSidebarNavComponent,
         MockContactComponent,
         MockEndpointComponent,
-        MockBsModalDirective
+        MockBsModalDirective,
+        MockSocketEndpointComponent
       ],
       providers: [
         NotificationsService,

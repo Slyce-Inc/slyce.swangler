@@ -84,7 +84,7 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
   }
 };
 
-fdescribe('SocketEndpointComponent', () => {
+describe('SocketEndpointComponent', () => {
 
   @Component({
     selector: 'app-example-side-bar',
