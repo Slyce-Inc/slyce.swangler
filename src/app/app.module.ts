@@ -31,7 +31,7 @@ import {SimpleNotificationsModule} from 'angular2-notifications';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ImageBytesService } from './services/image-bytes.service';
 import { SocketEndpointComponent } from './components/socket-endpoint/socket-endpoint.component';
-import { SocketService } from './services/socket/socket-service.service';
+import { SocketService } from './services/socket/socket.service';
 
 @NgModule({
   declarations: [

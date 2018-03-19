@@ -1,16 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { SocketServiceService } from './socket-service.service';
+import { SocketService } from './socket.service';
 import {SocketObservables} from '../../models/socketObservables/socketObservables';
 
 describe('SocketServiceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SocketServiceService]
+      providers: [SocketService]
     });
   });
 
-  it('should be created', inject([SocketServiceService], (service: SocketServiceService) => {
+  it('should be created', inject([SocketService], (service: SocketService) => {
     expect(service).toBeTruthy();
   }));
 });

@@ -705,3 +705,247 @@ export const APPENDPOINT = {
     ],
     baseURL: 'ws://localhost:8001'
   };
+
+  export const WSENDPOINT = {
+    'operationId': 'test',
+    'summary': 'test endpoint summary',
+    'url': '/accounts/{account_id}/spaces/{space_id}/workflows/{workflow_id}',
+    'protocol': [
+      'ws',
+      'wss'
+    ],
+    'name': 'message',
+    'parameters': [
+      {
+        'type': 'object',
+        'in': 'body',
+        'required': true,
+        'name': 'Request Type 1',
+        'schema': {
+          'name': 'message',
+          'required': [
+            'msg_type',
+            'workflow_options',
+            'demo_mode',
+            'image_bytes'
+          ],
+          'properties': {
+            'msg_type': {
+              'type': 'string',
+              'description': 'test descr',
+              'required': true,
+              'example': 'execute_workflow'
+            },
+            'workflow_options': {
+              'type': 'string',
+              'description': 'test descr',
+              'required': true,
+              'example': true
+            },
+            'demo_mode': {
+              'type': 'boolean',
+              'description': 'test descr',
+              'required': true,
+              'example': true
+            },
+            'image_bytes': {
+              'type': 'string',
+              'description': 'test descr',
+              'required': true,
+              'example': 'test'
+            }
+          }
+        }
+      },
+      {
+        'type': 'object',
+        'name': 'Request Type 2',
+        'required': true,
+        'in': 'body',
+        'schema': {
+          'name': 'message',
+          'required': [
+            'msg_type',
+            'workflow_options',
+            'demo_mode',
+            'image_bytes'
+          ],
+          'properties': {
+            'msg_type': {
+              'type': 'string',
+              'description': 'test descr',
+              'required': true,
+              'example': 'execute_workflow'
+            },
+            'workflow_options': {
+              'type': 'string',
+              'description': 'test descr',
+              'required': true,
+              'example': true
+            },
+            'demo_mode': {
+              'type': 'boolean',
+              'description': 'test descr',
+              'required': true,
+              'example': true
+            },
+            'image_url': {
+              'type': 'string',
+              'description': 'test descr',
+              'required': true,
+              'example': 'test'
+            }
+          }
+        }
+      },
+      {
+        'in': 'path',
+        'name': 'account_id',
+        'type': 'string',
+        'default': 'slyce_id',
+        'required': true,
+        'value': 'slyce_id'
+      },
+      {
+        'in': 'path',
+        'name': 'space_id',
+        'type': 'string',
+        'default': '8cf3c527-6bfa-46a9-8457-014ed1b05858',
+        'required': true,
+        'value': '8cf3c527-6bfa-46a9-8457-014ed1b05858'
+      },
+      {
+        'in': 'path',
+        'name': 'workflow_id',
+        'type': 'string',
+        'default': '441af309-ea03-474f-8946-42da6c89a1a9',
+        'required': true,
+        'value': '441af309-ea03-474f-8946-42da6c89a1a9'
+      },
+      {
+        'in': 'query',
+        'name': 'slyce-account-id',
+        'required': true,
+        'type': 'string',
+        'example': 'slyce_id',
+        'value': 'slyce_id'
+      },
+      {
+        'in': 'query',
+        'name': 'slyce-api-key',
+        'required': true,
+        'type': 'string',
+        'example': 'slyce_api_key',
+        'value': 'slyce_api_key'
+      }
+    ],
+    'description': 'test endpoint description',
+    'consumes': [
+      'application/json'
+    ],
+    'produces': [
+      'application/json'
+    ],
+    'tags': [
+      'Accounts',
+      'API Keys',
+      'test'
+    ],
+    'requestMessages': [
+      {
+        'description': 'message to send 1',
+        'schema': {
+          'type': 'object',
+          'properties': {
+            'msg_type': {
+              'type': 'string'
+            },
+            'workflow_options': {
+              'type': 'object',
+              'properties': {
+                'key': {
+                  'type': 'string',
+                  'required': true
+                }
+              }
+            },
+            'demo_mode': {
+              'type': 'string'
+            },
+            'image_url': {
+              'type': 'string'
+            }
+          }
+        }
+      },
+      {
+        'description': 'message to send 2',
+        'schema': {
+          'type': 'object',
+          'properties': {
+            'msg_type': {
+              'type': 'string'
+            },
+            'workflow_options': {
+              'type': 'object',
+              'properties': {
+                'key': {
+                  'type': 'string',
+                  'required': true
+                }
+              }
+            },
+            'demo_mode': {
+              'type': 'string'
+            },
+            'image_bytes': {
+              'type': 'string'
+            }
+          }
+        }
+      }
+    ],
+    'responseMessages': [
+      {
+        'description': 'response message 1',
+        'schema': {
+          'type': 'object',
+          'properties': {
+            'msg_type': {
+              'type': 'string'
+            },
+            'workflow_options': {
+              'type': 'object',
+              'properties': {
+                'key': {
+                  'type': 'string'
+                }
+              }
+            },
+            'demo_mode': {
+              'type': 'string'
+            },
+            'image_url': {
+              'type': 'string'
+            }
+          }
+        }
+      }
+    ],
+    'errorMessages': [
+      {
+        'description': 'error message',
+        'schema': {
+          'type': 'object',
+          'properties': {
+            'errors': {
+              'type': 'array',
+              'items': {
+                'type': 'any'
+              }
+            }
+          }
+        }
+      }
+    ]
+  };

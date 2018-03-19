@@ -62,8 +62,8 @@ describe('EndpointComponent', () => {
     component.ngOnInit();
     (component.endpointData).parameters.forEach( parm => {
       if (component.parameterFields[parm.name]) {
-        if (parm.example) {
-          if (!(component.parameterFields[parm.name] === parm.example)) {
+        if (parm) {
+          if (!(component.parameterFields[parm.name] === parm)) {
             fail();
           }
         }

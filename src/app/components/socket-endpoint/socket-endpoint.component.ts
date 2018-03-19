@@ -6,7 +6,7 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import {SwaggerService} from '../../services/swagger.service';
 import { EndpointsSharedService } from '../../services/endpoints-shared.service';
 import { NotificationsService } from 'angular2-notifications';
-import { SocketService } from '../../services/socket/socket-service.service';
+import { SocketService } from '../../services/socket/socket.service';
 import { SocketObservables } from '../../models/socketObservables/socketObservables';
 import { ImageBytesService } from '../../services/image-bytes.service';
 
@@ -163,7 +163,6 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
       this.swaggerService.getWsEndpoints().subscribe( data => {
         const params = this.buildQueryParams(this.parameterFields);
         const url = encodeURI(data.baseURL + this.swaggerService.substitutePath(this.endpointData.url, request.path) + params);
-        console.log(url);
 
         this.connection = this.socketService.connect(url);
 
@@ -175,10 +174,11 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
         });
         this.connection.onmessage.subscribe(event => {
           if (event) {
-            this.socketMessages.push(event.data);
-            const response = JSON.parse(event.data);
-            if (response.error) {
-              this.notify.error('Error', 'Status: ' + response.status + '. ' + response.error);
+
+            this.socketMessages.push(event);
+            if (event.data && event.data.error) {
+              const response = event.data;
+              this.notify.error('Error', 'Status: ' + (response.status || 'fail') + '. ' + (response.error || 'fail'));
             }
           }
         });
