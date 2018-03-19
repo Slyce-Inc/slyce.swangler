@@ -1,7 +1,36 @@
-<app-example-collapsible class="request-body-sample" (clickedSample)="this.clickedBodySample.emit($event)" *ngIf="this.bodySchema" [header]="'Body Sample'" [type]="'sample'" [schema]="this.bodySchema"></app-example-collapsible>
-<app-example-collapsible *ngIf="this.bodySchema" [header]="'Body Schema'" [type]="'schema'" [schema]="this.bodySchema"></app-example-collapsible>
 
-<app-example-collapsible *ngIf="this.responseSchema" [header]="'Response Sample'" [type]="'sample'" [schema]="this.responseSchema"></app-example-collapsible>
-<app-example-collapsible *ngIf="this.responseSchema" [header]="'Response Schema'" [type]="'schema'" [schema]="this.responseSchema"></app-example-collapsible>
+<div *ngIf="!this.endpoint.protocol">
+  <app-example-collapsible class="request-body-sample" (clickedSample)="this.clickedBodySample.emit($event)" *ngIf="this.requestSchema" [header]="'Body Sample'" [type]="'sample'" [schema]="this.requestSchema"></app-example-collapsible>
+  <app-example-collapsible *ngIf="this.requestSchema" [header]="'Body Schema'" [type]="'schema'" [schema]="this.requestSchema"></app-example-collapsible>
 
-<h5 *ngIf="!this.responseSchema && !this.bodySchema" class="no-samples text-muted">No Samples</h5>
+  <app-example-collapsible *ngIf="this.responseSchema" [header]="'Response Sample'" [type]="'sample'" [schema]="this.responseSchema"></app-example-collapsible>
+  <app-example-collapsible *ngIf="this.responseSchema" [header]="'Response Schema'" [type]="'schema'" [schema]="this.responseSchema"></app-example-collapsible>
+</div>
+
+
+<div *ngIf="this.endpoint.protocol">
+  <!--Request Messages-->
+  <div *ngFor="let m of this.endpoint?.requestMessages | getIndex: this.showRequestMessageOfIndex">
+    <app-example-collapsible (clickedSample)="this.clickedBodySample.emit($event)" *ngIf="m.schema" [header]="'Request Sample'" [type]="'sample'" [schema]="m.schema"></app-example-collapsible>
+    <app-example-collapsible *ngIf="m.schema" [header]="'Request Schema'" [type]="'schema'" [schema]="m.schema"></app-example-collapsible>
+  </div>
+
+
+  <div style="padding: 20px 20px 20px 20px">
+    <nav class="nav flex-column parent_menu">
+      <nav class="collapsable-nav-header" routerLinkActive="active">
+        <h5 class="nav-header">Responses</h5>
+        <tabset>
+          <tab *ngFor="let m of this.endpoint?.responseMessages; let i = index" heading="{{(i+1)}}" id="{{'response' + i}}">
+            <div class='socketMessageDescription'style="padding: 5px">
+              {{m.description}}
+            </div>
+            <app-example-collapsible *ngIf="m.schema" [header]="'Sample'" [type]="'sample'" [schema]="m.schema"></app-example-collapsible>
+            <app-example-collapsible *ngIf="m.schema" [header]="'Schema'" [type]="'schema'" [schema]="m.schema"></app-example-collapsible>
+          </tab>
+        </tabset>
+      </nav>
+    </nav>
+  </div>
+</div>
+<h5 *ngIf="(!this.responseSchema && !this.requestSchema) && (!this.endpoint.requestMessages && !this.endpoint.responseMessages)" class="no-samples text-muted">No Samples</h5>

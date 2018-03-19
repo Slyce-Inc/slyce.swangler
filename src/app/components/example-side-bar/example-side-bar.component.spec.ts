@@ -4,6 +4,8 @@ import { ExampleSideBarComponent } from './example-side-bar.component';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import {APPENDPOINT} from '../../models/MOCK_DATA';
+import {AppEndPoint} from '../../models/endpoint/endpoint.model';
+import {GetIndexPipe} from '../../pipes/get-index.pipe';
 
 @Component({
   template: '',
@@ -15,8 +17,25 @@ class MockExampleCollapsibleComponent {
   @Input() schema;
   @Output() clickedSample: EventEmitter<any> = new EventEmitter();
 }
+/* tslint:disable */
+@Component({
+  template: '',
+  selector: 'tab'
+})
+class MockTabComponent {
+  @Input() heading;
+  @Input() id;
+}
 
-describe('ExampleSideBarComponent', () => {
+@Component({
+  template: '',
+  selector: 'tabset'
+})
+/* tslint:enable */
+class MockTabSetComponent {
+}
+
+fdescribe('ExampleSideBarComponent', () => {
   let component: ExampleSideBarComponent;
   let fixture: ComponentFixture<ExampleSideBarComponent>;
 
@@ -24,7 +43,10 @@ describe('ExampleSideBarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ExampleSideBarComponent,
-        MockExampleCollapsibleComponent
+        MockExampleCollapsibleComponent,
+        MockTabComponent,
+        MockTabSetComponent,
+        GetIndexPipe
       ]
     })
     .compileComponents();
@@ -41,26 +63,26 @@ describe('ExampleSideBarComponent', () => {
   });
 
   it('should init component', () => {
-    expect(component.bodySchema).toBeFalsy();
+    expect(component.requestSchema).toBeFalsy();
     expect(component.responseSchema).toBeFalsy();
 
     component.ngOnInit();
 
-    expect(typeof component.bodySchema).toEqual('object');
+    expect(typeof component.requestSchema).toEqual('object');
     expect(typeof component.responseSchema).toEqual('object');
 
-    component.bodySchema = null;
+    component.requestSchema = null;
     component.responseSchema = null;
-
-    component.endpoint.responses['200'].schema = null;
+    const endpoint: AppEndPoint = component.endpoint as AppEndPoint;
+    endpoint.responses['200'].schema = null;
     component.ngOnInit();
     expect(component.responseSchema).toBeFalsy();
 
-    component.endpoint.responses['200'] = null;
+    endpoint.responses['200'] = null;
     component.ngOnInit();
     expect(component.responseSchema).toBeFalsy();
 
-    component.endpoint.responses = null;
+    endpoint.responses = null;
     component.ngOnInit();
     expect(component.responseSchema).toBeFalsy();
   });
@@ -78,7 +100,7 @@ describe('ExampleSideBarComponent', () => {
   it('should render h5', () => {
     fixture.detectChanges();
     component.responseSchema = null;
-    component.bodySchema = null;
+    component.requestSchema = null;
     fixture.detectChanges();
     const h5 = fixture.debugElement.query(By.css('h5'));
     expect(h5).toBeTruthy();

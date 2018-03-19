@@ -32,6 +32,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ImageBytesService } from './services/image-bytes.service';
 import { SocketEndpointComponent } from './components/socket-endpoint/socket-endpoint.component';
 import { SocketService } from './services/socket/socket.service';
+import {CommonModule} from '@angular/common';
+import { GetIndexPipe } from './pipes/get-index.pipe';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { SocketService } from './services/socket/socket.service';
     MainViewComponent,
     EndpointComponent,
     EndpointsViewComponent,
-    SocketEndpointComponent
+    SocketEndpointComponent,
+    GetIndexPipe
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,9 @@ import { SocketService } from './services/socket/socket.service';
     HttpClientModule,
     ModalModule.forRoot(),
     SimpleNotificationsModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CommonModule,
+    TabsModule.forRoot()
   ],
   providers: [SwaggerService, LocalStorageService, EndpointsSharedService, ImageBytesService, SocketService],
   bootstrap: [AppComponent]
