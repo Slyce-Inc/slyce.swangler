@@ -24,7 +24,7 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
   @Output('clickedSample') clickedSample: EventEmitter<AppClickedSampleRes> = new EventEmitter();
   /* Call back on test button click */
   @Output('clickedTestEndPoint') clickedTestEndPoint: EventEmitter<AppClickedTestRes> = new EventEmitter<any>();
-  @Output() clickedSeeSocketMessages: EventEmitter<Array<Object>> = new EventEmitter<any>();
+  @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
 
   /* Selected wanted response format from endpoint */
   public selectedResponse;
@@ -179,18 +179,29 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
         });
         this.connection.onmessage.subscribe(event => {
           if (event) {
-
-            this.socketMessages.push(event);
-            if (event.data && event.data.error) {
-              const response = event.data;
-              this.notify.error('Error', 'Status: ' + (response.status || 'fail') + '. ' + (response.error || 'fail'));
+            if (event.data && JSON.parse(event.data)['error']) {
+              const response = JSON.parse(event.data);
+              const message = {};
+              message['type'] = 'Error';
+              message['response'] = response;
+              this.socketMessages.push(message);
+              this.notify.error('Error', 'Status: ' + (response['status'] || 'fail') + '. ' + (response['error'] || 'fail'));
             }
+          } else {
+            // this.socketMessages.push(event);
           }
         });
       });
     } else {
       this.connection.socket.close();
     }
+  }
+
+  showMessagesClicked() {
+    const socketData = {};
+    socketData['url'] = this.connection.socket.url;
+    socketData['messages'] = this.socketMessages;
+    this.clickedSeeSocketMessages.emit(socketData);
   }
 
   sendSocketMessage() {
