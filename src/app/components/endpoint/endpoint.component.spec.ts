@@ -76,7 +76,7 @@ describe('EndpointComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  fit('should populate .param-property with data from endpointData.parameters ', () => {
+  it('should populate .param-property with data from endpointData.parameters ', () => {
     component.endpointData = JSON.parse(JSON.stringify(APPENDPOINT));
     fixture.detectChanges();
     component.endpointData.parameters.forEach( parm => {

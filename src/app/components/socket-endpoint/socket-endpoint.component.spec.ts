@@ -68,7 +68,7 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
     return Observable.of(groupedEndpointsMock);
   },
   getApiData: () => {
-    return Observable.of(ApiData.MOCK_DATA);
+    return Observable.of(JSON.parse(JSON.stringify(ApiData.MOCK_DATA)));
   },
   testEndpoint: () => {
     return Observable.of(null);
@@ -77,7 +77,7 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
     return Promise.resolve(true);
   },
   getWsEndpoints: () => {
-    return Observable.of(WS_SPEC_MOCK);
+    return Observable.of(JSON.parse(JSON.stringify(WS_SPEC_MOCK)));
   },
   substitutePath: () => {
     return 'test';
