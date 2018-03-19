@@ -36,7 +36,7 @@ class MockTabComponent {
 class MockTabSetComponent {
 }
 
-describe('ExampleSideBarComponent', () => {
+describe('ExampleSideBarComponent - Rest Endpoints', () => {
   let component: ExampleSideBarComponent;
   let fixture: ComponentFixture<ExampleSideBarComponent>;
 
@@ -108,7 +108,7 @@ describe('ExampleSideBarComponent', () => {
   });
 });
 
-describe('ExampleSideBarComponent', () => {
+describe('ExampleSideBarComponent - Socket Endpoints', () => {
   let component: ExampleSideBarComponent;
   let fixture: ComponentFixture<ExampleSideBarComponent>;
 
