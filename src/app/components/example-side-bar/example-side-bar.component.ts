@@ -20,14 +20,26 @@ export class ExampleSideBarComponent implements OnInit {
   public initializeRestEndPoint() {
     if (this.endpoint.parameters !== null) {
       this.endpoint.parameters.forEach(p => {
-        if ( p.in.toLowerCase() === 'body') {
+        if (p.in.toLowerCase() === 'body') {
           this.requestSchema = p.schema;
         }
       });
     }
     const endpoint: AppEndPoint = this.endpoint as AppEndPoint;
-    if ( endpoint.responses && endpoint.responses['200'] && endpoint.responses['200'].schema) {
+    if (endpoint.responses && endpoint.responses['200'] && endpoint.responses['200'].schema) {
       this.responseSchema = endpoint.responses['200'].schema;
+    }
+  }
+  /**
+   * Check if the array exist and if it is filled with anything
+   * @param array
+   * @returns {boolean}
+   */
+  public _isArray(array) {
+    if (array && array.length > 0) {
+      return( true );
+    } else {
+      return( false );
     }
   }
 }
