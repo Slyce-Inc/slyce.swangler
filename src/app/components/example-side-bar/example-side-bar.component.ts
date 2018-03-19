@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AppEndPoint, RequestSchema, ResponseSchema} from '../../models/endpoint/endpoint.model';
+import {AppEndPoint, Endpoint, Schema} from '../../models/endpoint/endpoint.model';
 
 @Component({
   selector: 'app-example-side-bar',
@@ -7,22 +7,39 @@ import {AppEndPoint, RequestSchema, ResponseSchema} from '../../models/endpoint/
   styleUrls: ['./example-side-bar.component.scss']
 })
 export class ExampleSideBarComponent implements OnInit {
-  @Input('endpoint') endpoint: AppEndPoint;
+  @Input('endpoint') endpoint: Endpoint;
+  // If provided, show the Request message with index value, otherwise show all, if invalid index show none
+  @Input('showRequestMessageOfIndex') showRequestMessageOfIndex: number = null;
   @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
-
-  public bodySchema: RequestSchema;
-  public responseSchema: ResponseSchema;
+  public requestSchema: Schema;
+  public responseSchema: Schema;
   ngOnInit() {
+    console.log(this.endpoint);
+    this.initializeRestEndPoint();
+  }
+  public initializeRestEndPoint() {
     if (this.endpoint.parameters !== null) {
       this.endpoint.parameters.forEach(p => {
-        if ( p.in.toLowerCase() === 'body') {
-          this.bodySchema = p.schema;
+        if (p.in.toLowerCase() === 'body') {
+          this.requestSchema = p.schema;
         }
       });
     }
-    if ( this.endpoint.responses && this.endpoint.responses['200'] && this.endpoint.responses['200'].schema) {
-      this.responseSchema = this.endpoint.responses['200'].schema;
+    const endpoint: AppEndPoint = this.endpoint as AppEndPoint;
+    if (endpoint.responses && endpoint.responses['200'] && endpoint.responses['200'].schema) {
+      this.responseSchema = endpoint.responses['200'].schema;
     }
   }
-
+  /**
+   * Check if the array exist and if it is filled with anything
+   * @param array
+   * @returns {boolean}
+   */
+  public _isArray(array) {
+    if (array && array.length > 0) {
+      return( true );
+    } else {
+      return( false );
+    }
+  }
 }

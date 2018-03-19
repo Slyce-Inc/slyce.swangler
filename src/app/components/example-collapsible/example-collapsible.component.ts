@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
-  RequestSchema,
-  ResponseProperty, ResponseSchema,
+  Property,
   Schema
 } from '../../models/endpoint/endpoint.model';
 import * as hl from '../../../../node_modules/highlight.js/';
@@ -13,16 +12,20 @@ import {SwaggerService} from '../../services/swagger.service';
   styleUrls: ['./example-collapsible.component.scss']
 })
 export class ExampleCollapsibleComponent implements OnInit {
+  // Header of the collapsable
   @Input('header') header;
+  // Show the Sample or the Schema
   @Input('type') type: string; // sample or schema
-  @Input('schema') schema: Schema | ResponseSchema | RequestSchema;
-  /* Returns JSON of Sample*/
+  // Schema Object
+  @Input('schema') schema: Schema;
+  // Returns string of the schema sample
   @Output('clickedSample') clickedSample: EventEmitter<any> = new EventEmitter();
+
+  // Socket Options
   public collapsed = true;
   public Object = Object;
   public generatedSample = null;
   constructor(public swaggerService: SwaggerService) {
-
   }
 
   ngOnInit() {
@@ -68,12 +71,14 @@ export class ExampleCollapsibleComponent implements OnInit {
   generateSampleFromArray(schema) {
     let temp = '[';
     if (schema.items) {
-     if ( schema.items.type.toLowerCase() === 'object' || schema.items.type.toLowerCase() === 'array') {
-       temp = temp + '\n';
-       temp = temp + this.generateSample(schema.items);
-     } else {
-       temp = temp + `"${schema.items.type}"`;
-     }
+      if ( schema.items.type ) {
+        if ( schema.items.type.toLowerCase() === 'object' || schema.items.type.toLowerCase() === 'array') {
+          temp = temp + '\n';
+          temp = temp + this.generateSample(schema.items);
+        } else {
+          temp = temp + `"${schema.items.type}"`;
+        }
+      }
    }
     temp = temp + ']';
     return (temp);
@@ -101,7 +106,7 @@ export class ExampleCollapsibleComponent implements OnInit {
               const schema2 = schema.properties[keys[i]];
               temp = temp + ' : ' + this.generateSample(schema2);
             } else {
-              const property: ResponseProperty = schema.properties[keys[i]];
+              const property: Property = schema.properties[keys[i]];
               temp = `${temp}: "${property.example}"`;
             }
             if ( i < keys.length - 1 ) {

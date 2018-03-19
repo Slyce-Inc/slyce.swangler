@@ -8,7 +8,6 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import * as hl from '../../../../node_modules/highlight.js/';
 import { NotificationsService } from 'angular2-notifications';
 
-
 @Component({
   selector: 'app-endpoints-view',
   templateUrl: './endpoints-view.component.html',
@@ -50,7 +49,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     });
   }
 
-
   updateEndpoints() {
     this.swaggerService.getEndpointsSortedByTags().subscribe(data => {
       if (data) {
@@ -65,6 +63,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
         } else {
           this.endpoints = data[Object.keys(data)[0]];
         }
+
       }
     });
   }
