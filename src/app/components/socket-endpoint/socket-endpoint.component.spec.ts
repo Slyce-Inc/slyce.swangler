@@ -149,7 +149,6 @@ describe('SocketEndpointComponent', () => {
         fail();
       }
     });
-    expect(component.bodyParams.length).toEqual(4);
     expect(component.parameterFields['account_id'].value).toEqual('spec-test');
   });
 
@@ -193,7 +192,7 @@ describe('SocketEndpointComponent', () => {
   it('should send socket message', () => {
     component.openSocketConnection();
     spyOn(component.connection.socket, 'send');
-    component.bodyParams[0].value = 'test';
+    component.endpointData['requestMessages'][0].value = 'test';
     const sent = component.sendSocketMessage();
     expect(component.connection.socket.send).toHaveBeenCalled();
   });
