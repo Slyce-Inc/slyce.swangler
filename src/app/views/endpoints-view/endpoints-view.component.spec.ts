@@ -42,7 +42,7 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
     return Observable.of(groupedEndpointsMock);
   },
   getApiData: () => {
-    return Observable.of(ApiData.MOCK_DATA);
+    return Observable.of(JSON.parse(JSON.stringify(ApiData.MOCK_DATA)));
   },
   testEndpoint: () => {
     return Observable.of(null);
@@ -67,6 +67,16 @@ const ActivatedRouteStub: Partial<ActivatedRoute> = {
   exportAs: 'bs-modal'
 })
 class MockBsModalDirective {}
+
+@Component({
+  template: '',
+  selector: 'app-socket-endpoint'
+})
+class MockSocketEndpointComponent {
+  @Input() endpointData;
+  @Input() scrollToId;
+  @Output() clickedTestEndPoint: EventEmitter<any> = new EventEmitter();
+}
 
 @Component({
   template: '',
@@ -115,7 +125,8 @@ describe('EndpointsViewComponent', () => {
         MockSidebarNavComponent,
         MockContactComponent,
         MockEndpointComponent,
-        MockBsModalDirective
+        MockBsModalDirective,
+        MockSocketEndpointComponent
       ],
       providers: [
         NotificationsService,

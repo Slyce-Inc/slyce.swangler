@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {SocketObservables} from '../../models/socketObservables/socketObservables';
 
 @Injectable()
-export class SocketServiceService {
+export class SocketService {
   constructor() {
   }
   public connect (url: string): SocketObservables {
