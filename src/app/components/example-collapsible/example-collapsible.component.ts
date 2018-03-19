@@ -12,16 +12,21 @@ import {SwaggerService} from '../../services/swagger.service';
   styleUrls: ['./example-collapsible.component.scss']
 })
 export class ExampleCollapsibleComponent implements OnInit {
+  // Header of the collapsable
   @Input('header') header;
+  // Show the Sample or the Schema
   @Input('type') type: string; // sample or schema
+  // Schema Object
   @Input('schema') schema: Schema;
-  /* Returns JSON of Sample*/
+  // Returns string of the schema sample
   @Output('clickedSample') clickedSample: EventEmitter<any> = new EventEmitter();
+
+  // Socket Options
   public collapsed = true;
   public Object = Object;
   public generatedSample = null;
   constructor(public swaggerService: SwaggerService) {
-
+    console.log(this.schema);
   }
 
   ngOnInit() {

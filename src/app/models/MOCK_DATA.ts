@@ -4,7 +4,7 @@ export const SCHEMA = {
       'sampleItems': {
         'type': 'array',
         'items': {
-          'type': 'string',
+          'type': 'any',
           'required': []
         }
       },
@@ -688,6 +688,32 @@ export const APPENDPOINT = {
               }
             }
           },
+          {
+            description: 'response message 2',
+            schema: {
+              type: 'object',
+              properties: {
+                msg_type: {
+                  type: 'string'
+                },
+                workflow_options: {
+                  type: 'object',
+                  properties: {
+                    key: {
+                      type: 'string',
+                      example: 'shit'
+                    }
+                  }
+                },
+                demo_mode: {
+                  type: 'string'
+                },
+                image_url: {
+                  type: 'string'
+                }
+              }
+            }
+          }
         ],
         errorMessages: [
           {

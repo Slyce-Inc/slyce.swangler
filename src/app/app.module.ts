@@ -30,6 +30,8 @@ import { EndpointsSharedService } from './services/endpoints-shared.service';
 import {SimpleNotificationsModule} from 'angular2-notifications';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ImageBytesService } from './services/image-bytes.service';
+import {CommonModule} from '@angular/common';
+import { GetIndexPipe } from './pipes/get-index.pipe';
 import { SocketEndpointComponent } from './components/socket-endpoint/socket-endpoint.component';
 import { SocketService } from './services/socket/socket.service';
 
@@ -49,6 +51,7 @@ import { SocketService } from './services/socket/socket.service';
     MainViewComponent,
     EndpointComponent,
     EndpointsViewComponent,
+    GetIndexPipe,
     SocketEndpointComponent
   ],
   imports: [
@@ -61,7 +64,9 @@ import { SocketService } from './services/socket/socket.service';
     HttpClientModule,
     ModalModule.forRoot(),
     SimpleNotificationsModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CommonModule,
+    TabsModule.forRoot()
   ],
   providers: [SwaggerService, LocalStorageService, EndpointsSharedService, ImageBytesService, SocketService],
   bootstrap: [AppComponent]
