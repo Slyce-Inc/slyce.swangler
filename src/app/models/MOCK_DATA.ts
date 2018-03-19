@@ -888,22 +888,26 @@ export const APPENDPOINT = {
           'type': 'object',
           'properties': {
             'msg_type': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'error'
             },
             'workflow_options': {
               'type': 'object',
               'properties': {
                 'key': {
                   'type': 'string',
-                  'required': true
+                  'required': true,
+                  'example': 'someKey'
                 }
               }
             },
             'demo_mode': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'true'
             },
             'image_url': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'true'
             }
           }
         }
@@ -914,22 +918,26 @@ export const APPENDPOINT = {
           'type': 'object',
           'properties': {
             'msg_type': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'someExample'
             },
             'workflow_options': {
               'type': 'object',
               'properties': {
                 'key': {
                   'type': 'string',
-                  'required': true
+                  'required': true,
+                  'example': 'someexample'
                 }
               }
             },
             'demo_mode': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'someexample'
             },
             'image_bytes': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'someExample'
             }
           }
         }
