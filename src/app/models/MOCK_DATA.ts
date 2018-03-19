@@ -484,78 +484,78 @@ export const APPENDPOINT = {
         protocol: [ 'ws', 'wss' ],
         name: 'message',
         parameters: [
-          // {
-          //   type: 'object',
-          //   in: 'body',
-          //   required: true,
-          //   name: 'Request Type 1',
-          //   schema: {
-          //     name: 'message',
-          //     required: ['msg_type', 'workflow_options', 'demo_mode', 'image_bytes'],
-          //     properties: {
-          //       msg_type: {
-          //         type: 'string',
-          //         description: 'test descr',
-          //         required: true,
-          //         example: 'execute_workflow'
-          //       },
-          //       workflow_options: {
-          //         type: 'string',
-          //         description: 'test descr',
-          //         required: true,
-          //         example: true
-          //       },
-          //       demo_mode: {
-          //         type: 'boolean',
-          //         description: 'test descr',
-          //         required: true,
-          //         example: true,
-          //       },
-          //       image_bytes: {
-          //         type: 'string',
-          //         description: 'test descr',
-          //         required: true,
-          //         example: 'test'
-          //       }
-          //     }
-          //   }
-          // },
-          // {
-          //   type: 'object',
-          //   name: 'Request Type 2',
-          //   required: true,
-          //   in: 'body',
-          //   schema: {
-          //     name: 'message',
-          //     required: ['msg_type', 'workflow_options', 'demo_mode', 'image_bytes'],
-          //     properties: {
-          //       msg_type: {
-          //         type: 'string',
-          //         description: 'test descr',
-          //         required: true,
-          //         example: 'execute_workflow'
-          //       },
-          //       workflow_options: {
-          //         type: 'string',
-          //         description: 'test descr',
-          //         required: true,
-          //         example: true
-          //       },
-          //       demo_mode: {
-          //         type: 'boolean',
-          //         description: 'test descr',
-          //         required: true,
-          //         example: true,
-          //       },
-          //       image_url: {
-          //         type: 'string',
-          //         description: 'test descr',
-          //         required: true,
-          //         example: 'test'
-          //       }
-          //     }
-          //   }
-          // },
+          {
+            type: 'object',
+            in: 'body',
+            required: true,
+            name: 'Request Type 1',
+            schema: {
+              name: 'message',
+              required: ['msg_type', 'workflow_options', 'demo_mode', 'image_bytes'],
+              properties: {
+                msg_type: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: 'execute_workflow'
+                },
+                workflow_options: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: true
+                },
+                demo_mode: {
+                  type: 'boolean',
+                  description: 'test descr',
+                  required: true,
+                  example: true,
+                },
+                image_bytes: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: 'test'
+                }
+              }
+            }
+          },
+          {
+            type: 'object',
+            name: 'Request Type 2',
+            required: true,
+            in: 'body',
+            schema: {
+              name: 'message',
+              required: ['msg_type', 'workflow_options', 'demo_mode', 'image_bytes'],
+              properties: {
+                msg_type: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: 'execute_workflow'
+                },
+                workflow_options: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: true
+                },
+                demo_mode: {
+                  type: 'boolean',
+                  description: 'test descr',
+                  required: true,
+                  example: true,
+                },
+                image_url: {
+                  type: 'string',
+                  description: 'test descr',
+                  required: true,
+                  example: 'test stuff'
+                }
+              }
+            }
+          },
           {
             in: 'path',
             name: 'account_id',
@@ -613,14 +613,16 @@ export const APPENDPOINT = {
               type: 'object',
               properties: {
                 msg_type: {
-                  type: 'string'
+                  type: 'string',
+                  example: 'pass'
                 },
                 workflow_options: {
                   type: 'object',
                   properties: {
                     key: {
                       type: 'string',
-                      required: true
+                      required: true,
+                      example: 'some option'
                     }
                   }
                 },
@@ -888,22 +890,26 @@ export const APPENDPOINT = {
           'type': 'object',
           'properties': {
             'msg_type': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'error'
             },
             'workflow_options': {
               'type': 'object',
               'properties': {
                 'key': {
                   'type': 'string',
-                  'required': true
+                  'required': true,
+                  'example': 'someKey'
                 }
               }
             },
             'demo_mode': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'true'
             },
             'image_url': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'true'
             }
           }
         }
@@ -914,22 +920,26 @@ export const APPENDPOINT = {
           'type': 'object',
           'properties': {
             'msg_type': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'someExample'
             },
             'workflow_options': {
               'type': 'object',
               'properties': {
                 'key': {
                   'type': 'string',
-                  'required': true
+                  'required': true,
+                  'example': 'someexample'
                 }
               }
             },
             'demo_mode': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'someexample'
             },
             'image_bytes': {
-              'type': 'string'
+              'type': 'string',
+              'example': 'someExample'
             }
           }
         }

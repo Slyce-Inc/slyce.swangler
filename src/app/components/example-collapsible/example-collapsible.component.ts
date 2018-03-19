@@ -26,7 +26,6 @@ export class ExampleCollapsibleComponent implements OnInit {
   public Object = Object;
   public generatedSample = null;
   constructor(public swaggerService: SwaggerService) {
-    console.log(this.schema);
   }
 
   ngOnInit() {

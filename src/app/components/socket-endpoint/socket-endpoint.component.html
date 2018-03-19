@@ -161,7 +161,7 @@
         <div class="samples" [ngClass]="endpointsSharedService.isExamplesHidden ? 'col-lg-3 col-xl-3 d-none' : 'col-lg-6 col-xl-6'">
 
           <!-- can accept [selectedRequest]="this.selectedRequestType" -->
-          <app-example-side-bar [endpoint]="this.endpointData" (clickedBodySample)="populateBody($event)" ></app-example-side-bar>
+          <app-example-side-bar [showRequestMessageOfIndex] = "this.selectedRequestType" [endpoint]="this.endpointData" (clickedBodySample)="populateBody($event, this.selectedRequestType)" ></app-example-side-bar>
         </div>
       </div>
     </div>
