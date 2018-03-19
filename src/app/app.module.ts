@@ -32,6 +32,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ImageBytesService } from './services/image-bytes.service';
 import {CommonModule} from '@angular/common';
 import { GetIndexPipe } from './pipes/get-index.pipe';
+import { SocketEndpointComponent } from './components/socket-endpoint/socket-endpoint.component';
+import { SocketService } from './services/socket/socket.service';
 
 @NgModule({
   declarations: [
@@ -49,12 +51,14 @@ import { GetIndexPipe } from './pipes/get-index.pipe';
     MainViewComponent,
     EndpointComponent,
     EndpointsViewComponent,
-    GetIndexPipe
+    GetIndexPipe,
+    SocketEndpointComponent
   ],
   imports: [
     BrowserModule,
     BsDatepickerModule.forRoot(),
     CollapseModule.forRoot(),
+    TabsModule.forRoot(),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
@@ -64,7 +68,7 @@ import { GetIndexPipe } from './pipes/get-index.pipe';
     CommonModule,
     TabsModule.forRoot()
   ],
-  providers: [SwaggerService, LocalStorageService, EndpointsSharedService, ImageBytesService],
+  providers: [SwaggerService, LocalStorageService, EndpointsSharedService, ImageBytesService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

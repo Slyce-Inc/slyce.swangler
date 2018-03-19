@@ -26,4 +26,5 @@ export class Parameter {
   default?: any;
   description?: string;
   example?: any;
+  format?: string;
 }

@@ -1,15 +1,90 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EndpointComponent } from './endpoint.component';
-import {FormsModule} from '@angular/forms';
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {AppEndPoint} from '../../models/endpoint/endpoint.model';
-import {EndpointsSharedService} from '../../services/endpoints-shared.service';
-import {NotificationsService} from 'angular2-notifications';
-import {By} from '@angular/platform-browser';
-import {APPENDPOINT} from '../../models/MOCK_DATA';
+import { SocketEndpointComponent } from './socket-endpoint.component';
+import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, Directive } from '@angular/core';
+import { AppEndPoint } from '../../models/endpoint/endpoint.model';
+import { EndpointsSharedService } from '../../services/endpoints-shared.service';
+import { NotificationsService } from 'angular2-notifications';
+import { By } from '@angular/platform-browser';
+import { WSENDPOINT, WS_SPEC_MOCK } from '../../models/MOCK_DATA';
+import { SocketService } from '../../services/socket/socket.service';
+import { SwaggerService } from '../../services/swagger.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import { ApiData } from '../../models/apidata.model';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { ImageBytesService } from '../../services/image-bytes.service';
+import { TabsModule } from 'ngx-bootstrap';
+import { Subject } from 'rxjs/Subject';
 
-describe('EndpointComponent', () => {
+const openSubj = new Subject();
+const closeSubj = new Subject();
+const messageSubj = new Subject();
+const connection = {
+  onopen: (() => {
+    return openSubj.asObservable();
+  })(),
+  onclose: (() => {
+    return closeSubj.asObservable();
+  })(),
+  onmessage: (() => {
+    return messageSubj.asObservable();
+  })(),
+  socket: {
+    close: () => {
+      closeSubj.next('test');
+    },
+    send: () => {},
+  }
+};
+
+const SocketServiceStub = {
+  connect: () => {
+    return connection;
+  },
+};
+
+const test = SocketServiceStub.connect().onopen;
+
+const ImageBytesServiceStub: Partial<ImageBytesService> = {
+};
+
+const storage = {
+  'account_id': 'spec-test'
+};
+const LocalStorageServiceStub: Partial<LocalStorageService> = {
+  getStorageVar: (varName) => {
+    return storage ? storage[varName] : null;
+  },
+};
+
+const groupedEndpointsMock = [];
+groupedEndpointsMock['test'] = [];
+groupedEndpointsMock['test'].push(WSENDPOINT);
+
+const SwaggerServiceStub: Partial<SwaggerService> = {
+  getEndpointsSortedByTags: () => {
+    return Observable.of(groupedEndpointsMock);
+  },
+  getApiData: () => {
+    return Observable.of(JSON.parse(JSON.stringify(ApiData.MOCK_DATA)));
+  },
+  testEndpoint: () => {
+    return Observable.of(null);
+  },
+  initSwagger: () => {
+    return Promise.resolve(true);
+  },
+  getWsEndpoints: () => {
+    return Observable.of(JSON.parse(JSON.stringify(WS_SPEC_MOCK)));
+  },
+  substitutePath: () => {
+    return 'test';
+  }
+};
+
+describe('SocketEndpointComponent', () => {
 
   @Component({
     selector: 'app-example-side-bar',
@@ -19,33 +94,124 @@ describe('EndpointComponent', () => {
     @Input('endpoint') endpoint: AppEndPoint;
     @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
   }
-  let component: EndpointComponent;
-  let fixture: ComponentFixture<EndpointComponent>;
+  let component: SocketEndpointComponent;
+  let fixture: ComponentFixture<SocketEndpointComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        EndpointComponent,
-        ExampleSideBarComponent
+        SocketEndpointComponent,
+        ExampleSideBarComponent,
       ],
       imports: [
-        FormsModule
+        FormsModule,
+        TabsModule.forRoot()
       ],
       providers: [
         EndpointsSharedService,
-        NotificationsService
+        NotificationsService,
+        { provide: SocketService, useValue: SocketServiceStub },
+        { provide: SwaggerService, useValue: SwaggerServiceStub },
+        { provide: LocalStorageService, useValue: LocalStorageServiceStub },
+        { provide: ImageBytesService, useValue: ImageBytesServiceStub },
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EndpointComponent);
+    fixture = TestBed.createComponent(SocketEndpointComponent);
     component = fixture.componentInstance;
-    component.endpointData = JSON.parse(JSON.stringify(APPENDPOINT));
+    component.endpointData = JSON.parse(JSON.stringify(WSENDPOINT));
     this.endpointsSharedService = TestBed.get(EndpointsSharedService);
     fixture.detectChanges();
   });
+  it('should create component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should check if smoothScroll is called without failure', () => {
+    component.smoothScroll(1, 1000);
+    component.smoothScroll(1000, 1);
+  });
+
+  it('should initParameterFields with endpointData', () => {
+    component.ngOnInit();
+
+    (component.endpointData).parameters.forEach( parm => {
+      if (component.parameterFields[parm.name]) {
+        if (parm) {
+          if (component.parameterFields[parm.name] !== parm) {
+            fail();
+          }
+        }
+      } else {
+        fail();
+      }
+    });
+    expect(component.parameterFields['account_id'].value).toEqual('spec-test');
+  });
+
+  it('should open socket connection', () => {
+    component.openSocketConnection();
+    expect(component.isConnectionStarted).toBeFalsy();
+    openSubj.next('test');
+    expect(component.isConnectionStarted).toBeTruthy();
+  });
+
+  it('should close socket connection', () => {
+    component.openSocketConnection();
+    openSubj.next('test');
+    expect(component.isConnectionStarted).toBeTruthy();
+    closeSubj.next('test');
+    expect(component.isConnectionStarted).toBeFalsy();
+  });
+
+  it('should close socket connection if already open', () => {
+    component.openSocketConnection();
+    openSubj.next('test');
+    expect(component.isConnectionStarted).toBeTruthy();
+    component.openSocketConnection();
+    expect(component.isConnectionStarted).toBeFalsy();
+  });
+
+  it('should save socket message in array', () => {
+    component.openSocketConnection();
+    messageSubj.next('test');
+    expect(component.socketMessages[0]).toEqual('test');
+  });
+
+  it('should show error message if socket message contains error', () => {
+    spyOn(component.notify, 'error');
+    component.openSocketConnection();
+    messageSubj.next(({data: {error: 'fail'}}));
+    fixture.detectChanges();
+    expect(component.notify.error).toHaveBeenCalled();
+  });
+
+  it('should send socket message', () => {
+    component.openSocketConnection();
+    spyOn(component.connection.socket, 'send');
+    component.endpointData['requestMessages'][0].value = 'test';
+    const sent = component.sendSocketMessage();
+    expect(component.connection.socket.send).toHaveBeenCalled();
+  });
+
+  it('should build query params', () => {
+    component.ngOnInit();
+    component.parameterFields['slyce-account-id'].value = 'test';
+    component.parameterFields['slyce-api-key'].value = 'test';
+    const params = component.buildQueryParams(component.parameterFields);
+    expect(params).toEqual('?slyce-account-id=test&slyce-api-key=test&');
+  });
+
+  it('should init selected response', () => {
+    component.ngOnInit();
+    expect(component.selectedResponse).toEqual('application/json');
+  });
+
+
+
   it('should check if smoothScroll is called without failure', () => {
     component.smoothScroll(1, 1000);
     component.smoothScroll(1000, 1);
@@ -57,33 +223,6 @@ describe('EndpointComponent', () => {
     } catch ( e ) {
       fail('endpointData.produces array is empty');
     }
-  });
-  it('should initParameterFields with endpointData', () => {
-    component.ngOnInit();
-    (component.endpointData).parameters.forEach( parm => {
-      if (component.parameterFields[parm.name]) {
-        if (parm) {
-          if (!(component.parameterFields[parm.name] === parm)) {
-            fail();
-          }
-        }
-      } else {
-        fail();
-      }
-    });
-    expect().nothing();
-  });
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-  it('should populate .param-property with data from endpointData.parameters ', () => {
-    component.endpointData = JSON.parse(JSON.stringify(APPENDPOINT));
-    fixture.detectChanges();
-    component.endpointData.parameters.forEach( parm => {
-      const element = fixture.debugElement.query(By.css(`#${parm.name}`));
-      expect(element.query(By.css('span')).nativeElement.textContent).toEqual(parm.name + ':');
-      expect(element.query(By.css('em')).nativeElement.textContent).toEqual(parm.in);
-    });
   });
 
   it('should not crash on null id', () => {
@@ -217,4 +356,5 @@ describe('EndpointComponent', () => {
     fixture.detectChanges();
     expect(component.selectedResponse).toEqual(null);
   });
+
 });

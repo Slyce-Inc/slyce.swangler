@@ -64,13 +64,15 @@ export class RequestInitiator {
     // console.log(request);
     this.method = request.endPointData.method;
     this.url = request.endPointData.url;
-    request.endPointData.security.forEach( item => {
-      if ( item ) {
-        Object.keys(item).forEach(secRequirement => {
-          this.addHeader(secRequirement, localDataService.getStorageVar(secRequirement));
-        });
-      }
-    });
+    if ( request.endPointData.security ) {
+      request.endPointData.security.forEach( item => {
+        if ( item ) {
+          Object.keys(item).forEach(secRequirement => {
+            this.addHeader(secRequirement, localDataService.getStorageVar(secRequirement));
+          });
+        }
+      });
+    }
 
     if (request.selectedResponse) {
       this.setContentType(request.selectedResponse);

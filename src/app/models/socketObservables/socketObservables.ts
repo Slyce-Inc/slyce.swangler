@@ -6,12 +6,15 @@ export class SocketObservables {
   public onmessage;
   public onerror;
   public socket: WebSocket;
+
   constructor(socket: WebSocket) {
     this.onopen = new BehaviorSubject(null);
     this.onclose  = new BehaviorSubject(null);
     this.onmessage  = new BehaviorSubject(null);
     this.onerror  = new BehaviorSubject(null);
+
     this.socket = socket;
+
     this.socket.onopen = evt => {
       this.onopen.next(evt);
     };

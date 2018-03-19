@@ -56,7 +56,7 @@ describe('ExampleSideBarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ExampleSideBarComponent);
     component = fixture.componentInstance;
-    component.endpoint = APPENDPOINT;
+    component.endpoint = JSON.parse(JSON.stringify(APPENDPOINT));
   });
 
   it('should create', () => {

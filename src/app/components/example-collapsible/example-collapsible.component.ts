@@ -72,12 +72,14 @@ export class ExampleCollapsibleComponent implements OnInit {
   generateSampleFromArray(schema) {
     let temp = '[';
     if (schema.items) {
-     if ( schema.items.type.toLowerCase() === 'object' || schema.items.type.toLowerCase() === 'array') {
-       temp = temp + '\n';
-       temp = temp + this.generateSample(schema.items);
-     } else {
-       temp = temp + `"${schema.items.type}"`;
-     }
+      if ( schema.items.type ) {
+        if ( schema.items.type.toLowerCase() === 'object' || schema.items.type.toLowerCase() === 'array') {
+          temp = temp + '\n';
+          temp = temp + this.generateSample(schema.items);
+        } else {
+          temp = temp + `"${schema.items.type}"`;
+        }
+      }
    }
     temp = temp + ']';
     return (temp);
