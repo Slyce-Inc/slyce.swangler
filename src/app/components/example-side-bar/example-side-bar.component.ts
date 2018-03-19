@@ -30,5 +30,4 @@ export class ExampleSideBarComponent implements OnInit {
       this.responseSchema = endpoint.responses['200'].schema;
     }
   }
-
 }

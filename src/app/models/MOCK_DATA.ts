@@ -551,7 +551,7 @@ export const APPENDPOINT = {
                   type: 'string',
                   description: 'test descr',
                   required: true,
-                  example: 'test'
+                  example: 'test stuff'
                 }
               }
             }
