@@ -11,10 +11,10 @@ export class ExampleSideBarComponent implements OnInit {
   // If provided, show the Request message with index value, otherwise show all, if invalid index show none
   @Input('showRequestMessageOfIndex') showRequestMessageOfIndex: number = null;
   @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
-
   public requestSchema: Schema;
   public responseSchema: Schema;
   ngOnInit() {
+    console.log(this.endpoint);
     this.initializeRestEndPoint();
   }
   public initializeRestEndPoint() {

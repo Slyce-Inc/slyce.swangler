@@ -613,14 +613,16 @@ export const APPENDPOINT = {
               type: 'object',
               properties: {
                 msg_type: {
-                  type: 'string'
+                  type: 'string',
+                  example: 'pass'
                 },
                 workflow_options: {
                   type: 'object',
                   properties: {
                     key: {
                       type: 'string',
-                      required: true
+                      required: true,
+                      example: 'some option'
                     }
                   }
                 },

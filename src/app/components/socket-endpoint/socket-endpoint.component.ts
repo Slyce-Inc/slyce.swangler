@@ -155,9 +155,9 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
     this.clickedTestEndPoint.emit(this.clickTestEndPointButton());
   }
 
-  populateBody(event) {
-    this.parameterFields['body'].value = event;
-  }
+  populateBody(event, selectedRequest) {
+    this.endpointData['requestMessages'][selectedRequest].value = event;
+    }
 
   openSocketConnection() {
     if ( !this.isConnectionStarted ) {
