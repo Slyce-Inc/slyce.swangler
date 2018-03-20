@@ -55,6 +55,8 @@ export class ExampleCollapsibleComponent implements OnInit {
       this.generatedSample = {};
       this.generatedSample['highlight'] = hl.highlight('json', temp).value;
       this.generatedSample['json'] = temp;
+      console.log(temp);
+
     }
   }
 
