@@ -176,17 +176,20 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
         });
         this.connection.onclose.subscribe(event => {
           this.isConnectionStarted = false;
+          this.socketMessages = [];
         });
         this.connection.onmessage.subscribe(event => {
           if (event) {
-            if (event.data && JSON.parse(event.data)['error']) {
+            if (event.data && (JSON.parse(event.data)['error'] || JSON.parse(event.data)['errors'])) {
               const response = JSON.parse(event.data);
               const message = {};
-              message['type'] = 'Error';
+              message['msg_type'] = 'Error';
               message['response'] = response;
               this.socketMessages.push(message);
               this.notify.error('Error', 'Status: ' + (response['status'] || 'fail') + '. ' + (response['error'] || 'fail'));
             } else {
+              console.log(event);
+
               this.socketMessages.push(event);
             }
           }
