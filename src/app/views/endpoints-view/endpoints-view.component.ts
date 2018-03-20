@@ -81,6 +81,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     }, error => {
       this.setRes(error, request);
       this.result['responseBody'] = this.highlightJSInJson(error.error);
+      this.result['responseBodyJson'] = error.error;
       modal.show();
     });
   }
@@ -90,6 +91,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     this.result['method'] = request.endPointData.method;
     this.result['url'] = res.url ? decodeURIComponent(res.url) : 'No URL Present';
     this.result['responseBody'] = res.body ? this.highlightJSInJson(res.body) : this.highlightJSInJson(res);
+    this.result['responseBodyJson'] = res.body ? res.body : res;
     this.result['responseCode'] = res.status || 'No code Present';
     if (res.headers && res.headers.keys) {
       const keys = res.headers.keys();

@@ -30,7 +30,8 @@ $key-color: white;
 $url-color: blue;
 
 [appJsonFormat][appJsonFormat] {
-  font-family: monospace;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  font-size: 0.87rem !important;
 
   &, a, a:hover {
     color: $default-color;
@@ -39,6 +40,7 @@ $url-color: blue;
 
   .json-formatter-row {
     margin-left: 1rem;
+    font-family: inherit;
   }
 
   .json-formatter-children {
@@ -80,6 +82,7 @@ $url-color: blue;
   }
 
   .json-formatter-toggler {
+    font-family: monospace;
     line-height: 1.2rem;
     font-size: 0.7rem;
     vertical-align: middle;

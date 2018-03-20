@@ -14,7 +14,8 @@ export class JsonFormatDirective implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+
+    console.log(this.json);
 
 
     if (changes.json.currentValue) {
@@ -24,14 +25,13 @@ export class JsonFormatDirective implements OnChanges {
         hoverPreviewFieldCount: 2,
       };
 
-      console.log(this.json);
-
       if (typeof this.json === 'string') {
         this.json = JSON.parse(this.json);
       }
 
       const formatter = new JSONFormatter(this.json, 1, options);
       const elem = formatter.render();
+      this.renderer.destroyNode(this.el.nativeElement);
       this.renderer.appendChild(this.el.nativeElement, elem);
     }
 
