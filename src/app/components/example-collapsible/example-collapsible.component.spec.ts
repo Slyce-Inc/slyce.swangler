@@ -8,6 +8,7 @@ import { ParamConsoleComponent } from '../param-console/param-console.component'
 import {Schema} from '../../models/endpoint/endpoint.model';
 import { By } from '@angular/platform-browser';
 import {REQUEST_SCHEMA, RESPONSE_SCHEMA} from '../../models/MOCK_DATA';
+import { Input, Directive } from '@angular/core';
 
 const SwaggerServiceStub: Partial<SwaggerService> = {
   getApiData: () => {
@@ -15,13 +16,21 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
   }
 };
 
+@Directive({
+  // tslint:disable-next-line
+  selector: '[appJsonFormat]',
+})
+class MockBsModalDirective {
+  @Input() json;
+ }
+
 describe('ExampleCollapsibleComponent', () => {
   let component: ExampleCollapsibleComponent;
   let fixture: ComponentFixture<ExampleCollapsibleComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExampleCollapsibleComponent, ParamConsoleComponent ],
+      declarations: [ ExampleCollapsibleComponent, ParamConsoleComponent, MockBsModalDirective ],
       providers: [
         { provide: SwaggerService, useValue: SwaggerServiceStub }
       ]

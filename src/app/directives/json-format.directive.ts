@@ -14,10 +14,6 @@ export class JsonFormatDirective implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
-
-    console.log(this.json);
-
-
     if (changes.json.currentValue) {
       const options = {
         hoverPreviewEnabled: true,

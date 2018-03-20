@@ -62,6 +62,13 @@ const ActivatedRouteStub: Partial<ActivatedRoute> = {
 };
 
 @Directive({
+  selector: '[appJsonFormat]',
+})
+class MockJsonFormatDirective {
+  @Input() json;
+}
+
+@Directive({
   // tslint:disable-next-line
   selector: '[bsModal]',
   exportAs: 'bs-modal'
@@ -126,6 +133,7 @@ describe('EndpointsViewComponent', () => {
         MockContactComponent,
         MockEndpointComponent,
         MockBsModalDirective,
+        MockJsonFormatDirective,
         MockSocketEndpointComponent
       ],
       providers: [
@@ -266,7 +274,7 @@ describe('EndpointsViewComponent', () => {
       expect(responselUrl.innerText).toEqual('No URL Present');
 
       const responseBody = fixture.debugElement.query(By.css('[bsModal] .response_body code')).nativeElement;
-      expect(responseBody.innerText).toEqual('{}');
+      expect(responseBody.innerText).toEqual('');
 
       const responseHeaders = fixture.debugElement.query(By.css('[bsModal] .response_headers code')).nativeElement;
       expect(responseHeaders.innerText).toEqual('No Headers Present');

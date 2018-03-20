@@ -93,6 +93,7 @@ describe('SocketEndpointComponent', () => {
   class ExampleSideBarComponent {
     @Input('endpoint') endpoint: AppEndPoint;
     @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
+    @Input() showRequestMessageOfIndex;
   }
   let component: SocketEndpointComponent;
   let fixture: ComponentFixture<SocketEndpointComponent>;
