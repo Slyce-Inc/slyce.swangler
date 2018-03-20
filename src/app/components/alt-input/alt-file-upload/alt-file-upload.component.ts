@@ -21,7 +21,7 @@ export class AltFileUploadComponent extends AltInputComponent implements OnInit 
     this.hasContent = true;
     this.imageBytesService.getImageBytes($event.target)
       .subscribe(bytes => {
-        this.event.emit(new AltInputEventModel(AltInputEventModel.EVENT_TYPES.DATA, bytes));
+        this.event.emit(new AltInputEventModel(AltInputEventModel.EVENT_TYPES.DATA, bytes.toString()));
       });
   }
   public clearInput() {

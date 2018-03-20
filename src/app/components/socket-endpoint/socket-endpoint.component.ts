@@ -41,8 +41,6 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
   public JSON = JSON;
   public document = document;
   public altInputs = {};
-  public Object = null;
-
   constructor(
     public endpointsSharedService: EndpointsSharedService,
     public notify: NotificationsService,
@@ -51,7 +49,6 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
     public localStorageService: LocalStorageService,
     public notificationService: NotificationsService
   ) {
-    this.Object = Object;
   }
 
   ngOnInit() {
