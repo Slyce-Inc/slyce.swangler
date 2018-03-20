@@ -98,7 +98,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   setSocketRes(res) {
     for (let i = 0; i < res.messages.length; i++) {
       const message = res.messages[i];
-      message.response = this.highlightJSInJson(message.response);
+      message.response = message.response;
     }
     this.result = res;
   }

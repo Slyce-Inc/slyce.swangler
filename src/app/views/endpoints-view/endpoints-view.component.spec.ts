@@ -289,19 +289,19 @@ describe('EndpointsViewComponent', () => {
     });
   });
 
-  describe('method setSocketRes()', () => {
-    it('should apply highlight js', () => {
-      component.setSocketRes({
-        messages: [
-          {
-            'response': 'test'
-          }
-        ],
-        url: 'test',
-      });
-      expect(component.result['messages'][0].response).toEqual('<span class="hljs-string">"test"</span>');
-    });
-  });
+  // describe('method setSocketRes()', () => {
+  //   it('should apply highlight js', () => {
+  //     component.setSocketRes({
+  //       messages: [
+  //         {
+  //           'response': 'test'
+  //         }
+  //       ],
+  //       url: 'test',
+  //     });
+  //     expect(component.result['messages'][0].response).toEqual('<span class="hljs-string">"test"</span>');
+  //   });
+  // });
 
   describe('modal window', () => {
     it('should show default values', () => {

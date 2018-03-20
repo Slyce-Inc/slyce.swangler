@@ -161,6 +161,8 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
 
   openSocketConnection() {
     if ( !this.isConnectionStarted ) {
+      this.socketMessages = [];
+
       const request = new RequestInitiator(
         new AppClickedTestRes(this.endpointData, this.selectedResponse, this.parameterFields),
         this.localStorageService
@@ -177,7 +179,7 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
         });
         this.connection.onclose.subscribe(event => {
           this.isConnectionStarted = false;
-          this.socketMessages = [];
+          // this.socketMessages = [];
           // this.notify.warn('Info', 'Connection close');
         });
         this.connection.onmessage.subscribe(event => {
@@ -202,6 +204,7 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
       });
     } else {
       this.connection.socket.close();
+      this.socketMessages = [];
     }
   }
 
