@@ -34,6 +34,7 @@ import { SocketEndpointComponent } from './components/socket-endpoint/socket-end
 import { SocketService } from './services/socket/socket.service';
 import {CommonModule} from '@angular/common';
 import { GetIndexPipe } from './pipes/get-index.pipe';
+import {AltInputModule} from './components/alt-input/altInput.module';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { GetIndexPipe } from './pipes/get-index.pipe';
     GetIndexPipe
   ],
   imports: [
+    AltInputModule,
     BrowserModule,
     BsDatepickerModule.forRoot(),
     CollapseModule.forRoot(),

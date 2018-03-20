@@ -513,6 +513,7 @@ export const APPENDPOINT = {
                 },
                 image_bytes: {
                   type: 'string',
+                  format: 'byte',
                   description: 'test descr',
                   required: true,
                   example: 'test'
@@ -549,6 +550,7 @@ export const APPENDPOINT = {
                 },
                 image_url: {
                   type: 'string',
+                  format: 'byte',
                   description: 'test descr',
                   required: true,
                   example: 'test stuff'
@@ -658,7 +660,8 @@ export const APPENDPOINT = {
                   type: 'string'
                 },
                 image_bytes: {
-                  type: 'string'
+                  type: 'string',
+                  format: 'byte'
                 }
               }
             }
@@ -782,6 +785,7 @@ export const APPENDPOINT = {
             },
             'image_bytes': {
               'type': 'string',
+              'format': 'byte',
               'description': 'test descr',
               'required': true,
               'example': 'test'
@@ -939,6 +943,7 @@ export const APPENDPOINT = {
             },
             'image_bytes': {
               'type': 'string',
+              'format': 'byte',
               'example': 'someExample'
             }
           }

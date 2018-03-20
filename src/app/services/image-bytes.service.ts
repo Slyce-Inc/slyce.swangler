@@ -12,7 +12,6 @@ export class ImageBytesService {
     const reader = new FileReader();
     const self = this;
     const file = imageInput.files[0];
-
     this.zone.runOutsideAngular(() => {
         reader.addEventListener('load', function () {
           const imageBytes = self.fetchByteData(reader.result);
@@ -28,7 +27,7 @@ export class ImageBytesService {
   }
 
   fetchByteData(string) {
-    const regex = new RegExp(/,(\/.*)/g);
+    const regex = new RegExp(/,(.*)/g);
     let imageBytes = string.match(regex)[0];
     if (imageBytes.charAt(0) === ',') {
       imageBytes = imageBytes.substring(1);

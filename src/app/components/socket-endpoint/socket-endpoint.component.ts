@@ -9,6 +9,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { SocketService } from '../../services/socket/socket.service';
 import { SocketObservables } from '../../models/socketObservables/socketObservables';
 import { ImageBytesService } from '../../services/image-bytes.service';
+import {AltInputEventModel} from '../alt-input/model/AltInputEvent.model';
 
 
 @Component({
@@ -37,6 +38,10 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
   isConnectionStarted = false;
   connection: SocketObservables;
   socketMessages = [];
+  public JSON = JSON;
+  public document = document;
+  public altInputs = {};
+  public Object = null;
 
   constructor(
     public endpointsSharedService: EndpointsSharedService,
@@ -44,8 +49,9 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
     public socketService: SocketService,
     public swaggerService: SwaggerService,
     public localStorageService: LocalStorageService,
-    public imageBytesService: ImageBytesService
+    public notificationService: NotificationsService
   ) {
+    this.Object = Object;
   }
 
   ngOnInit() {
@@ -67,6 +73,9 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
     } else if ( changes.scrollToId.currentValue === null ) {
       this.scrollToElem();
     }
+  }
+  private getElementById(id) {
+    return document.getElementById(id);
   }
 
   /* Init the default parameters to the parameter fields */
@@ -155,9 +164,9 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
     this.clickedTestEndPoint.emit(this.clickTestEndPointButton());
   }
 
-  populateBody(event, selectedRequest) {
+  applySampleBody(event, selectedRequest) {
     this.endpointData['requestMessages'][selectedRequest].value = event;
-    }
+  }
 
   openSocketConnection() {
     if ( !this.isConnectionStarted ) {
@@ -198,14 +207,46 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
       this.connection.socket.send(this.endpointData['requestMessages'][this.selectedRequestType].value);
     }
   }
-
-  getBytes(event) {
-    this.imageBytesService.getImageBytes(event.target)
-      .subscribe(bytes => {
-        console.log(bytes);
-      });
+  processAltInput(event: AltInputEventModel, selectedRequest: string, field: string) {
+    if ( event.eventType === AltInputEventModel.EVENT_TYPES.DATA) {
+      if (!this.altInputs[selectedRequest]) {
+        this.altInputs[selectedRequest] = {};
+      }
+      this.altInputs[selectedRequest][field] = event.data;
+    } else if ( event.eventType === AltInputEventModel.EVENT_TYPES.APPLY) {
+      // STUB FUNCTION TO APPLY THE FIELD INTO THE BODY
+      this.substituteToBody(selectedRequest, field);
+    } else if ( event.eventType === AltInputEventModel.EVENT_TYPES.DELETE) {
+      delete this.altInputs[selectedRequest][field];
+      this.substituteToBody(selectedRequest, field);
+    }
   }
-
+  substituteToBody(selectedRequest: string, field?: string) {
+    console.log(this.altInputs);
+    if ( this.selectedResponse === 'application/json') {
+      // substitution for application json
+      if (!this.endpointData['requestMessages'][selectedRequest].value) {
+        // generate the json with the alt information inside
+        this.endpointData['requestMessages'][selectedRequest].value = JSON.stringify(this.altInputs[selectedRequest], null , 4);
+      } else {
+        try {
+          let obj = (JSON).parse(this.endpointData['requestMessages'][selectedRequest].value);
+          if (field) {
+            // apply to just that field
+            obj[field] = this.altInputs[selectedRequest][field];
+          } else {
+            // apply to all
+            obj = Object.assign(obj, this.altInputs[selectedRequest]);
+          }
+          this.endpointData['requestMessages'][selectedRequest].value = JSON.stringify(obj, null , 4);
+        } catch ( e ) {
+          this.notificationService.error(`Unable to apply to incorrectly formatted JSON`);
+        }
+      }
+    } else {
+      this.notificationService.alert(`${this.selectedResponse} is not supported`);
+    }
+  }
   buildQueryParams(params) {
     let result = '?';
     for (const key in params) {
