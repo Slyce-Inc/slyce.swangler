@@ -11,11 +11,8 @@ import { FormsModule } from '@angular/forms';
 import {BsDatepickerModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 
-
-
 import {SampleViewComponent} from './views/sample/sample.controller';
 import {AppRoutingModule} from './app-routing.module';
-
 import { CollapsableNavComponent } from './components/collapsable-nav/collapsable-nav.component';
 
 import { ContactComponent } from './components/contact/contact.component';
@@ -34,6 +31,7 @@ import { SocketEndpointComponent } from './components/socket-endpoint/socket-end
 import { SocketService } from './services/socket/socket.service';
 import {CommonModule} from '@angular/common';
 import { GetIndexPipe } from './pipes/get-index.pipe';
+import { JsonFormatDirective } from './directives/json-format.directive';
 
 @NgModule({
   declarations: [
@@ -52,7 +50,8 @@ import { GetIndexPipe } from './pipes/get-index.pipe';
     EndpointComponent,
     EndpointsViewComponent,
     SocketEndpointComponent,
-    GetIndexPipe
+    GetIndexPipe,
+    JsonFormatDirective
   ],
   imports: [
     BrowserModule,
