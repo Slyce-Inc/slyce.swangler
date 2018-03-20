@@ -123,3 +123,6 @@ $url-color: blue;
     }
   }
 }
+.sn-title, .sn-content{
+  width: calc(100% - 50px);
+}

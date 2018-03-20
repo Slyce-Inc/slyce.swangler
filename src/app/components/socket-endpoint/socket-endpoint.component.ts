@@ -24,7 +24,7 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
   @Output('clickedSample') clickedSample: EventEmitter<AppClickedSampleRes> = new EventEmitter();
   /* Call back on test button click */
   @Output('clickedTestEndPoint') clickedTestEndPoint: EventEmitter<AppClickedTestRes> = new EventEmitter<any>();
-  @Output() clickedSeeSocketMessages: EventEmitter<Array<Object>> = new EventEmitter<any>();
+  @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
 
   /* Selected wanted response format from endpoint */
   public selectedResponse;
@@ -173,17 +173,29 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
 
         this.connection.onopen.subscribe(event => {
           this.isConnectionStarted = true;
+          // this.notify.info('Info', 'Connection open');
         });
         this.connection.onclose.subscribe(event => {
           this.isConnectionStarted = false;
+          this.socketMessages = [];
+          // this.notify.warn('Info', 'Connection close');
         });
         this.connection.onmessage.subscribe(event => {
           if (event) {
+            if (event.data && (JSON.parse(event.data)['error'] || JSON.parse(event.data)['errors'])) {
+              const response = JSON.parse(event.data);
+              const message = {};
+              message['msg_type'] = 'Error';
+              message['response'] = response;
+              this.socketMessages.push(message);
+              this.notify.error('Error',
+                'Status: ' +
+                (response['status'] || 'fail') + '. ' +
+                (response['error'] || response['errors'] || 'fail'));
+            } else {
+              console.log(event);
 
-            this.socketMessages.push(event);
-            if (event.data && event.data.error) {
-              const response = event.data;
-              this.notify.error('Error', 'Status: ' + (response.status || 'fail') + '. ' + (response.error || 'fail'));
+              this.socketMessages.push(event);
             }
           }
         });
@@ -191,6 +203,13 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
     } else {
       this.connection.socket.close();
     }
+  }
+
+  showMessagesClicked() {
+    const socketData = {};
+    socketData['url'] = this.connection.socket.url;
+    socketData['messages'] = this.socketMessages;
+    this.clickedSeeSocketMessages.emit(socketData);
   }
 
   sendSocketMessage() {

@@ -35,7 +35,7 @@
           <div *ngIf="!this.wrongTag" class="endpoints" id="Accounts_endpoint_list">
             <div *ngFor="let endpoint of endpoints">
               <app-endpoint *ngIf="endpoint.responses" (clickedTestEndPoint)="this.clickTest($event, modal)" [endpointData]="endpoint" [scrollToId]='scrollToId'></app-endpoint>
-              <app-socket-endpoint *ngIf="endpoint.responseMessages" (clickedTestEndPoint)="this.clickTest($event, modal)" [endpointData]="endpoint" [scrollToId]='scrollToId'></app-socket-endpoint>
+              <app-socket-endpoint *ngIf="endpoint.responseMessages" (clickedSeeSocketMessages)="this.showSocketMessages($event, modal)" [endpointData]="endpoint" [scrollToId]='scrollToId'></app-socket-endpoint>
             </div>
           </div>
         </div>
@@ -73,18 +73,37 @@
               </pre>
             </div>
 
-            <small class="text-uppercase">Response Code</small>
-            <div class="mt-2 mb-3 response_code">
-              <pre><code class="hljs rounded" [innerHTML]="this['result'].responseCode"></code></pre>
+
+              <small class="text-uppercase">Response Code</small>
+              <div class="mt-2 mb-3 response_code">
+                <pre><code class="hljs rounded" [innerHTML]="this['result'].responseCode"></code></pre>
+              </div>
+
+              <small class="text-uppercase">Response Headers</small>
+              <div class="mt-2 response_headers">
+                <pre clas="json"><code class="hljs rounded json" [innerHTML]="this['result'].responseHeader"></code></pre>
+              </div>
             </div>
 
-            <small class="text-uppercase">Response Headers</small>
-            <div class="mt-2 response_headers">
-              <pre clas="json"><code class="hljs rounded json" [innerHTML]="this['result'].responseHeader"></code></pre>
+            <div class="response"  *ngIf="this['result'].websocket">
+              <small class="text-uppercase">Request URL</small>
+              <div class="mt-2 mb-3 request_url">
+                <div class="hljs rounded">{{this['result'].url}}</div>
+              </div>
+
+
+              <small class="text-uppercase">Messages</small>
+              <tabset>
+                <tab [heading]="message.msg_type" *ngFor="let message of this['result'].messages">
+                  <pre class="json">
+                    <code [innerHTML]="message.response" class="rounded hljs"></code>
+                  </pre>
+                </tab>
+              </tabset>
             </div>
           </div>
         </div>
+
       </div>
     </div>
-  </div>
 </main>
