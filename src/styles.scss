@@ -14,3 +14,7 @@
   width: 90%;
   max-width: 1000px;
 }
+
+.sn-title, .sn-content{
+  width: calc(100% - 50px);
+}
