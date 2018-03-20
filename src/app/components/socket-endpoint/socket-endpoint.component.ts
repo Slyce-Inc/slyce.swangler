@@ -258,6 +258,7 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
             obj = Object.assign(obj, this.altInputs[selectedRequest]);
           }
           this.endpointData['requestMessages'][selectedRequest].value = JSON.stringify(obj, null , 4);
+          this.notificationService.success(`Applied substitution on ${field}`);
         } catch ( e ) {
           this.notificationService.error(`Unable to apply to incorrectly formatted JSON`);
         }
