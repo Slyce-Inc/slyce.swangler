@@ -83,7 +83,18 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
 };
 
 describe('SocketEndpointComponent', () => {
+  @Component({
+    /* tslint:disable-next-line */
+    selector: 'app-alt-input',
+    template: '<span></span>'
+  })
+  class AppAltInputComponent {
+    @Input('header') header;
+    @Input('type') type;
+    @Input('format') format;
+    @Output('event') event;
 
+  }
   @Component({
     selector: 'app-example-side-bar',
     template: '<span></span>'
@@ -102,6 +113,7 @@ describe('SocketEndpointComponent', () => {
       declarations: [
         SocketEndpointComponent,
         ExampleSideBarComponent,
+        AppAltInputComponent
       ],
       imports: [
         FormsModule,
@@ -126,7 +138,7 @@ describe('SocketEndpointComponent', () => {
     this.endpointsSharedService = TestBed.get(EndpointsSharedService);
     fixture.detectChanges();
   });
-  it('should create component', () => {
+  fit('should create component', () => {
     expect(component).toBeTruthy();
   });
 
