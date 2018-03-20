@@ -235,13 +235,13 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
     } else if ( event.eventType === AltInputEventModel.EVENT_TYPES.APPLY) {
       // STUB FUNCTION TO APPLY THE FIELD INTO THE BODY
       this.substituteToBody(selectedRequest, field);
+      this.notificationService.success(`Applied substitution on ${field}`);
     } else if ( event.eventType === AltInputEventModel.EVENT_TYPES.DELETE) {
       delete this.altInputs[selectedRequest][field];
       this.substituteToBody(selectedRequest, field);
     }
   }
   substituteToBody(selectedRequest: string, field?: string) {
-    console.log(this.altInputs);
     if ( this.selectedResponse === 'application/json') {
       // substitution for application json
       if (!this.endpointData['requestMessages'][selectedRequest].value) {
@@ -258,7 +258,6 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
             obj = Object.assign(obj, this.altInputs[selectedRequest]);
           }
           this.endpointData['requestMessages'][selectedRequest].value = JSON.stringify(obj, null , 4);
-          this.notificationService.success(`Applied substitution on ${field}`);
         } catch ( e ) {
           this.notificationService.error(`Unable to apply to incorrectly formatted JSON`);
         }
