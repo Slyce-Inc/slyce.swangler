@@ -173,10 +173,12 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
 
         this.connection.onopen.subscribe(event => {
           this.isConnectionStarted = true;
+          // this.notify.info('Info', 'Connection open');
         });
         this.connection.onclose.subscribe(event => {
           this.isConnectionStarted = false;
           this.socketMessages = [];
+          // this.notify.warn('Info', 'Connection close');
         });
         this.connection.onmessage.subscribe(event => {
           if (event) {
@@ -186,7 +188,10 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
               message['msg_type'] = 'Error';
               message['response'] = response;
               this.socketMessages.push(message);
-              this.notify.error('Error', 'Status: ' + (response['status'] || 'fail') + '. ' + (response['error'] || 'fail'));
+              this.notify.error('Error',
+                'Status: ' +
+                (response['status'] || 'fail') + '. ' +
+                (response['error'] || response['errors'] || 'fail'));
             } else {
               console.log(event);
 
