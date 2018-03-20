@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
   public appEndPoint: AppEndPoint = APPENDPOINT;
   public options = {
-    timeOut: 3000,
+    timeOut: 5000,
     showProgressBar: false,
     pauseOnHover: false,
     clickToClose: false,

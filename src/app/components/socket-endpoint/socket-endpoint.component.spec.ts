@@ -103,7 +103,6 @@ describe('SocketEndpointComponent', () => {
     @Input('endpoint') endpoint: AppEndPoint;
     @Input() showRequestMessageOfIndex;
     @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
-    @Input() showRequestMessageOfIndex;
   }
   let component: SocketEndpointComponent;
   let fixture: ComponentFixture<SocketEndpointComponent>;

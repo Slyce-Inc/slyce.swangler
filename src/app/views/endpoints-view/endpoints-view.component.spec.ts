@@ -63,6 +63,13 @@ const ActivatedRouteStub: Partial<ActivatedRoute> = {
 };
 
 @Directive({
+  selector: '[appJsonFormat]',
+})
+class MockJsonFormatDirective {
+  @Input() json;
+}
+
+@Directive({
   // tslint:disable-next-line
   selector: '[bsModal]',
   exportAs: 'bs-modal'
@@ -127,6 +134,7 @@ describe('EndpointsViewComponent', () => {
         MockContactComponent,
         MockEndpointComponent,
         MockBsModalDirective,
+        MockJsonFormatDirective,
         MockSocketEndpointComponent
       ],
       imports: [
@@ -281,19 +289,19 @@ describe('EndpointsViewComponent', () => {
     });
   });
 
-  describe('method setSocketRes()', () => {
-    it('should apply highlight js', () => {
-      component.setSocketRes({
-        messages: [
-          {
-            'response': 'test'
-          }
-        ],
-        url: 'test',
-      });
-      expect(component.result['messages'][0].response).toEqual('<span class="hljs-string">"test"</span>');
-    });
-  });
+  // describe('method setSocketRes()', () => {
+  //   it('should apply highlight js', () => {
+  //     component.setSocketRes({
+  //       messages: [
+  //         {
+  //           'response': 'test'
+  //         }
+  //       ],
+  //       url: 'test',
+  //     });
+  //     expect(component.result['messages'][0].response).toEqual('<span class="hljs-string">"test"</span>');
+  //   });
+  // });
 
   describe('modal window', () => {
     it('should show default values', () => {
@@ -304,7 +312,7 @@ describe('EndpointsViewComponent', () => {
       expect(responselUrl.innerText).toEqual('No URL Present');
 
       const responseBody = fixture.debugElement.query(By.css('[bsModal] .response_body code')).nativeElement;
-      expect(responseBody.innerText).toEqual('{}');
+      expect(responseBody.innerText).toEqual('');
 
       const responseHeaders = fixture.debugElement.query(By.css('[bsModal] .response_headers code')).nativeElement;
       expect(responseHeaders.innerText).toEqual('No Headers Present');
