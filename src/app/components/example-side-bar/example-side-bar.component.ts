@@ -14,7 +14,7 @@ export class ExampleSideBarComponent implements OnInit {
   public requestSchema: Schema;
   public responseSchema: Schema;
   ngOnInit() {
-    console.log(this.endpoint);
+    // console.log(this.endpoint);
     this.initializeRestEndPoint();
   }
   public initializeRestEndPoint() {

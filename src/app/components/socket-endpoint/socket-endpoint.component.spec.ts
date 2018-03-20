@@ -45,8 +45,6 @@ const SocketServiceStub = {
   },
 };
 
-const test = SocketServiceStub.connect().onopen;
-
 const ImageBytesServiceStub: Partial<ImageBytesService> = {
 };
 
@@ -92,6 +90,7 @@ describe('SocketEndpointComponent', () => {
   })
   class ExampleSideBarComponent {
     @Input('endpoint') endpoint: AppEndPoint;
+    @Input() showRequestMessageOfIndex;
     @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
   }
   let component: SocketEndpointComponent;
