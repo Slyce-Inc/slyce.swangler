@@ -186,9 +186,9 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
               message['response'] = response;
               this.socketMessages.push(message);
               this.notify.error('Error', 'Status: ' + (response['status'] || 'fail') + '. ' + (response['error'] || 'fail'));
+            } else {
+              this.socketMessages.push(event);
             }
-          } else {
-            // this.socketMessages.push(event);
           }
         });
       });
