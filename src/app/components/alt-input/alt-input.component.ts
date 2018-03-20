@@ -7,6 +7,12 @@ import {AltInputEventModel} from './model/AltInputEvent.model';
   styleUrls: ['./alt-input.component.scss']
 })
 export class AltInputComponent implements OnInit {
+  public static TYPES = {
+    STRING: 'string'
+  };
+  public static FORMATS = {
+      BYTE: 'byte'
+  };
   @Input('type') type: string;
   @Input('format') format: string;
   @Input('accept') accept?: string;
