@@ -13,6 +13,7 @@ import { RequestInitiator } from '../../models/endpoint/endpoint.model';
 import { HttpHeaders } from '@angular/common/http';
 import { NotificationsService } from 'angular2-notifications';
 import {APPENDPOINT, REQUEST_INITIATOR} from '../../models/MOCK_DATA';
+import { TabsModule } from 'ngx-bootstrap';
 
 const modalMock = {
   show: () => {
@@ -127,6 +128,9 @@ describe('EndpointsViewComponent', () => {
         MockEndpointComponent,
         MockBsModalDirective,
         MockSocketEndpointComponent
+      ],
+      imports: [
+        TabsModule.forRoot(),
       ],
       providers: [
         NotificationsService,
@@ -256,6 +260,40 @@ describe('EndpointsViewComponent', () => {
     });
   });
 
+  describe('method showSocketMessages()', () => {
+    it('should set results.websocket to true', () => {
+      spyOn(component, 'setSocketRes');
+      component.showSocketMessages('test', modalMock);
+      expect(component.result['websocket']).toBeTruthy();
+    });
+
+    it('should call setSocketRes', () => {
+      spyOn(component, 'setSocketRes');
+      component.showSocketMessages('test', modalMock);
+      expect(component.setSocketRes).toHaveBeenCalled();
+    });
+
+    it('should open modal', () => {
+      spyOn(component, 'setSocketRes');
+      spyOn(modalMock, 'show');
+      component.showSocketMessages('test', modalMock);
+      expect(modalMock.show).toHaveBeenCalled();
+    });
+  });
+
+  describe('method setSocketRes()', () => {
+    it('should apply highlight js', () => {
+      component.setSocketRes({
+        messages: [
+          {
+            'response': 'test'
+          }
+        ],
+        url: 'test',
+      });
+      expect(component.result['messages'][0].response).toEqual('<span class="hljs-string">"test"</span>');
+    });
+  });
 
   describe('modal window', () => {
     it('should show default values', () => {

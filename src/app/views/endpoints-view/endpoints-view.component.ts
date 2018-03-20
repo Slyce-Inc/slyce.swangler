@@ -74,15 +74,32 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   }
 
   clickTest(request, modal) {
+    this.result['websocket'] = false;
+
     const requestInitiator: RequestInitiator = new RequestInitiator(request, this.localDataService);
     this.swaggerService.testEndpoint(requestInitiator).subscribe( res => {
       this.setRes(res, request);
+
       modal.show();
     }, error => {
       this.setRes(error, request);
       this.result['responseBody'] = this.highlightJSInJson(error.error);
       modal.show();
     });
+  }
+
+  showSocketMessages(socketData, modal) {
+    this.setSocketRes(JSON.parse(JSON.stringify(socketData)));
+    this.result['websocket'] = true;
+    modal.show();
+  }
+
+  setSocketRes(res) {
+    for (let i = 0; i < res.messages.length; i++) {
+      const message = res.messages[i];
+      message.response = this.highlightJSInJson(message.response);
+    }
+    this.result = res;
   }
 
   setRes(res, request) {
@@ -100,7 +117,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   }
   highlightJSInJson(obj): string {
     if (obj) {
-      return(hl.highlight('json', JSON.stringify(obj, null, 4)).value);
+      return (hl.highlight('json', JSON.stringify(obj, null, 4)).value);
     }
   }
 }

@@ -45,8 +45,6 @@ const SocketServiceStub = {
   },
 };
 
-const test = SocketServiceStub.connect().onopen;
-
 const ImageBytesServiceStub: Partial<ImageBytesService> = {
 };
 
@@ -92,7 +90,9 @@ describe('SocketEndpointComponent', () => {
   })
   class ExampleSideBarComponent {
     @Input('endpoint') endpoint: AppEndPoint;
+    @Input() showRequestMessageOfIndex;
     @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
+    @Input() showRequestMessageOfIndex;
   }
   let component: SocketEndpointComponent;
   let fixture: ComponentFixture<SocketEndpointComponent>;
@@ -184,7 +184,7 @@ describe('SocketEndpointComponent', () => {
   it('should show error message if socket message contains error', () => {
     spyOn(component.notify, 'error');
     component.openSocketConnection();
-    messageSubj.next(({data: {error: 'fail'}}));
+    messageSubj.next({data: '{"error": "test"}'});
     fixture.detectChanges();
     expect(component.notify.error).toHaveBeenCalled();
   });
