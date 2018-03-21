@@ -8,7 +8,7 @@
           </h4>
 
 
-          <div class="d-lg-flex align-items-center">
+          <div class="d-lg-flex break-all align-items-center">
             <div class="mr-auto">
               <h5>
                 <span *ngIf="this.endpointData.method" id='methodBadge' class="http_method badge badge-primary">{{this.endpointData.method}}</span>
@@ -43,9 +43,9 @@
                   <div id="{{parm.name}}" class="param" *ngFor="let parm of this.endpointData?.parameters">
 
                     <div class="row" *ngIf="parm['in'].toLowerCase() !== 'body'">
-                      <div class="col-lg-3 col-xl-2">
+                      <div class="col-lg-4 col-xl-3 text-shorten">
                         <label class="param-property text-nowrap col-form-label">
-                          <span>{{parm.name}}:</span>
+                          <span [title]="parm.name">{{parm.name}}:</span>
                           <br>
                           <small class="text-muted">
                             <em>{{parm?.in}}</em>
@@ -53,7 +53,7 @@
                         </label>
                       </div>
 
-                      <div class="col-lg-9 col-xl-10">
+                      <div class="col-lg-8 col-xl-9">
 
                         <div>
                           <input class="parameter form-control " minlength="0" placeholder="{{parm.required == true ? '(required)' : ''}}" [required]='parm.required'
@@ -80,9 +80,9 @@
                     <tab [heading]="parm.description" *ngFor="let parm of this.endpointData['requestMessages']; let i = index" (select)="this.selectedRequestType = i;">
                       <div class="param">
                         <div class="row">
-                          <div class="col-lg-3 col-xl-2">
+                          <div class="col-lg-4 col-xl-3">
                             <label class="param-property text-nowrap col-form-label">
-                              <span>{{parm.description}}:</span>
+                              <span [title]="parm.description" class="text-shorten">{{parm.description}}:</span>
                               <br>
                               <small class="text-muted">
                                 <em>{{parm?.in}}</em>
@@ -90,7 +90,7 @@
                             </label>
                           </div>
 
-                          <div class="col-lg-9 col-xl-10">
+                          <div class="col-lg-8 col-xl-9">
                             <textarea placeholder="{{parm.required == true ? '(required)' : ''}}" [required]='parm.required' [(ngModel)]="this.endpointData['requestMessages'][i].value"
                               class="form-control" id="exampleTextarea" rows="3" [name]='parm.description'></textarea>
 
