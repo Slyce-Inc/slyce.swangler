@@ -25,9 +25,10 @@ export class JsonFormatDirective implements OnChanges {
         this.json = JSON.parse(this.json);
       }
 
+      this.el.nativeElement.innerHTML = '';
+
       const formatter = new JSONFormatter(this.json, 1, options);
       const elem = formatter.render();
-      this.renderer.destroyNode(this.el.nativeElement);
       this.renderer.appendChild(this.el.nativeElement, elem);
     }
 
