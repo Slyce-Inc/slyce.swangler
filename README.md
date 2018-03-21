@@ -3,6 +3,8 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.0.
 
 ## Web Socket Spec JSON File Documentation
+Below is the schema for the construction of the Web Socket Spec Json File.
+*** Where there are <variableName>?: These question marks indicate that the parameter is optional.
 ```typescript
 class BaseObject {
   socketEndpoints: Array<SocketModel>;
@@ -38,6 +40,7 @@ export class Parameter {
   format?: string;
 }
 ```
+  Here is a small sample of an endpoint. The below data for the endpoint is not suficient to make a call but is enough for an example.
   
 ```javascript
 {
