@@ -40,6 +40,60 @@ export class Parameter {
   format?: string;
 }
 ```
+
+**BaseObject**
+
+Base Object that should be returned when the Web Socket Spec File is loaded.
+
+| Key                           | Type     | Description |
+|-------------------------------|----------|-------------|
+| socketEndpoints      				| Array(SocketModel)  | List of WebSocket Endpoints |
+| baseURL                     | string              | The base path of the link to all of the WebSocket Endpoints|
+
+**SocketModel**
+
+SocketModel Object that represents the existence of each web socket endpoint
+
+| Key                           | Type     | Description |
+|-------------------------------|----------|-------------|
+| operationId    | string | provide unique name + id for this endpoint |
+| summary | string? | summary of the significannce of the endpoint |
+| url | string | relative url to the baseURL of BaseObject |
+| parameters | Array(Parameter) | A list of parameters that the endpoint accepts |
+| description | string ? | a description of the endpoint |
+| consumes | Array(string) | a list of what the endpoint consumes ex. 'application/json' | 
+| produces | Array(string) | a list of what the endpoint produces ex. 'appliation/json' | 
+| tags | Array(string) ? | a list of which nav side bar tag the endpoint will appear under, if none then it will appear under 'NO_TAG'|
+| protocol| Array(string) | a list of which protocol to use when calling this endpoint (either ws | wss)|
+| requestMessages | Array(Message) | a list of message bodies that the endpoint will be expecting | 
+| responseMessages | Array(Message) | a list of message bodies that the endpoitn will be responding with |
+| errorMessages | Array(Message) ?| a list of error message bodies that the endpoint will be responding with |
+
+**Message**
+
+Message Object that represents each possible response or request message to and from the endpoint
+
+| Key                           | Type     | Description |
+|-------------------------------|----------|-------------|
+| description| string | a description of the message, perhaps what it is used for | 
+| schema | Schema | an object that represents the blueprints of an object | 
+
+**Parameter**
+
+Parameter Object that represents each parameter in a schema 
+
+| Key                           | Type     | Description |
+|-------------------------------|----------|-------------|
+| name | string | name of the parameter. aka the key of the object
+| in | string | The location of the parameter. Possible values are "query", "header", "path" or "cookie".
+| required | boolean | Determines whether this parameter is mandatory. If the parameter location is "path", this property is REQUIRED and its value MUST be true. Otherwise, the property MAY be included and its default value is false.|
+| type | string | the data type of the parameter... more info on supported types | 
+| default | any? | the default value of this parameter | 
+| description | string? | the description that describes the purpose of this parameter | 
+| example | any? | an example value for this parameter to appear in the example sample | 
+| format | string? | the format of the parameter ex. string of hexadecimal where hexadecimal is the format and string is the type|
+
+
   Here is a small sample of an endpoint. The below data for the endpoint is not suficient to make a call but is enough for an example.
   
 ```javascript
