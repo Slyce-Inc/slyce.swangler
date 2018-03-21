@@ -15,6 +15,17 @@
   max-width: 1000px;
 }
 
+.break-all {
+  word-break: break-all;
+}
+
+.text-shorten {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  display: block;
+}
+
 $default-color: white;
 $string-color: #7eeaca;
 $number-color: #17a2b8;
