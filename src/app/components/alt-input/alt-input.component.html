@@ -1,0 +1,8 @@
+<!--
+Make sure to apply the class of alt for each alt input you make
+-->
+
+<!--
+For Type: String && Format: Byte, ex Accept: image/x-png,image/jpeg
+-->
+<app-alt-file-upload class="alt" [header]="this.header" [type]="this.type" [format]="this.format" (event)="this.event.emit($event)" *ngIf="this.type == 'string' && this.format == 'byte'"></app-alt-file-upload>

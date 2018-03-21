@@ -17,6 +17,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { ImageBytesService } from '../../services/image-bytes.service';
 import { TabsModule } from 'ngx-bootstrap';
 import { Subject } from 'rxjs/Subject';
+import {AltInputModule} from '../alt-input/altInput.module';
 
 const openSubj = new Subject();
 const closeSubj = new Subject();
@@ -83,7 +84,6 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
 };
 
 describe('SocketEndpointComponent', () => {
-
   @Component({
     selector: 'app-example-side-bar',
     template: '<span></span>'
@@ -92,7 +92,6 @@ describe('SocketEndpointComponent', () => {
     @Input('endpoint') endpoint: AppEndPoint;
     @Input() showRequestMessageOfIndex;
     @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
-    @Input() showRequestMessageOfIndex;
   }
   let component: SocketEndpointComponent;
   let fixture: ComponentFixture<SocketEndpointComponent>;
@@ -101,11 +100,12 @@ describe('SocketEndpointComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         SocketEndpointComponent,
-        ExampleSideBarComponent,
+        ExampleSideBarComponent
       ],
       imports: [
         FormsModule,
-        TabsModule.forRoot()
+        TabsModule.forRoot(),
+        AltInputModule
       ],
       providers: [
         EndpointsSharedService,

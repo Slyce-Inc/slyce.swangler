@@ -20,7 +20,7 @@
       <nav class="collapsable-nav-header" routerLinkActive="active">
         <h5 class="nav-header">Responses</h5>
         <tabset>
-          <tab *ngFor="let m of this.endpoint?.responseMessages; let i = index" heading="{{('Response Type ' +1)}}" id="{{'response' + i}}">
+          <tab *ngFor="let m of this.endpoint?.responseMessages; let i = index" heading="{{('Response ' +1)}}" id="{{'response' + i}}">
             <div class='socketMessageDescription'style="padding: 5px">
               {{m.description}}
             </div>

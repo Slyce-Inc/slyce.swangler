@@ -31,6 +31,7 @@ import { SocketEndpointComponent } from './components/socket-endpoint/socket-end
 import { SocketService } from './services/socket/socket.service';
 import {CommonModule} from '@angular/common';
 import { GetIndexPipe } from './pipes/get-index.pipe';
+import {AltInputModule} from './components/alt-input/altInput.module';
 import { JsonFormatDirective } from './directives/json-format.directive';
 
 @NgModule({
@@ -54,6 +55,7 @@ import { JsonFormatDirective } from './directives/json-format.directive';
     JsonFormatDirective
   ],
   imports: [
+    AltInputModule,
     BrowserModule,
     BsDatepickerModule.forRoot(),
     CollapseModule.forRoot(),
