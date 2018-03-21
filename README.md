@@ -5,10 +5,10 @@ Swangler (like Strangler) is a recreation of SwaggerUI with basic WebSocket Supp
 
 The two below spec files both are independent files but are later combined by the application.
 
-## REST Endpoint Spec JSON File Documentation
+## REST Endpoint Spec JSON File Documentation (v1.2^)
 Specifications similar to https://swagger.io/specification/
 
-## Web Socket Endpoint Spec JSON File Documentation
+## Web Socket Endpoint Spec JSON File Documentation (v2.0^)
 Below is the schema for the construction of the Web Socket Spec Json File.
 *** Where there are ? These question marks indicate that the parameter is optional.
 ```typescript
