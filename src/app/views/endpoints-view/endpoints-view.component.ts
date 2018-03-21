@@ -7,6 +7,7 @@ import {RequestInitiator} from '../../models/endpoint/endpoint.model';
 import {LocalStorageService} from '../../services/local-storage.service';
 import * as hl from '../../../../node_modules/highlight.js/';
 import { NotificationsService } from 'angular2-notifications';
+import {ConfigService} from '../../services/config-service/config.service';
 
 @Component({
   selector: 'app-endpoints-view',
@@ -28,12 +29,16 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public swaggerService: SwaggerService,
     private localDataService: LocalStorageService,
-    public notify: NotificationsService
+    public notify: NotificationsService,
+    public configService: ConfigService
   ) {}
 
   ngOnInit() {
-    this.swaggerService.initSwagger('http://forge.local/openapi/spec.json');
-
+    this.configService.initConfigService().then( config => {
+      this.swaggerService.initSwagger(config.spec, config.websocket_spec);
+    }, error => {
+      this.notify.error(error);
+    });
     this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
       if (queryParams.enpt) {
         this.scrollToId = queryParams.enpt;

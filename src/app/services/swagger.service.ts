@@ -180,15 +180,20 @@ export class SwaggerService {
     }
   }
 
-  initSwagger(specUrl): Promise<any> {
+  initSwagger(specUrl: string, websocketSpecUrl?: string): Promise<any> {
     return Swagger(specUrl)
       .then( apiData => {
         apiData = SwaggerService.applyEndpointAccesses(apiData, null);
         this.setHostUrl(apiData);
         this.setApiData(apiData);
-        this.initWsSpec();
-        this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
-        this.attachWsEndpointsToRestEndpoints();
+        this.initWsSpec(websocketSpecUrl).then( res => {
+          this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
+          this.attachWsEndpointsToRestEndpoints();
+        }, error => {
+          this.notify.error('Error', 'Swangler socket spec JSON was not loaded');
+          this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
+          this.attachWsEndpointsToRestEndpoints();
+        });
       })
       .catch( err => {
         console.error(err);
@@ -223,8 +228,15 @@ export class SwaggerService {
     }
   }
 
-  initWsSpec() {
-    this.setWsEndpoints(WS_SPEC_MOCK);
+  initWsSpec(websocketSpecUrl): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.get(websocketSpecUrl).subscribe( res => {
+        this.setWsEndpoints(res);
+        resolve(res);
+      }, error => {
+        reject(error);
+      });
+    });
   }
 
   setWsEndpoints(wsEndpointsData) {

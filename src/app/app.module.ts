@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { SwaggerService } from './services/swagger.service';
 
@@ -33,6 +33,7 @@ import {CommonModule} from '@angular/common';
 import { GetIndexPipe } from './pipes/get-index.pipe';
 import {AltInputModule} from './components/alt-input/altInput.module';
 import { JsonFormatDirective } from './directives/json-format.directive';
+import {ConfigService} from './services/config-service/config.service';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,7 @@ import { JsonFormatDirective } from './directives/json-format.directive';
     CommonModule,
     TabsModule.forRoot()
   ],
-  providers: [SwaggerService, LocalStorageService, EndpointsSharedService, ImageBytesService, SocketService],
+  providers: [ConfigService, SwaggerService, LocalStorageService, EndpointsSharedService, ImageBytesService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
