@@ -1,8 +1,14 @@
 # Slyce.Swangler
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.0.
+Swangler (like Strangler) is a recreation of SwaggerUI with basic WebSocket Support.
 
-## Web Socket Spec JSON File Documentation
+The two below spec files both are independent files but are later combined by the application.
+
+## REST Endpoint Spec JSON File Documentation
+Specifications similar to https://swagger.io/specification/
+
+## Web Socket Endpoint Spec JSON File Documentation
 Below is the schema for the construction of the Web Socket Spec Json File.
 *** Where there are ? These question marks indicate that the parameter is optional.
 ```typescript
