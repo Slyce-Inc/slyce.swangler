@@ -94,7 +94,7 @@ Parameter Object that represents each parameter in a schema
 | format | string? | the format of the parameter ex. string of hexadecimal where hexadecimal is the format and string is the type|
 
 
-  Here is a small sample of an endpoint. The below data for the endpoint is not suficient to make a call but is enough for an example.
+  Here is a small sample of an endpoint. The below data for the endpoint is not sufficient to make a call to this specific forge endpoint but, is enough for an example.
   
 ```javascript
 {
