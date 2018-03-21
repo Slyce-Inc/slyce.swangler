@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Web Socket Spec JSON File Documentation
 Below is the schema for the construction of the Web Socket Spec Json File.
-*** Where there are <variableName>?: These question marks indicate that the parameter is optional.
+*** Where there are ? These question marks indicate that the parameter is optional.
 ```typescript
 class BaseObject {
   socketEndpoints: Array<SocketModel>;
