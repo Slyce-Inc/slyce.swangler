@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AltInputComponent} from '../alt-input.component';
 import {ImageBytesService} from '../../../services/image-bytes.service';
 import {AltInputEventModel} from '../model/AltInputEvent.model';
@@ -10,6 +10,7 @@ import {AltInputEventModel} from '../model/AltInputEvent.model';
 })
 export class AltFileUploadComponent extends AltInputComponent implements OnInit {
   public hasContent = false;
+  @ViewChild('fileInput') fileInput;
 
   constructor(public imageBytesService: ImageBytesService) {
     super();
@@ -25,7 +26,7 @@ export class AltFileUploadComponent extends AltInputComponent implements OnInit 
       });
   }
   public clearInput() {
-    document.getElementById('input').value = '';
+    this.fileInput.nativeElement.value = '';
     this.hasContent = false;
     this.event.emit(new AltInputEventModel(AltInputEventModel.EVENT_TYPES.DELETE));
   }

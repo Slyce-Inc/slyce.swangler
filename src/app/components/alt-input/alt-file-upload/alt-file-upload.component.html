@@ -6,7 +6,7 @@
   <div class="container-fluid">
     <div class="row no-gutters">
       <div class="col-10">
-        <input id="input" type="file" accept="image/x-png,image/jpeg" (change)="this.getBytes($event)">
+        <input id="input" type="file" accept="image/x-png,image/jpeg" (change)="this.getBytes($event)" #fileInput>
       </div>
       <div class="col-1">
         <span (click) = "this.clearInput()" *ngIf="this.hasContent" class="badge badge-danger">X</span>
