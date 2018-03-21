@@ -37,7 +37,7 @@ export class Parameter {
   public default?: any;
   public description?: string;
   public example?: any;
-  pbulic format?: string;
+  public format?: string;
 }
 ```
 
