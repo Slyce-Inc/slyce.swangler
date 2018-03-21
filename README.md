@@ -20,24 +20,24 @@ export class SocketModel {
   public consumes: string[];
   public produces: string[];
   public tags?: string[];
-  protocol: Array<string>;
-  requestMessages: Array<Message>;
-  responseMessages: Array<Message>;
-  errorMessages: Array<any>;
+  public protocol: Array<string>;
+  public requestMessages: Array<Message>;
+  public responseMessages: Array<Message>;
+  public errorMessages: Array<any>;
 }
 export class Message {
-  description: string;
-  schema: Schema;
+  public description: string;
+  public schema: Schema;
 }
 export class Parameter {
-  in: string;
-  name: string;
-  required: boolean;
-  type: string;
-  default?: any;
-  description?: string;
-  example?: any;
-  format?: string;
+  public in: string;
+  public name: string;
+  public required: boolean;
+  public type: string;
+  public default?: any;
+  public description?: string;
+  public example?: any;
+  pbulic format?: string;
 }
 ```
 
