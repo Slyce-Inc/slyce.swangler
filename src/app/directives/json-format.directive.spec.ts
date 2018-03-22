@@ -29,14 +29,14 @@ describe('JsonFormatDirective', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should init directive', () => {
+  it('should init directive', () => {
     const el = new ElementRef(document.createElement('div'));
     const directive = new JsonFormatDirective(el as ElementRef, fakeRenderer as any);
     directive.ngOnChanges( { json: { currentValue: 'test' }} as any );
     expect(directive).toBeTruthy();
   });
 
-  fit('should create string', () => {
+  it('should create string', () => {
     fixture.detectChanges();
     const formatter = fixture.debugElement.nativeElement.querySelector('.json-formatter-row');
     expect(formatter).toBeTruthy();
