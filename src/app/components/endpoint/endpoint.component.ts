@@ -6,6 +6,7 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import {SwaggerService} from '../../services/swagger.service';
 import { EndpointsSharedService } from '../../services/endpoints-shared.service';
 import { NotificationsService } from 'angular2-notifications';
+import { ShredVarsService } from '../../services/shred-vars.service';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
 
   constructor(
     public endpointsSharedService: EndpointsSharedService,
-    public notify: NotificationsService
+    public notify: NotificationsService,
+    public shredVarsService: ShredVarsService
   ) {
   }
 
@@ -72,8 +74,16 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
       if (params[p].hasOwnProperty('name')) {
         params[p].value = params[p].default;
         this.parameterFields[params[p].name] = params[p];
+
+        if (this.shredVarsService.sharedVars[params[p].name] || this.shredVarsService.sharedVars[params[p].name] === null) {
+          this.parameterFields[params[p].name].value = this.shredVarsService.sharedVars[params[p].name];
+
+          console.log(this.parameterFields[params[p].name]);
+
+        }
       }
     }
+
   }
 
   private scrollToElem(id?: string) {
