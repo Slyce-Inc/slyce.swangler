@@ -29,7 +29,7 @@ describe('JsonFormatDirective', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init directive', () => {
+  fit('should init directive', () => {
     const directive = new JsonFormatDirective('test' as any, fakeRenderer as any);
     directive.ngOnChanges( { json: { currentValue: 'test' }} as any );
     expect(directive).toBeTruthy();

@@ -1,11 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {LocalStorageService} from './services/local-storage.service';
 import {AppEndPoint} from './models/endpoint/endpoint.model';
 import {SwaggerService} from './services/swagger.service';
-import {NotificationsService} from 'angular2-notifications';
 import {APPENDPOINT} from './models/MOCK_DATA';
-import {ConfigService} from './services/config-service/config.service';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +23,7 @@ export class AppComponent implements OnInit {
     position: ['bottom', 'right']
 };
 
-  constructor(private swaggerService: SwaggerService, private configService: ConfigService) {
+  constructor(private swaggerService: SwaggerService) {
   }
 
   ngOnInit() {
