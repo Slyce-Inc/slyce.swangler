@@ -216,5 +216,29 @@ describe('SwaggerService', () => {
     service.getWsEndpoints().subscribe(data => expect(data).toEqual('test'));
   }));
 
-
+  describe('should load websocket endpoint in NO_TAG field if there is no tag array for that endpoint', function () {
+    const test = function (fakeWsEndpoints, description) {
+      it('test with ' + description, function () {
+        const fakeRestEndpoints = {
+          'test': []
+        };
+        service.appendWsEndpointToTags(fakeRestEndpoints, fakeWsEndpoints);
+        expect(fakeRestEndpoints[SwaggerService.NO_TAG_LABEL][0].operationId).toEqual(fakeWsEndpoints.socketEndpoints[0].operationId);
+      });
+    };
+    const fake = {
+      'socketEndpoints': [{
+        operationId: 'something123',
+        tags: [
+        ]
+      }]
+    };
+    test(fake, 'empty tags');
+    fake.socketEndpoints[0].tags = undefined;
+    test(fake, 'undefined tag');
+    fake.socketEndpoints[0].tags = null;
+    test(fake, 'null tag');
+    delete fake.socketEndpoints[0].tags;
+    test(fake, 'no tag field');
+  });
 });
