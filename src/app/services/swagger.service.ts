@@ -186,28 +186,23 @@ export class SwaggerService {
         apiData = SwaggerService.applyEndpointAccesses(apiData, null);
         this.setHostUrl(apiData);
         this.setApiData(apiData);
-        this.initWsSpec(websocketSpecUrl).then( res => {
+
+        if (websocketSpecUrl) {
+          this.initWsSpec(websocketSpecUrl).then( res => {
+            const sortedRestEndpoints = this.sortApiEndpointsByTags(apiData.spec.paths);
+            const sortedCombinedEndpoints = this.appendWsEndpointToTags(sortedRestEndpoints, res);
+            this.setSortedEndpoints(sortedCombinedEndpoints);
+          }, error => {
+            this.notify.error('Error', 'Swangler socket spec JSON was not loaded');
+            this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
+          });
+        } else {
           this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
-          this.attachWsEndpointsToRestEndpoints();
-        }, error => {
-          this.notify.error('Error', 'Swangler socket spec JSON was not loaded');
-          this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
-          this.attachWsEndpointsToRestEndpoints();
-        });
+        }
       })
       .catch( err => {
         console.error(err);
         this.notify.error('Error', 'Swagger spec JSON was not loaded');
-      });
-  }
-
-  attachWsEndpointsToRestEndpoints() {
-    this.getEndpointsSortedByTags()
-      .subscribe( restEndpoints => {
-        this.getWsEndpoints()
-          .subscribe( wsEndpoints => {
-            this.appendWsEndpointToTags(restEndpoints, wsEndpoints);
-          });
       });
   }
 
@@ -217,6 +212,7 @@ export class SwaggerService {
         if (endpoint && endpoint.tags && endpoint.tags.length > 0) {
           endpoint.tags.forEach(tag => {
             if (restEndpoints[tag]) {
+
               restEndpoints[tag].push(endpoint);
             } else {
               restEndpoints[tag] = [];
@@ -226,6 +222,7 @@ export class SwaggerService {
         }
       });
     }
+    return restEndpoints;
   }
 
   initWsSpec(websocketSpecUrl): Promise<any> {
