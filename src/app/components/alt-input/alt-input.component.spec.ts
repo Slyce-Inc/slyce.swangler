@@ -43,7 +43,7 @@ describe('AltInputComponent', () => {
     fixture.detectChanges();
     const queryResult = fixture.debugElement.queryAll(By.css('.alt')).length;
     expect(queryResult === 1).toBeTruthy();
-    const queryResult = fixture.debugElement.query(By.css('app-alt-file-upload'));
-    expect(queryResult != null).toBeTruthy();
+    const queryResult2 = fixture.debugElement.query(By.css('app-alt-file-upload'));
+    expect(queryResult2 != null).toBeTruthy();
   });
 });

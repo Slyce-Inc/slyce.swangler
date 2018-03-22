@@ -31,7 +31,7 @@ describe('JsonFormatDirective', () => {
 
   it('should init directive', () => {
     const el = new ElementRef(document.createElement('div'));
-    const directive = new JsonFormatDirective(el, fakeRenderer as any);
+    const directive = new JsonFormatDirective(el as ElementRef, fakeRenderer as any);
     directive.ngOnChanges( { json: { currentValue: 'test' }} as any );
     expect(directive).toBeTruthy();
   });

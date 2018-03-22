@@ -9,11 +9,20 @@ import 'rxjs/add/observable/of';
 import { SwaggerService } from '../../services/swagger.service';
 import { ApiData } from '../../models/apidata.model';
 import { By } from '@angular/platform-browser';
-import { RequestInitiator } from '../../models/endpoint/endpoint.model';
-import { HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { NotificationsService } from 'angular2-notifications';
 import {APPENDPOINT, REQUEST_INITIATOR} from '../../models/MOCK_DATA';
 import { TabsModule } from 'ngx-bootstrap';
+import {WsSpecModel} from '../../models/ws-spec.model';
+import {ConfigService} from '../../services/config-service/config.service';
+
+const ConfigServiceStub: Partial<ConfigService> = {
+  initConfigService: () => {
+    return new Promise((resolve, reject) => {
+      resolve(WsSpecModel);
+    });
+  }
+};
 
 const modalMock = {
   show: () => {
@@ -145,6 +154,7 @@ describe('EndpointsViewComponent', () => {
         { provide: ActivatedRoute, useValue: ActivatedRouteStub },
         { provide: LocalStorageService, useValue: LocalStorageServiceStub },
         { provide: SwaggerService, useValue: SwaggerServiceStub },
+        { provide: ConfigService, useValue: ConfigServiceStub }
       ]
     })
     .compileComponents();
