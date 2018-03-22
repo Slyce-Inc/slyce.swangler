@@ -1,5 +1,5 @@
 import { JsonFormatDirective } from './json-format.directive';
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -30,12 +30,13 @@ describe('JsonFormatDirective', () => {
   });
 
   fit('should init directive', () => {
-    const directive = new JsonFormatDirective('test' as any, fakeRenderer as any);
+    const el = new ElementRef(document.createElement('div'));
+    const directive = new JsonFormatDirective(el as ElementRef, fakeRenderer as any);
     directive.ngOnChanges( { json: { currentValue: 'test' }} as any );
     expect(directive).toBeTruthy();
   });
 
-  it('should create string', () => {
+  fit('should create string', () => {
     fixture.detectChanges();
     const formatter = fixture.debugElement.nativeElement.querySelector('.json-formatter-row');
     expect(formatter).toBeTruthy();
