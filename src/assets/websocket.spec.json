@@ -125,8 +125,7 @@
         "application/json"
       ],
       "tags": [
-        "test",
-        "Accounts"
+        "test"
       ],
       "requestMessages": [
         {
