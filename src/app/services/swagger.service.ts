@@ -13,6 +13,7 @@ import { WS_SPEC_MOCK } from '../models/MOCK_DATA';
 
 @Injectable()
 export class SwaggerService {
+  public static NO_TAG_LABEL = 'NO_TAG';
   apiDataSubject: BehaviorSubject<any>;
   endpointsSubject: BehaviorSubject<any>;
   wsEndpointsSubject: BehaviorSubject<any>;
@@ -143,12 +144,12 @@ export class SwaggerService {
 
               });
             } else {
-              if (!result['NO_TAG']) {
-                result['NO_TAG'] = [];
+              if (!result[SwaggerService.NO_TAG_LABEL]) {
+                result[SwaggerService.NO_TAG_LABEL] = [];
               }
               method.url = pathKey;
               method.method = methodKey;
-              result['NO_TAG'].push(method);
+              result[SwaggerService.NO_TAG_LABEL].push(method);
             }
           }
         }
@@ -211,14 +212,16 @@ export class SwaggerService {
       wsEndpoints.socketEndpoints.forEach(endpoint => {
         if (endpoint && endpoint.tags && endpoint.tags.length > 0) {
           endpoint.tags.forEach(tag => {
-            if (restEndpoints[tag]) {
-
-              restEndpoints[tag].push(endpoint);
-            } else {
+            if (!restEndpoints[tag]) {
               restEndpoints[tag] = [];
-              restEndpoints[tag].push(endpoint);
             }
+            restEndpoints[tag].push(endpoint);
           });
+        } else if (endpoint) {
+          if (!restEndpoints[SwaggerService.NO_TAG_LABEL]) {
+            restEndpoints[SwaggerService.NO_TAG_LABEL] = [];
+          }
+          restEndpoints[SwaggerService.NO_TAG_LABEL].push(endpoint);
         }
       });
     }
