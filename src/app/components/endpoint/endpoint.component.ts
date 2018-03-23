@@ -89,7 +89,7 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-  inputChanged(event) {
+  saveToLocalStorage(event) {
     const name = event.srcElement.getAttribute('ng-reflect-name');
     if (this.sharedVarsService.sharedVars[name]) {
       this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
