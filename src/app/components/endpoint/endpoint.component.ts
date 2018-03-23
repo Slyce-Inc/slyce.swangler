@@ -37,7 +37,8 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(
     public endpointsSharedService: EndpointsSharedService,
     public notify: NotificationsService,
-    public shredVarsService: ShredVarsService
+    public shredVarsService: ShredVarsService,
+    public localStorageService: LocalStorageService
   ) {
   }
 
@@ -77,6 +78,7 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
 
         if (this.shredVarsService.sharedVars[params[p].name]) {
           ((elem) => {
+            this.parameterFields[elem].value = this.shredVarsService.sharedVars[elem].value;
             this.shredVarsService.sharedVars[elem]
               .subscribe(value => {
                   this.parameterFields[elem].value = value;
@@ -91,6 +93,7 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
     const name = event.srcElement.getAttribute('ng-reflect-name');
     if (this.shredVarsService.sharedVars[name]) {
       this.shredVarsService.sharedVars[name].next(event.srcElement.value);
+      this.localStorageService.setStorageVar(name, event.srcElement.value);
     }
   }
 

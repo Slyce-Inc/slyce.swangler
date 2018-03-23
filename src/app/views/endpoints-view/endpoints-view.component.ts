@@ -8,6 +8,7 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import * as hl from '../../../../node_modules/highlight.js/';
 import { NotificationsService } from 'angular2-notifications';
 import {ConfigService} from '../../services/config-service/config.service';
+import { ShredVarsService } from '../../services/shred-vars.service';
 
 @Component({
   selector: 'app-endpoints-view',
@@ -30,12 +31,18 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     public swaggerService: SwaggerService,
     private localDataService: LocalStorageService,
     public notify: NotificationsService,
-    public configService: ConfigService
+    public configService: ConfigService,
+    public shredVarsService: ShredVarsService
   ) {}
 
   ngOnInit() {
     this.configService.initConfigService().then( config => {
-      this.swaggerService.initSwagger(config.spec, config.websocket_spec);
+      this.swaggerService.initSwagger(config.spec, config.websocket_spec)
+        .then((endpoints) => {
+          if (endpoints) {
+            this.shredVarsService.initSharedVars(endpoints);
+          }
+        });
     }, error => {
       this.notify.error(error);
     });

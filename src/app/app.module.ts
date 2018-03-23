@@ -72,13 +72,14 @@ import { ShredVarsService } from './services/shred-vars.service';
     TabsModule.forRoot()
   ],
   providers: [
+    ShredVarsService,
     ConfigService,
     SwaggerService,
     LocalStorageService,
     EndpointsSharedService,
     ImageBytesService,
     SocketService,
-    ShredVarsService],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

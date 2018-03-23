@@ -46,7 +46,7 @@ export class SwaggerService {
   constructor(
     private http: HttpClient,
     public notify: NotificationsService,
-    public sharedVarsService: ShredVarsService
+    // public sharedVarsService: ShredVarsService
   ) {
     this.apiDataSubject = new BehaviorSubject(null);
     this.endpointsSubject = new BehaviorSubject(null);
@@ -194,11 +194,13 @@ export class SwaggerService {
         this.setApiData(apiData);
 
         if (websocketSpecUrl) {
-          this.initWsSpec(websocketSpecUrl).then( res => {
+          return this.initWsSpec(websocketSpecUrl).then( res => {
             const sortedRestEndpoints = this.sortApiEndpointsByTags(apiData.spec.paths);
             const sortedCombinedEndpoints = this.appendWsEndpointToTags(sortedRestEndpoints, res);
-            this.sharedVarsService.initSharedVars(this.endpoints);
+            // this.sharedVarsService.initSharedVars(this.endpoints);
             this.setSortedEndpoints(sortedCombinedEndpoints);
+
+            return this.endpoints;
           }, error => {
             this.notify.error('Error', 'Swangler socket spec JSON was not loaded');
             this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
