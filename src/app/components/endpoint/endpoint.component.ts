@@ -70,20 +70,28 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
   /* Init the default parameters to the parameter fields */
   private initParameterFields() {
     const params = this.endpointData.parameters;
-    for ( const p in params) {
+    for (const p in params) {
       if (params[p].hasOwnProperty('name')) {
         params[p].value = params[p].default;
         this.parameterFields[params[p].name] = params[p];
 
-        if (this.shredVarsService.sharedVars[params[p].name] || this.shredVarsService.sharedVars[params[p].name] === null) {
-          this.parameterFields[params[p].name].value = this.shredVarsService.sharedVars[params[p].name];
-
-          console.log(this.parameterFields[params[p].name]);
-
+        if (this.shredVarsService.sharedVars[params[p].name]) {
+          ((elem) => {
+            this.shredVarsService.sharedVars[elem]
+              .subscribe(value => {
+                  this.parameterFields[elem].value = value;
+                });
+          })(params[p].name);
         }
       }
     }
+  }
 
+  inputChanged(event) {
+    const name = event.srcElement.getAttribute('ng-reflect-name');
+    if (this.shredVarsService.sharedVars[name]) {
+      this.shredVarsService.sharedVars[name].next(event.srcElement.value);
+    }
   }
 
   private scrollToElem(id?: string) {
