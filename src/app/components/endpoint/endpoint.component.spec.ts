@@ -8,6 +8,32 @@ import {EndpointsSharedService} from '../../services/endpoints-shared.service';
 import {NotificationsService} from 'angular2-notifications';
 import {By} from '@angular/platform-browser';
 import {APPENDPOINT} from '../../models/MOCK_DATA';
+import { SharedVarsService } from '../../services/shared-vars.service';
+import { Observable } from 'rxjs/Observable';
+import { SecurityDefinition } from '../../models/auth/security-definition';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { Subject } from 'rxjs/Subject';
+
+
+
+const sharedVarsServiceStub = {
+  sharedVars: {}
+};
+
+const securityDefinition = SecurityDefinition.MOCK_DATA;
+
+const storage = {};
+const LocalStorageServiceStub = {
+  getStorageVar: (varName) => {
+    return storage ? storage[varName] : null;
+  },
+  securityDefinitions: (() => {
+    return Observable.of(securityDefinition);
+  })(),
+  setStorageVar: (varName, varVal) => {
+    storage[varName] = varVal;
+  }
+};
 
 describe('EndpointComponent', () => {
 
@@ -29,9 +55,11 @@ describe('EndpointComponent', () => {
         ExampleSideBarComponent
       ],
       imports: [
-        FormsModule
+        FormsModule,
       ],
       providers: [
+        { provide: SharedVarsService, useValue: sharedVarsServiceStub },
+        { provide: LocalStorageService, useValue: LocalStorageServiceStub },
         EndpointsSharedService,
         NotificationsService
       ]

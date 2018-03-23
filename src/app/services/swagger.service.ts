@@ -10,7 +10,7 @@ import {RequestInitiator} from '../models/endpoint/endpoint.model';
 import {EndpointAccesses} from '../models/endpointAccess/endpoint-access.model';
 
 import { WS_SPEC_MOCK } from '../models/MOCK_DATA';
-import { ShredVarsService } from './shred-vars.service';
+import { SharedVarsService } from './shared-vars.service';
 
 @Injectable()
 export class SwaggerService {
@@ -46,7 +46,7 @@ export class SwaggerService {
   constructor(
     private http: HttpClient,
     public notify: NotificationsService,
-    // public sharedVarsService: ShredVarsService
+    // public sharedVarsService: SharedVarsService
   ) {
     this.apiDataSubject = new BehaviorSubject(null);
     this.endpointsSubject = new BehaviorSubject(null);

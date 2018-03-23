@@ -4,12 +4,11 @@ import { LocalStorageService } from './local-storage.service';
 import { SwaggerService } from './swagger.service';
 
 @Injectable()
-export class ShredVarsService implements OnInit {
+export class SharedVarsService implements OnInit {
   sharedVars;
 
   constructor(
     public localStorageService: LocalStorageService,
-    // public swaggerService: SwaggerService
   ) {
   }
 

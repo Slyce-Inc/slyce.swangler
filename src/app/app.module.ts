@@ -34,7 +34,7 @@ import { GetIndexPipe } from './pipes/get-index.pipe';
 import {AltInputModule} from './components/alt-input/altInput.module';
 import { JsonFormatDirective } from './directives/json-format.directive';
 import {ConfigService} from './services/config-service/config.service';
-import { ShredVarsService } from './services/shred-vars.service';
+import { SharedVarsService } from './services/shared-vars.service';
 
 @NgModule({
   declarations: [
@@ -72,7 +72,7 @@ import { ShredVarsService } from './services/shred-vars.service';
     TabsModule.forRoot()
   ],
   providers: [
-    ShredVarsService,
+    SharedVarsService,
     ConfigService,
     SwaggerService,
     LocalStorageService,

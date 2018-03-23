@@ -6,7 +6,7 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import {SwaggerService} from '../../services/swagger.service';
 import { EndpointsSharedService } from '../../services/endpoints-shared.service';
 import { NotificationsService } from 'angular2-notifications';
-import { ShredVarsService } from '../../services/shred-vars.service';
+import { SharedVarsService } from '../../services/shared-vars.service';
 
 
 @Component({
@@ -37,7 +37,7 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(
     public endpointsSharedService: EndpointsSharedService,
     public notify: NotificationsService,
-    public shredVarsService: ShredVarsService,
+    public sharedVarsService: SharedVarsService,
     public localStorageService: LocalStorageService
   ) {
   }
@@ -76,10 +76,10 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
         params[p].value = params[p].default;
         this.parameterFields[params[p].name] = params[p];
 
-        if (this.shredVarsService.sharedVars[params[p].name]) {
+        if (this.sharedVarsService.sharedVars[params[p].name]) {
           ((elem) => {
-            this.parameterFields[elem].value = this.shredVarsService.sharedVars[elem].value;
-            this.shredVarsService.sharedVars[elem]
+            this.parameterFields[elem].value = this.sharedVarsService.sharedVars[elem].value;
+            this.sharedVarsService.sharedVars[elem]
               .subscribe(value => {
                   this.parameterFields[elem].value = value;
                 });
@@ -91,8 +91,8 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
 
   inputChanged(event) {
     const name = event.srcElement.getAttribute('ng-reflect-name');
-    if (this.shredVarsService.sharedVars[name]) {
-      this.shredVarsService.sharedVars[name].next(event.srcElement.value);
+    if (this.sharedVarsService.sharedVars[name]) {
+      this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
       this.localStorageService.setStorageVar(name, event.srcElement.value);
     }
   }
