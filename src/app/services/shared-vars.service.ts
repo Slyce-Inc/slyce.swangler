@@ -20,12 +20,14 @@ export class SharedVarsService implements OnInit {
     vars.forEach(element => {
       if ( element.parameters && element.parameters.length ) {
         element.parameters.forEach(param => {
-          if (!param.default && param.in !== 'body') {
+          if (!param.default && param.in !== 'body' && !res[param.name]) {
             res[param.name] = new Subject();
             const localStorageVal = this.localStorageService.getStorageVar(param.name);
             if ( localStorageVal ) {
               res[param.name].next(localStorageVal);
-              res[param.name].value = localStorageVal;
+              if (!res[param.name].value) {
+                res[param.name].value = localStorageVal;
+              }
             }
           }
         });
