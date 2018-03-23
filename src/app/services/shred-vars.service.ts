@@ -33,7 +33,5 @@ export class ShredVarsService implements OnInit {
       }
     });
     this.sharedVars = res;
-    console.log(this.sharedVars);
-
   }
 }

@@ -40,8 +40,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
       this.swaggerService.initSwagger(config.spec, config.websocket_spec)
         .then((endpoints) => {
           if (endpoints) {
-            console.log(endpoints);
-
             this.shredVarsService.initSharedVars(endpoints);
           }
         });
