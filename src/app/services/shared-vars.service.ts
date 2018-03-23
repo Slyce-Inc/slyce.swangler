@@ -15,11 +15,11 @@ export class SharedVarsService implements OnInit {
   ngOnInit() {
   }
 
-  initSharedVars(vars) {
+  initSharedVars(endpoints) {
     const res = {};
-    vars.forEach(element => {
-      if ( element.parameters && element.parameters.length ) {
-        element.parameters.forEach(param => {
+    endpoints.forEach(endpoint => {
+      if ( endpoint.parameters && endpoint.parameters.length ) {
+        endpoint.parameters.forEach(param => {
           if (!param.default && param.in !== 'body' && !res[param.name]) {
             res[param.name] = new Subject();
             const localStorageVal = this.localStorageService.getStorageVar(param.name);
