@@ -8,7 +8,7 @@
           </h4>
 
 
-          <div class="d-lg-flex align-items-center">
+          <div class="d-lg-flex break-all align-items-center">
             <div class="mr-auto">
               <h5>
                 <span *ngIf="this.endpointData.method" id='methodBadge' class="http_method badge badge-primary">{{this.endpointData.method}}</span>
@@ -36,16 +36,16 @@
             </span>
           </h6>
 
-          <div data-content="" class="operation-params card card-body pb-1 bg-light mb-3">
+          <div data-content="" class="operation-params card card-body bg-light mb-3">
 
-            <div class="parameter-item">
+            <div class="parameter-item container">
               <form #endpointForm="ngForm">
                 <div id="parameters" class="form-group row">
-                  <div id="{{parm.name}}" style="padding:10px;width:100%;" *ngFor="let parm of this.endpointData?.parameters">
+                  <div id="{{parm.name}}" class="param" *ngFor="let parm of this.endpointData?.parameters">
                     <div class="row">
-                      <div class="col-lg-3 col-xl-2">
+                      <div class="col-lg-4 col-xl-3">
                         <label class="param-property text-nowrap col-form-label">
-                          <span>{{parm.name}}:</span>
+                          <span [title]="parm.name" class="text-shorten">{{parm.name}}:</span>
                           <br>
                           <small class="text-muted">
                             <em>{{parm?.in}}</em>
@@ -53,7 +53,7 @@
                         </label>
                       </div>
 
-                      <div class="col-lg-9 col-xl-10">
+                      <div class="col-lg-8 col-xl-9">
                         <div *ngIf="parm['in'].toLowerCase() == 'body'">
                           <textarea placeholder="{{parm.required == true ? '(required)' : ''}}" [required]='parm.required' [(ngModel)]='this.parameterFields[parm.name].value'
                             class="form-control" id="exampleTextarea" rows="3" [name]='parm.name'></textarea>

@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {LocalStorageService} from './services/local-storage.service';
 import {AppEndPoint} from './models/endpoint/endpoint.model';
 import {SwaggerService} from './services/swagger.service';
-import {NotificationsService} from 'angular2-notifications';
+import {APPENDPOINT} from './models/MOCK_DATA';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +14,9 @@ export class AppComponent implements OnInit {
   sortedApiData: Observable<any> = this.swaggerService.getEndpointsSortedByTags();
   apiData;
 
-  public appEndPoint: AppEndPoint = AppEndPoint.MOCK_DATA;
+  public appEndPoint: AppEndPoint = APPENDPOINT;
   public options = {
-    timeOut: 3000,
+    timeOut: 5000,
     showProgressBar: false,
     pauseOnHover: false,
     clickToClose: false,

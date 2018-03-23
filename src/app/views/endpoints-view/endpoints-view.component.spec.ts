@@ -2,19 +2,27 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 
 import { EndpointsViewComponent } from './endpoints-view.component';
 import { Component, Input, Output, EventEmitter, Directive } from '@angular/core';
-import { MockDirectiveResolver } from '@angular/compiler/testing';
 import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { SwaggerService } from '../../services/swagger.service';
-import { SecurityDefinition } from '../../models/auth/security-definition';
 import { ApiData } from '../../models/apidata.model';
-import { ModalDirective } from 'ngx-bootstrap';
 import { By } from '@angular/platform-browser';
-import { AppEndPoint, RequestInitiator } from '../../models/endpoint/endpoint.model';
-import { HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { NotificationsService } from 'angular2-notifications';
+import {APPENDPOINT, REQUEST_INITIATOR} from '../../models/MOCK_DATA';
+import { TabsModule } from 'ngx-bootstrap';
+import {WsSpecModel} from '../../models/ws-spec.model';
+import {ConfigService} from '../../services/config-service/config.service';
+
+const ConfigServiceStub: Partial<ConfigService> = {
+  initConfigService: () => {
+    return new Promise((resolve, reject) => {
+      resolve(WsSpecModel);
+    });
+  }
+};
 
 const modalMock = {
   show: () => {
@@ -37,14 +45,14 @@ const LocalStorageServiceStub: Partial<LocalStorageService> = {
 
 const groupedEndpointsMock = [];
 groupedEndpointsMock['test'] = [];
-groupedEndpointsMock['test'].push(AppEndPoint.MOCK_DATA);
+groupedEndpointsMock['test'].push(APPENDPOINT);
 
 const SwaggerServiceStub: Partial<SwaggerService> = {
   getEndpointsSortedByTags: () => {
     return Observable.of(groupedEndpointsMock);
   },
   getApiData: () => {
-    return Observable.of(ApiData.MOCK_DATA);
+    return Observable.of(JSON.parse(JSON.stringify(ApiData.MOCK_DATA)));
   },
   testEndpoint: () => {
     return Observable.of(null);
@@ -64,11 +72,28 @@ const ActivatedRouteStub: Partial<ActivatedRoute> = {
 };
 
 @Directive({
+  selector: '[appJsonFormat]',
+})
+class MockJsonFormatDirective {
+  @Input() json;
+}
+
+@Directive({
   // tslint:disable-next-line
   selector: '[bsModal]',
   exportAs: 'bs-modal'
 })
 class MockBsModalDirective {}
+
+@Component({
+  template: '',
+  selector: 'app-socket-endpoint'
+})
+class MockSocketEndpointComponent {
+  @Input() endpointData;
+  @Input() scrollToId;
+  @Output() clickedTestEndPoint: EventEmitter<any> = new EventEmitter();
+}
 
 @Component({
   template: '',
@@ -117,13 +142,19 @@ describe('EndpointsViewComponent', () => {
         MockSidebarNavComponent,
         MockContactComponent,
         MockEndpointComponent,
-        MockBsModalDirective
+        MockBsModalDirective,
+        MockJsonFormatDirective,
+        MockSocketEndpointComponent
+      ],
+      imports: [
+        TabsModule.forRoot(),
       ],
       providers: [
         NotificationsService,
         { provide: ActivatedRoute, useValue: ActivatedRouteStub },
         { provide: LocalStorageService, useValue: LocalStorageServiceStub },
         { provide: SwaggerService, useValue: SwaggerServiceStub },
+        { provide: ConfigService, useValue: ConfigServiceStub }
       ]
     })
     .compileComponents();
@@ -199,14 +230,14 @@ describe('EndpointsViewComponent', () => {
     it('should call swaggerService.testEndpoint', () => {
       spyOn(component.swaggerService, 'testEndpoint').and.returnValue(Observable.of(true));
       spyOn(component, 'setRes').and.returnValue(true);
-      component.clickTest(RequestInitiator.MOCK_DATA, modalMock);
+      component.clickTest(REQUEST_INITIATOR, modalMock);
       expect(component.swaggerService.testEndpoint).toHaveBeenCalled();
     });
 
     it('should call swaggerService.testEndpoint and return error', () => {
       spyOn(component.swaggerService, 'testEndpoint').and.returnValue(Observable.create(e => e.error({error: 'failed'})));
       spyOn(component, 'setRes').and.returnValue(true);
-      component.clickTest(RequestInitiator.MOCK_DATA, modalMock);
+      component.clickTest(REQUEST_INITIATOR, modalMock);
       expect(component.swaggerService.testEndpoint).toHaveBeenCalled();
       expect(component.result['responseBody']).toEqual('<span class="hljs-string">"failed"</span>');
     });
@@ -214,15 +245,15 @@ describe('EndpointsViewComponent', () => {
     it('should call setRes with given params', () => {
       spyOn(component.swaggerService, 'testEndpoint').and.returnValue(Observable.of(true));
       spyOn(component, 'setRes').and.returnValue(true);
-      component.clickTest(RequestInitiator.MOCK_DATA, modalMock);
-      expect(component.setRes).toHaveBeenCalledWith(true, RequestInitiator.MOCK_DATA);
+      component.clickTest(REQUEST_INITIATOR, modalMock);
+      expect(component.setRes).toHaveBeenCalledWith(true, REQUEST_INITIATOR);
     });
   });
 
 
   describe('method setRes()', () => {
     it('should populate result object with default values', () => {
-      component.setRes({}, RequestInitiator.MOCK_DATA);
+      component.setRes({}, REQUEST_INITIATOR);
 
       expect(component.result['url']).toEqual('No URL Present');
       expect(component.result['responseCode']).toEqual('No code Present');
@@ -231,7 +262,7 @@ describe('EndpointsViewComponent', () => {
     });
 
     it('should create response headers string from object', () => {
-      component.setRes({headers: {test: 'test'}}, RequestInitiator.MOCK_DATA);
+      component.setRes({headers: {test: 'test'}}, REQUEST_INITIATOR);
 
       expect(component.result['responseHeader'].replace(/(\r\n\t|\n|\r\t|\s\s\s\s)/gm, ''))
         .toEqual('{<span class="hljs-attr">"test"</span>: <span class="hljs-string">"test"</span>}');
@@ -240,31 +271,65 @@ describe('EndpointsViewComponent', () => {
     it('should create response headers', () => {
       let headers = new HttpHeaders();
       headers = headers.set('content-type', 'application/json');
-      component.setRes({ headers: headers }, RequestInitiator.MOCK_DATA);
+      component.setRes({ headers: headers }, REQUEST_INITIATOR);
 
       expect(component.result['responseHeader'].replace(/(\r\n\t|\n|\r\t|\s\s\s\s)/gm, ''))
         .toEqual('[<span class="hljs-string">"content-type: application/json"</span>]');
     });
   });
 
+  describe('method showSocketMessages()', () => {
+    it('should set results.websocket to true', () => {
+      spyOn(component, 'setSocketRes');
+      component.showSocketMessages('test', modalMock);
+      expect(component.result['websocket']).toBeTruthy();
+    });
+
+    it('should call setSocketRes', () => {
+      spyOn(component, 'setSocketRes');
+      component.showSocketMessages('test', modalMock);
+      expect(component.setSocketRes).toHaveBeenCalled();
+    });
+
+    it('should open modal', () => {
+      spyOn(component, 'setSocketRes');
+      spyOn(modalMock, 'show');
+      component.showSocketMessages('test', modalMock);
+      expect(modalMock.show).toHaveBeenCalled();
+    });
+  });
+
+  // describe('method setSocketRes()', () => {
+  //   it('should apply highlight js', () => {
+  //     component.setSocketRes({
+  //       messages: [
+  //         {
+  //           'response': 'test'
+  //         }
+  //       ],
+  //       url: 'test',
+  //     });
+  //     expect(component.result['messages'][0].response).toEqual('<span class="hljs-string">"test"</span>');
+  //   });
+  // });
 
   describe('modal window', () => {
     it('should show default values', () => {
-      component.setRes({}, RequestInitiator.MOCK_DATA);
+      component.setRes({}, REQUEST_INITIATOR);
       fixture.detectChanges();
 
       const responselUrl = fixture.debugElement.query(By.css('[bsModal] .request_url > div')).nativeElement;
       expect(responselUrl.innerText).toEqual('No URL Present');
 
       const responseBody = fixture.debugElement.query(By.css('[bsModal] .response_body code')).nativeElement;
-      expect(responseBody.innerText).toEqual('{}');
+      expect(responseBody.innerText).toEqual('');
 
       const responseHeaders = fixture.debugElement.query(By.css('[bsModal] .response_headers code')).nativeElement;
       expect(responseHeaders.innerText).toEqual('No Headers Present');
     });
 
     it('should show change values', () => {
-      component.setRes({}, RequestInitiator.MOCK_DATA);
+      component.setRes({}, REQUEST_INITIATOR);
       fixture.detectChanges();
       const responseHeaders = fixture.debugElement.query(By.css('[bsModal] .response_headers code')).nativeElement;
 
@@ -272,7 +337,7 @@ describe('EndpointsViewComponent', () => {
 
       let headers = new HttpHeaders();
       headers = headers.set('content-type', 'application/json');
-      component.setRes({ headers: headers }, RequestInitiator.MOCK_DATA);
+      component.setRes({ headers: headers }, REQUEST_INITIATOR);
       fixture.detectChanges();
 
       expect(responseHeaders.innerText.replace(/(\r\n\t|\n|\r\t|\s\s\s\s)/gm, ''))

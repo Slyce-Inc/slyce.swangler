@@ -33,8 +33,12 @@
         <div id="resource_Accounts" class="resource">
           <h5 *ngIf="this.wrongTag" class="no-endpoint-data">No data for {{this.endpointTag}}</h5>
           <div *ngIf="!this.wrongTag" class="endpoints" id="Accounts_endpoint_list">
-            <app-endpoint (clickedTestEndPoint)="this.clickTest($event, modal)" *ngFor="let endpoint of endpoints" [endpointData]="endpoint"
-              [scrollToId]='scrollToId'></app-endpoint>
+            <div *ngFor="let endpoint of endpoints">
+              <app-endpoint *ngIf="endpoint.responses" (clickedTestEndPoint)="this.clickTest($event, modal)" [endpointData]="endpoint"
+                [scrollToId]='scrollToId'></app-endpoint>
+              <app-socket-endpoint *ngIf="endpoint.responseMessages" (clickedSeeSocketMessages)="this.showSocketMessages($event, modal)"
+                [endpointData]="endpoint" [scrollToId]='scrollToId'></app-socket-endpoint>
+            </div>
           </div>
         </div>
       </div>
@@ -57,16 +61,21 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="response">
+
+          <div class="response" *ngIf="!this['result'].websocket">
             <small class="text-uppercase">Request URL</small>
             <div class="mt-2 mb-3 request_url">
               <div class="hljs rounded">{{this['result'].url}}</div>
             </div>
 
             <small class="text-uppercase">Response Body</small>
-            <div class="mt-2 mb-3 response_body">
-              <pre class="json"><code [innerHTML]="this['result'].responseBody" class="rounded hljs"></code></pre>
+            <div class="mt-2 mb-3 response_body rounded">
+              <!-- <pre class="json"><code [innerHTML]="this['result'].responseBody" class="rounded hljs"></code></pre> -->
+              <pre class="json">
+                <code class="rounded" appJsonFormat [json]="this['result'].responseBodyJson"></code>
+              </pre>
             </div>
+
 
             <small class="text-uppercase">Response Code</small>
             <div class="mt-2 mb-3 response_code">
@@ -78,8 +87,28 @@
               <pre clas="json"><code class="hljs rounded json" [innerHTML]="this['result'].responseHeader"></code></pre>
             </div>
           </div>
+
+          <div class="response" *ngIf="this['result'].websocket">
+            <small class="text-uppercase">Request URL</small>
+            <div class="mt-2 mb-3 request_url">
+              <div class="hljs rounded">{{this['result'].url}}</div>
+            </div>
+
+
+            <small class="text-uppercase">Messages</small>
+            <tabset>
+              <tab class="response_body" [heading]="message.msg_type" *ngFor="let message of this['result'].messages">
+                <pre class="json">
+                    <!-- <code [innerHTML]="message.response" class="rounded hljs"></code> -->
+                    <code class="rounded" appJsonFormat [json]="message.response"></code>
+                  </pre>
+              </tab>
+            </tabset>
+          </div>
+
         </div>
       </div>
+
     </div>
   </div>
 </main>

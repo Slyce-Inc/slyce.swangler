@@ -7,12 +7,39 @@ import { NotificationsService } from 'angular2-notifications';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {RequestInitiator} from '../models/endpoint/endpoint.model';
+import {EndpointAccesses} from '../models/endpointAccess/endpoint-access.model';
+
+import { WS_SPEC_MOCK } from '../models/MOCK_DATA';
 
 @Injectable()
 export class SwaggerService {
+  public static NO_TAG_LABEL = 'NO_TAG';
   apiDataSubject: BehaviorSubject<any>;
   endpointsSubject: BehaviorSubject<any>;
+  wsEndpointsSubject: BehaviorSubject<any>;
   specHost = '';
+
+  public static applyEndpointAccesses(apiData, endpointAccesses: EndpointAccesses) {
+    if (!endpointAccesses) {
+      return apiData;
+    }
+    const newApiData = JSON.parse(JSON.stringify(apiData));
+    if (newApiData && newApiData.spec && newApiData.spec.paths) {
+      const paths = newApiData.spec.paths;
+      Object.keys(paths).forEach( pathName => {
+        const path = paths[pathName];
+        if (path) {
+          Object.keys(path).forEach( methodName => {
+            if (endpointAccesses[pathName] && endpointAccesses[pathName][methodName] &&
+              (!endpointAccesses[pathName][methodName].isAvailable)) {
+              delete path[methodName];
+            }
+          });
+        }
+      });
+    }
+    return newApiData;
+  }
 
   constructor(
     private http: HttpClient,
@@ -20,50 +47,7 @@ export class SwaggerService {
   ) {
     this.apiDataSubject = new BehaviorSubject(null);
     this.endpointsSubject = new BehaviorSubject(null);
-
-    // for testing purposes
-
-    // this.getApiData().subscribe( a => {
-    //   console.log(this.sortApiEndpointsByTags(a.spec.paths));
-    // });
-
-    // const postRequest = {
-    //   url: 'http://forge.local/accounts/',
-    //   method: 'post',
-    //   headers: {
-    //     'slyce-account-id': 'slyce',
-    //     'Content-Type': 'application/json'ng lin
-    //   },
-    //   body: {
-    //     'id': '3212312',
-    //     'name': '31231.'
-    //   }
-    // };
-
-    // const getRequest = {
-    //   url: 'http://forge.local/accounts/',
-    //   method: 'get',
-    //   headers: {
-    //     'slyce-account-id': 'slyce',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   params: {
-    //     'page_number': 1,
-    //     'page_size': 20
-    //   }
-    // };
-
-    // this.testEndpoint(postRequest)
-    //   .subscribe( a => console.log(a));
-
-    // this.testEndpoint(getRequest)
-    //   .subscribe( a => console.log(a));
-
-    // setTimeout( () => {
-    //   this.setSpecUrl('http://petstore.swagger.io/v2/swagger.json');
-    // }, 3000);
-
-    // end for testing purposes
+    this.wsEndpointsSubject = new BehaviorSubject(null);
   }
 
   testEndpoint(callData: RequestInitiator): Observable<any> {
@@ -160,19 +144,18 @@ export class SwaggerService {
 
               });
             } else {
-              if (!result['NO_TAG']) {
-                result['NO_TAG'] = [];
+              if (!result[SwaggerService.NO_TAG_LABEL]) {
+                result[SwaggerService.NO_TAG_LABEL] = [];
               }
               method.url = pathKey;
               method.method = methodKey;
-              result['NO_TAG'].push(method);
+              result[SwaggerService.NO_TAG_LABEL].push(method);
             }
           }
         }
 
       }
     }
-
     return result;
   }
 
@@ -198,16 +181,69 @@ export class SwaggerService {
     }
   }
 
-  initSwagger(specUrl): Promise<any> {
+  initSwagger(specUrl: string, websocketSpecUrl?: string): Promise<any> {
     return Swagger(specUrl)
       .then( apiData => {
+        apiData = SwaggerService.applyEndpointAccesses(apiData, null);
         this.setHostUrl(apiData);
         this.setApiData(apiData);
-        this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
+
+        if (websocketSpecUrl) {
+          this.initWsSpec(websocketSpecUrl).then( res => {
+            const sortedRestEndpoints = this.sortApiEndpointsByTags(apiData.spec.paths);
+            const sortedCombinedEndpoints = this.appendWsEndpointToTags(sortedRestEndpoints, res);
+            this.setSortedEndpoints(sortedCombinedEndpoints);
+          }, error => {
+            this.notify.error('Error', 'Swangler socket spec JSON was not loaded');
+            this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
+          });
+        } else {
+          this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
+        }
       })
       .catch( err => {
         console.error(err);
         this.notify.error('Error', 'Swagger spec JSON was not loaded');
       });
+  }
+
+  appendWsEndpointToTags(restEndpoints, wsEndpoints) {
+    if (wsEndpoints && wsEndpoints.socketEndpoints) {
+      wsEndpoints.socketEndpoints.forEach(endpoint => {
+        if (endpoint && endpoint.tags && endpoint.tags.length > 0) {
+          endpoint.tags.forEach(tag => {
+            if (!restEndpoints[tag]) {
+              restEndpoints[tag] = [];
+            }
+            restEndpoints[tag].push(endpoint);
+          });
+        } else if (endpoint) {
+          if (!restEndpoints[SwaggerService.NO_TAG_LABEL]) {
+            restEndpoints[SwaggerService.NO_TAG_LABEL] = [];
+          }
+          restEndpoints[SwaggerService.NO_TAG_LABEL].push(endpoint);
+        }
+      });
+    }
+    return restEndpoints;
+  }
+
+  initWsSpec(websocketSpecUrl): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.get(websocketSpecUrl).subscribe( res => {
+        this.setWsEndpoints(res);
+        resolve(res);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  setWsEndpoints(wsEndpointsData) {
+    this.wsEndpointsSubject.next(wsEndpointsData);
+  }
+
+  getWsEndpoints() {
+    return this.wsEndpointsSubject.asObservable();
   }
 }

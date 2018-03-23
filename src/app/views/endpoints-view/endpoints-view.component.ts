@@ -7,7 +7,7 @@ import {RequestInitiator} from '../../models/endpoint/endpoint.model';
 import {LocalStorageService} from '../../services/local-storage.service';
 import * as hl from '../../../../node_modules/highlight.js/';
 import { NotificationsService } from 'angular2-notifications';
-
+import {ConfigService} from '../../services/config-service/config.service';
 
 @Component({
   selector: 'app-endpoints-view',
@@ -35,12 +35,16 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public swaggerService: SwaggerService,
     private localDataService: LocalStorageService,
-    public notify: NotificationsService
+    public notify: NotificationsService,
+    public configService: ConfigService
   ) {}
 
   ngOnInit() {
-    this.swaggerService.initSwagger('http://forge.local/openapi/spec.json');
-
+    this.configService.initConfigService().then( config => {
+      this.swaggerService.initSwagger(config.spec, config.websocket_spec);
+    }, error => {
+      this.notify.error(error);
+    });
     this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
       if (queryParams.enpt) {
         this.scrollToId = queryParams.enpt;
@@ -56,7 +60,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     });
   }
 
-
   updateEndpoints() {
     this.swaggerService.getEndpointsSortedByTags().subscribe(data => {
       if (data) {
@@ -71,6 +74,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
         } else {
           this.endpoints = data[Object.keys(data)[0]];
         }
+
       }
     });
   }
@@ -81,15 +85,33 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   }
 
   clickTest(request, modal) {
+    this.result['websocket'] = false;
+
     const requestInitiator: RequestInitiator = new RequestInitiator(request, this.localDataService);
     this.swaggerService.testEndpoint(requestInitiator).subscribe( res => {
       this.setRes(res, request);
+
       modal.show();
     }, error => {
       this.setRes(error, request);
       this.result['responseBody'] = this.highlightJSInJson(error.error);
+      this.result['responseBodyJson'] = error.error;
       modal.show();
     });
+  }
+
+  showSocketMessages(socketData, modal) {
+    this.setSocketRes(JSON.parse(JSON.stringify(socketData)));
+    this.result['websocket'] = true;
+    modal.show();
+  }
+
+  setSocketRes(res) {
+    for (let i = 0; i < res.messages.length; i++) {
+      const message = res.messages[i];
+      message.response = message.response;
+    }
+    this.result = res;
   }
 
   setRes(res, request) {
@@ -97,6 +119,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     this.result['method'] = request.endPointData.method;
     this.result['url'] = res.url ? decodeURIComponent(res.url) : 'No URL Present';
     this.result['responseBody'] = res.body ? this.highlightJSInJson(res.body) : this.highlightJSInJson(res);
+    this.result['responseBodyJson'] = res.body ? res.body : res;
     this.result['responseCode'] = res.status || 'No code Present';
     if (res.headers && res.headers.keys) {
       const keys = res.headers.keys();
@@ -107,7 +130,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   }
   highlightJSInJson(obj): string {
     if (obj) {
-      return(hl.highlight('json', JSON.stringify(obj, null, 4)).value);
+      return (hl.highlight('json', JSON.stringify(obj, null, 4)).value);
     }
   }
 }

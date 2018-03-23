@@ -1,9 +1,10 @@
 import {ComponentFixture, TestBed } from '@angular/core/testing';
 import { ParamConsoleComponent } from './param-console.component';
-import {RequestSchema, ResponseSchema} from '../../models/endpoint/endpoint.model';
+import {Schema} from '../../models/endpoint/endpoint.model';
 import {By} from '@angular/platform-browser';
+import {REQUEST_SCHEMA, RESPONSE_SCHEMA} from '../../models/MOCK_DATA';
 function test(schema, typeMsg: string) {
-  const requestSchema: ResponseSchema | RequestSchema = schema;
+  const requestSchema: Schema = schema;
   describe('ParamConsoleComponent with Input ' + typeMsg, () => {
     let component: ParamConsoleComponent;
     let fixture: ComponentFixture<ParamConsoleComponent>;
@@ -100,7 +101,7 @@ function test(schema, typeMsg: string) {
   });
 }
 describe('ParamConsoleComponent', () => {
-  test(RequestSchema.MOCK_DATA, 'RequestSchema');
-  test(ResponseSchema.MOCK_DATA, 'ResponseSchema');
+  test(REQUEST_SCHEMA, 'RequestSchema');
+  test(RESPONSE_SCHEMA, 'ResponseSchema');
 });
 

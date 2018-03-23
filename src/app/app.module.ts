@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { SwaggerService } from './services/swagger.service';
 
@@ -8,14 +8,11 @@ import { AuthComponent } from './components/auth-component/auth-component.contro
 import { LocalStorageService } from './services/local-storage.service';
 import { FormsModule } from '@angular/forms';
 
-import {BsDatepickerModule, ModalModule} from 'ngx-bootstrap';
+import {BsDatepickerModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
-
-
 
 import {SampleViewComponent} from './views/sample/sample.controller';
 import {AppRoutingModule} from './app-routing.module';
-
 import { CollapsableNavComponent } from './components/collapsable-nav/collapsable-nav.component';
 
 import { ContactComponent } from './components/contact/contact.component';
@@ -29,6 +26,14 @@ import {EndpointsViewComponent} from './views/endpoints-view/endpoints-view.comp
 import { EndpointsSharedService } from './services/endpoints-shared.service';
 import {SimpleNotificationsModule} from 'angular2-notifications';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ImageBytesService } from './services/image-bytes.service';
+import { SocketEndpointComponent } from './components/socket-endpoint/socket-endpoint.component';
+import { SocketService } from './services/socket/socket.service';
+import {CommonModule} from '@angular/common';
+import { GetIndexPipe } from './pipes/get-index.pipe';
+import {AltInputModule} from './components/alt-input/altInput.module';
+import { JsonFormatDirective } from './directives/json-format.directive';
+import {ConfigService} from './services/config-service/config.service';
 
 @NgModule({
   declarations: [
@@ -45,20 +50,27 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ExampleSideBarComponent,
     MainViewComponent,
     EndpointComponent,
-    EndpointsViewComponent
+    EndpointsViewComponent,
+    SocketEndpointComponent,
+    GetIndexPipe,
+    JsonFormatDirective
   ],
   imports: [
+    AltInputModule,
     BrowserModule,
     BsDatepickerModule.forRoot(),
     CollapseModule.forRoot(),
+    TabsModule.forRoot(),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
     ModalModule.forRoot(),
     SimpleNotificationsModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CommonModule,
+    TabsModule.forRoot()
   ],
-  providers: [SwaggerService, LocalStorageService, EndpointsSharedService],
+  providers: [ConfigService, SwaggerService, LocalStorageService, EndpointsSharedService, ImageBytesService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

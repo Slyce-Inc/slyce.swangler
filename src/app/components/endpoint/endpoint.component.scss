@@ -1,3 +1,14 @@
+.param{
+  width: 100%;
+  & > .row {
+    padding: 10px 0;
+  }
+}
+
+.param-property{
+  width: 100%;
+}
+
 #testEndpointBut799{
   padding-left:2em;
   padding-right:2em;

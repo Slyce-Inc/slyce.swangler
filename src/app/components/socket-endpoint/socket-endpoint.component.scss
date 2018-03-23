@@ -1,0 +1,42 @@
+.param{
+  width: 100%;
+  & > .row {
+    padding: 10px 0;
+  }
+}
+
+.param-property{
+  width: 100%;
+}
+
+#testEndpointBut799{
+  padding-left:2em;
+  padding-right:2em;
+}
+
+.toggle-examples{
+  float: right;
+  cursor: pointer;
+  color: #868e96;
+  &:hover{
+    color: darken($color: #868e96, $amount: 10%)
+  }
+}
+
+.samples, .content{
+  transition: unset !important;
+}
+
+.tab-container {
+  width: 100%;
+  padding: 10px 0;
+}
+
+.tab-pane{
+  padding-top: 5px;
+}
+
+.alt-input{
+  padding-top: 10px;
+  padding-right: 10px;
+}
