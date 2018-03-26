@@ -245,4 +245,29 @@ describe('EndpointComponent', () => {
     fixture.detectChanges();
     expect(component.selectedResponse).toEqual(null);
   });
+
+  it('should call saveToLocalStorage once input changed', () => {
+    spyOn(component, 'saveToLocalStorage').and.callThrough();
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    component.parameterFields['account_id'].value = 'test';
+    fixture.detectChanges();
+
+    const input = fixture.debugElement.query(By.css('input.parameter'));
+    input.nativeElement.dispatchEvent(new Event('change'));
+    input.triggerEventHandler('click', null);
+
+    expect(component.saveToLocalStorage).toHaveBeenCalled();
+  });
+
+  it('should change value in input once value in sharedVarsService is changed', () => {
+    component.sharedVarsService.sharedVars['account_id'] = new Subject();
+    component.ngOnInit();
+
+    component.parameterFields['account_id'].value = 'test1';
+    component.sharedVarsService.sharedVars['account_id'].next('test2');
+
+    expect(component.parameterFields['account_id'].value).toEqual('test2');
+  });
 });
