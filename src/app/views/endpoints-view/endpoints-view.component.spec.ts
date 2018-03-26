@@ -19,7 +19,7 @@ import {ConfigService} from '../../services/config-service/config.service';
 const ConfigServiceStub: Partial<ConfigService> = {
   initConfigService: () => {
     return new Promise((resolve, reject) => {
-      resolve(WsSpecModel);
+      resolve({});
     });
   }
 };
