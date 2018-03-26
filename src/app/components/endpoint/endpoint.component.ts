@@ -78,7 +78,6 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
 
         if (this.sharedVarsService.sharedVars[params[p].name]) {
           ((elem) => {
-            this.parameterFields[elem].value = this.sharedVarsService.sharedVars[elem].value;
             this.sharedVarsService.sharedVars[elem]
               .subscribe(value => {
                   this.parameterFields[elem].value = value;
