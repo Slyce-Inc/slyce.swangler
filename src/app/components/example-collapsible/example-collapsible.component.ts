@@ -76,7 +76,7 @@ export class ExampleCollapsibleComponent implements OnInit {
           temp = temp + '\n';
           temp = temp + this.generateSample(schema.items);
         } else {
-          temp = temp + `"${schema.items.type}"`;
+          temp = temp + `"${schema.items.type.toString().escapeSpecialChars()}"`;
         }
       }
    }
@@ -107,7 +107,7 @@ export class ExampleCollapsibleComponent implements OnInit {
               temp = temp + ' : ' + this.generateSample(schema2);
             } else {
               const property: Property = schema.properties[keys[i]];
-              temp = `${temp}: "${property.example}"`;
+              temp = `${temp}: "${property.example.toString().escapeSpecialChars()}"`;
             }
             if ( i < keys.length - 1 ) {
               temp = temp + ',';
