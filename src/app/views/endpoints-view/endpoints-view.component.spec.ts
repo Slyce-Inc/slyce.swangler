@@ -20,13 +20,14 @@ import { SharedVarsService } from '../../services/shared-vars.service';
 const ConfigServiceStub: Partial<ConfigService> = {
   initConfigService: () => {
     return new Promise((resolve, reject) => {
-      resolve(WsSpecModel as any);
+      resolve({});
     });
   }
 };
 
 const sharedVarsServiceStub = {
-  sharedVars: {}
+  sharedVars: {},
+  initSharedVars: () => {}
 };
 
 const modalMock = {
