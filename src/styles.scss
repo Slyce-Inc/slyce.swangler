@@ -4,3 +4,10 @@
 @import "./bootstrap";
 @import './swagger-bootstrap-ui/swagger-bootstrap-ui';
 @import './json-formatter';
+@import './slyce';
+
+
+.nav-tabs .nav-link.active{
+  background-color: transparent;
+  border-color: #8898aa #8898aa #f7f9fa;
+}

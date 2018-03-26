@@ -100,11 +100,11 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
     if ( id ) {
       const elem = document.getElementById(id);
       if (elem) {
-        window.scrollTo(0, elem.offsetTop + 56);
+        window.scrollTo(0, elem.offsetTop + 40);
         // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, elem.offsetTop);
       }
     } else {
-      window.scrollTo(0, 0 + 56);
+      window.scrollTo(0, 0 + 40);
       // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, 0);
     }
   }
@@ -118,7 +118,7 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
         window.scrollTo(0, i);
         i += 100;
         if ( i >= targetPosition ) {
-          window.scrollTo(0, targetPosition + 56);
+          window.scrollTo(0, targetPosition + 40);
           clearInterval(interval);
         }
       }, 15);
@@ -130,7 +130,7 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
         window.scrollTo(0, i);
         i -= 100;
         if ( i <= targetPosition ) {
-          window.scrollTo(0, targetPosition + 56);
+          window.scrollTo(0, targetPosition + 40);
           clearInterval(interval);
         }
       }, 15);

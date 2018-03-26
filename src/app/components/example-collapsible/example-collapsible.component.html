@@ -11,7 +11,7 @@
         <app-param-console [title]="'Parent'" [schema]="this.schema"></app-param-console>
       </div>
 
-      <div *ngIf="this.type?.toLowerCase() == 'sample'">
+      <div *ngIf="this.type?.toLowerCase() == 'sample'" class="sample-snippet rounded">
         <pre class="sample-body" (click)="this.clickedSample.emit(this.generatedSample.json)">
           <!-- <code [innerHTML] = 'this.generatedSample?.highlight' class="hljs json" id="sample79815"></code> -->
           <code appJsonFormat [json]="this.generatedSample?.json"></code>
