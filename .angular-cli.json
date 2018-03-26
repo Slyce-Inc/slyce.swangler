@@ -31,8 +31,7 @@
         ]
       },
       "scripts": [
-        "../node_modules/highlight.js/lib/highlight.js",
-        "./app/helpers.js"
+        "../node_modules/highlight.js/lib/highlight.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
