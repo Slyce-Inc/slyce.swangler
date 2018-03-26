@@ -8,6 +8,32 @@ import {EndpointsSharedService} from '../../services/endpoints-shared.service';
 import {NotificationsService} from 'angular2-notifications';
 import {By} from '@angular/platform-browser';
 import {APPENDPOINT} from '../../models/MOCK_DATA';
+import { SharedVarsService } from '../../services/shared-vars.service';
+import { Observable } from 'rxjs/Observable';
+import { SecurityDefinition } from '../../models/auth/security-definition';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { Subject } from 'rxjs/Subject';
+
+
+
+const sharedVarsServiceStub = {
+  sharedVars: {}
+};
+
+const securityDefinition = SecurityDefinition.MOCK_DATA;
+
+const storage = {};
+const LocalStorageServiceStub = {
+  getStorageVar: (varName) => {
+    return storage ? storage[varName] : null;
+  },
+  securityDefinitions: (() => {
+    return Observable.of(securityDefinition);
+  })(),
+  setStorageVar: (varName, varVal) => {
+    storage[varName] = varVal;
+  }
+};
 
 describe('EndpointComponent', () => {
 
@@ -29,9 +55,11 @@ describe('EndpointComponent', () => {
         ExampleSideBarComponent
       ],
       imports: [
-        FormsModule
+        FormsModule,
       ],
       providers: [
+        { provide: SharedVarsService, useValue: sharedVarsServiceStub },
+        { provide: LocalStorageService, useValue: LocalStorageServiceStub },
         EndpointsSharedService,
         NotificationsService
       ]
@@ -216,5 +244,30 @@ describe('EndpointComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     expect(component.selectedResponse).toEqual(null);
+  });
+
+  it('should call saveToLocalStorage once input changed', () => {
+    spyOn(component, 'saveToLocalStorage').and.callThrough();
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    component.parameterFields['account_id'].value = 'test';
+    fixture.detectChanges();
+
+    const input = fixture.debugElement.query(By.css('input.parameter'));
+    input.nativeElement.dispatchEvent(new Event('change'));
+    input.triggerEventHandler('click', null);
+
+    expect(component.saveToLocalStorage).toHaveBeenCalled();
+  });
+
+  it('should change value in input once value in sharedVarsService is changed', () => {
+    component.sharedVarsService.sharedVars['account_id'] = new Subject();
+    component.ngOnInit();
+
+    component.parameterFields['account_id'].value = 'test1';
+    component.sharedVarsService.sharedVars['account_id'].next('test2');
+
+    expect(component.parameterFields['account_id'].value).toEqual('test2');
   });
 });

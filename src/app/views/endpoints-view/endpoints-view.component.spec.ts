@@ -15,6 +15,7 @@ import {APPENDPOINT, REQUEST_INITIATOR} from '../../models/MOCK_DATA';
 import { TabsModule } from 'ngx-bootstrap';
 import {WsSpecModel} from '../../models/ws-spec.model';
 import {ConfigService} from '../../services/config-service/config.service';
+import { SharedVarsService } from '../../services/shared-vars.service';
 
 const ConfigServiceStub: Partial<ConfigService> = {
   initConfigService: () => {
@@ -22,6 +23,11 @@ const ConfigServiceStub: Partial<ConfigService> = {
       resolve({});
     });
   }
+};
+
+const sharedVarsServiceStub = {
+  sharedVars: {},
+  initSharedVars: () => {}
 };
 
 const modalMock = {
@@ -154,7 +160,8 @@ describe('EndpointsViewComponent', () => {
         { provide: ActivatedRoute, useValue: ActivatedRouteStub },
         { provide: LocalStorageService, useValue: LocalStorageServiceStub },
         { provide: SwaggerService, useValue: SwaggerServiceStub },
-        { provide: ConfigService, useValue: ConfigServiceStub }
+        { provide: ConfigService, useValue: ConfigServiceStub },
+        { provide: SharedVarsService, useValue: sharedVarsServiceStub },
       ]
     })
     .compileComponents();

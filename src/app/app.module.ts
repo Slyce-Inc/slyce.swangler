@@ -34,6 +34,7 @@ import { GetIndexPipe } from './pipes/get-index.pipe';
 import {AltInputModule} from './components/alt-input/altInput.module';
 import { JsonFormatDirective } from './directives/json-format.directive';
 import {ConfigService} from './services/config-service/config.service';
+import { SharedVarsService } from './services/shared-vars.service';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,15 @@ import {ConfigService} from './services/config-service/config.service';
     CommonModule,
     TabsModule.forRoot()
   ],
-  providers: [ConfigService, SwaggerService, LocalStorageService, EndpointsSharedService, ImageBytesService, SocketService],
+  providers: [
+    SharedVarsService,
+    ConfigService,
+    SwaggerService,
+    LocalStorageService,
+    EndpointsSharedService,
+    ImageBytesService,
+    SocketService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

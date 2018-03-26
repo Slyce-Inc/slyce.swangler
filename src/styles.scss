@@ -29,7 +29,7 @@
 $default-color: white;
 $string-color: #7eeaca;
 $number-color: #17a2b8;
-$boolean-color: #6f42c1;
+$boolean-color: #e83e8c;
 $null-color: #855A00;
 $undefined-color: rgb(202, 11, 105);
 $function-color: #e83e8c;
@@ -50,7 +50,7 @@ $url-color: blue;
   }
 
   .json-formatter-row {
-    margin-left: 1rem;
+    margin-left: 1.3rem;
     font-family: inherit;
   }
 
@@ -90,6 +90,7 @@ $url-color: blue;
 
   .json-formatter-toggler-link {
     cursor: pointer;
+    color: #aaa !important;
   }
 
   .json-formatter-toggler {

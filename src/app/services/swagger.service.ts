@@ -10,6 +10,7 @@ import {RequestInitiator} from '../models/endpoint/endpoint.model';
 import {EndpointAccesses} from '../models/endpointAccess/endpoint-access.model';
 
 import { WS_SPEC_MOCK } from '../models/MOCK_DATA';
+import { SharedVarsService } from './shared-vars.service';
 
 @Injectable()
 export class SwaggerService {
@@ -18,6 +19,7 @@ export class SwaggerService {
   endpointsSubject: BehaviorSubject<any>;
   wsEndpointsSubject: BehaviorSubject<any>;
   specHost = '';
+  endpoints = [];
 
   public static applyEndpointAccesses(apiData, endpointAccesses: EndpointAccesses) {
     if (!endpointAccesses) {
@@ -43,7 +45,8 @@ export class SwaggerService {
 
   constructor(
     private http: HttpClient,
-    public notify: NotificationsService
+    public notify: NotificationsService,
+    // public sharedVarsService: SharedVarsService
   ) {
     this.apiDataSubject = new BehaviorSubject(null);
     this.endpointsSubject = new BehaviorSubject(null);
@@ -131,6 +134,8 @@ export class SwaggerService {
           if (path.hasOwnProperty(methodKey)) {
             const method = path[methodKey];
 
+            this.endpoints.push(method);
+
             if ( method.tags ) {
               method.tags.filter( tag => {
 
@@ -189,10 +194,13 @@ export class SwaggerService {
         this.setApiData(apiData);
 
         if (websocketSpecUrl) {
-          this.initWsSpec(websocketSpecUrl).then( res => {
+          return this.initWsSpec(websocketSpecUrl).then( res => {
             const sortedRestEndpoints = this.sortApiEndpointsByTags(apiData.spec.paths);
             const sortedCombinedEndpoints = this.appendWsEndpointToTags(sortedRestEndpoints, res);
+            // this.sharedVarsService.initSharedVars(this.endpoints);
             this.setSortedEndpoints(sortedCombinedEndpoints);
+
+            return this.endpoints;
           }, error => {
             this.notify.error('Error', 'Swangler socket spec JSON was not loaded');
             this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
@@ -210,6 +218,7 @@ export class SwaggerService {
   appendWsEndpointToTags(restEndpoints, wsEndpoints) {
     if (wsEndpoints && wsEndpoints.socketEndpoints) {
       wsEndpoints.socketEndpoints.forEach(endpoint => {
+        this.endpoints.push(endpoint);
         if (endpoint && endpoint.tags && endpoint.tags.length > 0) {
           endpoint.tags.forEach(tag => {
             if (!restEndpoints[tag]) {
