@@ -9,7 +9,7 @@ import 'rxjs/add/observable/of';
 import { SwaggerService } from '../../services/swagger.service';
 import { ApiData } from '../../models/apidata.model';
 import { By } from '@angular/platform-browser';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpHeaders} from '@angular/common/http';
 import { NotificationsService } from 'angular2-notifications';
 import {APPENDPOINT, REQUEST_INITIATOR} from '../../models/MOCK_DATA';
 import { TabsModule } from 'ngx-bootstrap';
