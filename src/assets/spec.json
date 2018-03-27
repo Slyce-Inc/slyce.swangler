@@ -1,0 +1,5646 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Slyce API",
+    "description": "",
+    "termsOfService": "Use with caution!",
+    "contact": {
+      "email": "admin@slyce.it"
+    },
+    "license": {
+      "email": null,
+      "url": null
+    }
+  },
+  "host": null,
+  "basePath": null,
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "slyce-account-id": {
+      "type": "apiKey",
+      "name": "slyce-account-id",
+      "in": "header"
+    },
+    "slyce-api-key": {
+      "type": "apiKey",
+      "name": "slyce-api-key",
+      "in": "header"
+    }
+  },
+  "tags": [
+    "Layers",
+    "Datasets",
+    "Services",
+    "Accounts",
+    "API Keys",
+    "Images",
+    "Analytics",
+    "Spaces",
+    "Lenses",
+    "openapi",
+    "Jobs",
+    "SDK",
+    "Workflows"
+  ],
+  "definitions": {
+    "AnalyticsEventTracking": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "slyce_id": {
+          "type": "string",
+          "description": "Unique Slyce id for this session",
+          "example": "slyce_so_cool99"
+        },
+        "slyce_sdk_platform": {
+          "type": "string",
+          "description": "Slyce platform name",
+          "example": "Slyce SDK iOS"
+        },
+        "slyce_sdk_version": {
+          "type": "string",
+          "description": "Slyce SDK version used for this session",
+          "example": "3.8"
+        },
+        "user_id": {
+          "type": "string",
+          "description": "The current user's id",
+          "example": "123asdf4445"
+        },
+        "app_launch_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "How many times the app has been launched",
+          "example": 1
+        },
+        "client_app_name": {
+          "type": "string",
+          "description": "Name of the Client App using the SDK",
+          "example": "Client App Name"
+        },
+        "client_app_version": {
+          "type": "string",
+          "description": "Version of the client app using the SDK",
+          "example": "2.2"
+        },
+        "ad_id": {
+          "type": "string",
+          "description": "The current device id",
+          "example": "12343546sfgdhsrteh"
+        },
+        "device_category": {
+          "type": "string",
+          "description": "The category of device",
+          "example": "mobile"
+        },
+        "installer_id": {
+          "type": "string",
+          "description": "The Installer id",
+          "example": "aetq3t45q5yt44y5ggg"
+        },
+        "mobile_device_model": {
+          "type": "string",
+          "description": "The type of mobile device being used",
+          "example": "HTC One M8"
+        },
+        "operating_system": {
+          "type": "string",
+          "description": "Operating system of the device being used",
+          "example": "Android"
+        },
+        "operating_system_version": {
+          "type": "string",
+          "description": "The version of the operating system",
+          "example": "6.0"
+        },
+        "screen_resolution": {
+          "type": "string",
+          "description": "Screen resolution of the device",
+          "example": "1920 x 1080"
+        },
+        "user_location": {
+          "type": "string",
+          "description": "The location of the device",
+          "example": "41.40338, 2.17403"
+        }
+      }
+    },
+    "AnalyticsEvent": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "event_action": {
+          "type": "string",
+          "description": "The action for the event.",
+          "example": "Slyce Initialization - success"
+        },
+        "event_category": {
+          "type": "string",
+          "description": "The general event category.",
+          "example": "Initialization"
+        },
+        "event_label": {
+          "type": "string",
+          "description": "An optional descriptor for the event",
+          "example": ""
+        },
+        "hit_number": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Count of events in a sequence starting at 1",
+          "example": 1
+        },
+        "hit_timestamp": {
+          "type": "string",
+          "description": "The recorded time at which the event occurred.",
+          "example": "2018-02-12 20:28:32.113"
+        }
+      }
+    },
+    "ProcessStatusDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The current job status id",
+          "example": 1
+        },
+        "display": {
+          "type": "string",
+          "description": "The current job status text",
+          "example": "Queued"
+        }
+      }
+    },
+    "ImageSize": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The image width",
+          "example": 200
+        },
+        "height": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The image height",
+          "example": 200
+        }
+      }
+    },
+    "Image": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The image id",
+          "example": "WQsIG5vdCBvbmx5IGJ5"
+        },
+        "bytes": {
+          "type": "string",
+          "description": "The base64 encoded string of the image",
+          "example": "5hbCBwbGVhc3VyZS4="
+        },
+        "size": {
+          "type": "object",
+          "$ref": "#\/definitions\/ImageSize"
+        }
+      }
+    },
+    "ClassifierSettings": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "classes": {
+          "type": "array",
+          "items": [],
+          "description": "A list of classes to return if precent",
+          "required": null
+        },
+        "confidence": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The minimum confidence for a class to be returned"
+        }
+      }
+    },
+    "Anchor": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "x": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The X coordinate of the anchor point",
+          "example": 100
+        },
+        "y": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The X coordinate of the anchor point",
+          "example": 100
+        }
+      }
+    },
+    "DetectorSettings": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "classes": {
+          "type": "array",
+          "items": [],
+          "description": "A list of classes to return if precent",
+          "required": null
+        },
+        "confidence": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The minimum confidence for a class to be returned"
+        },
+        "anchor_distance": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The minimum distance for a detection to be returned"
+        }
+      }
+    },
+    "Facet": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "A facet value",
+          "example": "male"
+        },
+        "key": {
+          "type": "string",
+          "description": "A facet key",
+          "example": "gender"
+        },
+        "operator": {
+          "type": "string",
+          "description": "A facet operator",
+          "example": "=="
+        }
+      }
+    },
+    "SearchSettings": {
+      "type": "object",
+      "required": [
+        "dataset_id"
+      ],
+      "properties": {
+        "dataset_id": {
+          "type": "string",
+          "description": "The dataset id to search against",
+          "required": true,
+          "example": "CQEBAQENCAMLDgQABAAAAw"
+        },
+        "search_terms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "A search term",
+            "example": "pvc tee"
+          },
+          "description": null,
+          "required": null
+        },
+        "facets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#\/definitions\/Facet"
+          },
+          "description": null,
+          "required": null
+        }
+      }
+    },
+    "BaseSearchSettings": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "dataset_id": {
+          "type": "string",
+          "description": "Optional dataset id to search against",
+          "example": "CQEBAQENCAMLDgQABAAAAw"
+        }
+      }
+    },
+    "VisualSearchSettings": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "dataset_id": {
+          "type": "string",
+          "description": "Optional dataset id to search against",
+          "example": "CQEBAQENCAMLDgQABAAAAw"
+        },
+        "tags": {
+          "type": "array",
+          "items": [],
+          "description": null,
+          "required": null
+        }
+      }
+    },
+    "NewAccountDoc": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The url safe id for the account (this cannot be changed).",
+          "required": true,
+          "example": "test_inc"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the account (this can be changed).",
+          "required": true,
+          "example": "Test, Inc."
+        }
+      },
+      "name": "body"
+    },
+    "NewJobDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "topic": {
+          "type": "string",
+          "description": "???",
+          "example": "fg01-evt-global"
+        },
+        "msg_type": {
+          "type": "string",
+          "description": "The type of message",
+          "example": "job-created"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "The account id related to the job",
+          "example": "test_inc"
+        },
+        "task_id": {
+          "type": "string",
+          "description": "The task id"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "Task created by",
+          "example": "system"
+        },
+        "job_id": {
+          "type": "string",
+          "description": "The job id",
+          "example": "XyGHrrSB9GqrMfvzQdJShA"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the job",
+          "example": "job-name"
+        },
+        "process_status": {
+          "type": "object",
+          "$ref": "#\/definitions\/ProcessStatusDoc"
+        }
+      }
+    },
+    "UpdateAccountDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "is_active": {
+          "type": "boolean",
+          "description": "The name of the account"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the account",
+          "example": "Test, Inc."
+        }
+      },
+      "name": "body"
+    },
+    "NewAPIKeyDoc": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the API key",
+          "required": true,
+          "example": "DemoAPIKey"
+        },
+        "acl": {
+          "type": "object",
+          "properties": {},
+          "description": "The access control list as an object with the operation as the key and the permission status as a boolean",
+          "example": {
+            "create-account": false,
+            "update-account": false,
+            "list-accounts": false,
+            "track-analytics-events": true,
+            "create-api-key": false,
+            "update-api-key": false,
+            "delete-api-key": false,
+            "get-api-key": false,
+            "list-api-keys": false,
+            "copy-dataset": false,
+            "create-dataset": false,
+            "delete-dataset": false,
+            "update-dataset": false,
+            "list-datasets": false,
+            "get-dataset-by-id": false,
+            "import-items": false,
+            "list-data-items-by-dataset": false,
+            "delete-data-items": false,
+            "get-job-by-id": false,
+            "list-jobs": false,
+            "create-layer": false,
+            "copy-layer": false,
+            "update-layer": false,
+            "delete-layer": false,
+            "update-layer-mapping": false,
+            "delete-layer-mapping": false,
+            "list-layers": false,
+            "get-layer": false,
+            "create-lens": false,
+            "copy-lens": false,
+            "update-lens": false,
+            "delete-lens": false,
+            "list-lenses": false,
+            "get-lens": false,
+            "create-space": false,
+            "update-space": false,
+            "delete-space": false,
+            "get-space-by-id": false,
+            "list-spaces": false,
+            "create-workflow": false,
+            "copy-workflow": false,
+            "update-workflow": false,
+            "delete-workflow": false,
+            "execute-workflow": true,
+            "get-workflow": false,
+            "list-workflows": false,
+            "classify-colors": false,
+            "classify-hardware": false,
+            "classify-patterns": false,
+            "detect-apparel": false,
+            "detect-barcodes": false,
+            "detect-logos": false,
+            "detect-reference-images": false,
+            "text-search": false,
+            "visual-search": false,
+            "get-ugc-images": false,
+            "get-sdk-config": true
+          }
+        }
+      },
+      "name": "body"
+    },
+    "PatchAPIKeyDoc": {
+      "type": "object",
+      "required": [
+        "name",
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the API key",
+          "required": true,
+          "example": "StagingAPIKey"
+        },
+        "acl": {
+          "type": "object",
+          "properties": {},
+          "description": "The access control list as an object with the operation as the key and the permission status as a boolean",
+          "example": {
+            "create-account": true,
+            "update-account": true,
+            "list-accounts": true,
+            "track-analytics-events": true,
+            "create-api-key": true,
+            "update-api-key": true,
+            "delete-api-key": true,
+            "get-api-key": true,
+            "list-api-keys": true,
+            "copy-dataset": true,
+            "create-dataset": true,
+            "delete-dataset": true,
+            "update-dataset": true,
+            "list-datasets": true,
+            "get-dataset-by-id": true,
+            "import-items": true,
+            "list-data-items-by-dataset": true,
+            "delete-data-items": true,
+            "get-job-by-id": true,
+            "list-jobs": true,
+            "create-layer": true,
+            "copy-layer": true,
+            "update-layer": true,
+            "delete-layer": true,
+            "update-layer-mapping": true,
+            "delete-layer-mapping": true,
+            "list-layers": true,
+            "get-layer": true,
+            "create-lens": true,
+            "copy-lens": true,
+            "update-lens": true,
+            "delete-lens": true,
+            "list-lenses": true,
+            "get-lens": true,
+            "create-space": true,
+            "update-space": true,
+            "delete-space": true,
+            "get-space-by-id": true,
+            "list-spaces": true,
+            "create-workflow": true,
+            "copy-workflow": true,
+            "update-workflow": true,
+            "delete-workflow": true,
+            "execute-workflow": true,
+            "get-workflow": true,
+            "list-workflows": true,
+            "classify-colors": true,
+            "classify-hardware": true,
+            "classify-patterns": true,
+            "detect-apparel": true,
+            "detect-barcodes": true,
+            "detect-logos": true,
+            "detect-reference-images": true,
+            "text-search": true,
+            "visual-search": true,
+            "get-ugc-images": true,
+            "get-sdk-config": true
+          }
+        }
+      },
+      "name": "body"
+    },
+    "APIKeyDoc": {
+      "type": "object",
+      "required": [
+        "key",
+        "name"
+      ],
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was created",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "The user that created the item",
+          "example": "system"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was last updated",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The user that last updated the item",
+          "example": "system"
+        },
+        "key": {
+          "type": "string",
+          "description": "The API key itself",
+          "required": true,
+          "example": "LO-DfZCX54jykipJXOx0Ik_mXKE86q2Vfit0ysC_660"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the API key",
+          "required": true,
+          "example": "DemoAPIKey"
+        },
+        "acl": {
+          "type": "object",
+          "properties": {},
+          "description": "The access control list as an object with the operation as the key and the permission status as a boolean",
+          "example": {
+            "create-account": false,
+            "update-account": false,
+            "list-accounts": false,
+            "track-analytics-events": true,
+            "create-api-key": false,
+            "update-api-key": false,
+            "delete-api-key": false,
+            "get-api-key": false,
+            "list-api-keys": false,
+            "copy-dataset": false,
+            "create-dataset": false,
+            "delete-dataset": false,
+            "update-dataset": false,
+            "list-datasets": false,
+            "get-dataset-by-id": false,
+            "import-items": false,
+            "list-data-items-by-dataset": false,
+            "delete-data-items": false,
+            "get-job-by-id": false,
+            "list-jobs": false,
+            "create-layer": false,
+            "copy-layer": false,
+            "update-layer": false,
+            "delete-layer": false,
+            "update-layer-mapping": false,
+            "delete-layer-mapping": false,
+            "list-layers": false,
+            "get-layer": false,
+            "create-lens": false,
+            "copy-lens": false,
+            "update-lens": false,
+            "delete-lens": false,
+            "list-lenses": false,
+            "get-lens": false,
+            "create-space": false,
+            "update-space": false,
+            "delete-space": false,
+            "get-space-by-id": false,
+            "list-spaces": false,
+            "create-workflow": false,
+            "copy-workflow": false,
+            "update-workflow": false,
+            "delete-workflow": false,
+            "execute-workflow": true,
+            "get-workflow": false,
+            "list-workflows": false,
+            "classify-colors": false,
+            "classify-hardware": false,
+            "classify-patterns": false,
+            "detect-apparel": false,
+            "detect-barcodes": false,
+            "detect-logos": false,
+            "detect-reference-images": false,
+            "text-search": false,
+            "visual-search": false,
+            "get-ugc-images": false,
+            "get-sdk-config": true
+          }
+        }
+      }
+    },
+    "NewDatasetDoc": {
+      "type": "object",
+      "required": [
+        "dataset_type",
+        "name"
+      ],
+      "properties": {
+        "dataset_type": {
+          "type": "string",
+          "description": "The type of the dataset.",
+          "required": true,
+          "example": "dataset"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the dataset.",
+          "required": true,
+          "example": "DemoDataset"
+        },
+        "image_url_keys": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "imageURL"
+          },
+          "description": "The keys of the fields containing image_urls for the dataset.",
+          "required": null
+        },
+        "copy_from": {
+          "type": "string",
+          "description": "The name of another dataset from which settings and items should be copied (if necessary).",
+          "required": false,
+          "example": "none"
+        }
+      },
+      "name": "body"
+    },
+    "NewExternalDatasetDoc": {
+      "type": "object",
+      "required": [
+        "name",
+        "base_url",
+        "request",
+        "returns"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the dataset.",
+          "required": true,
+          "example": "DemoExternalDataset"
+        },
+        "base_url": {
+          "type": "string",
+          "description": "The base url for the dataset",
+          "required": true,
+          "example": "https:\/\/example.com\/test\/"
+        },
+        "request": {
+          "type": "object",
+          "properties": {},
+          "description": "The request parameters",
+          "required": true,
+          "example": {
+            "method": "GET",
+            "headers": {
+              "api-key": "x123"
+            },
+            "query": {
+              "q": "$q"
+            },
+            "body": null
+          }
+        },
+        "returns": {
+          "type": "string",
+          "description": "The object to transfroms the response from the api call.",
+          "required": true,
+          "example": {
+            "items": "products",
+            "transforms": {
+              "prepend": [
+                {
+                  "key": "product_url",
+                  "value": "wwww.google.com"
+                }
+              ],
+              "append": [
+                {
+                  "key": "product_url",
+                  "value": "?tracking=0&mode=1"
+                }
+              ],
+              "replace": [
+                {
+                  "key": "product_url",
+                  "value": "200",
+                  "match": "<SIZE>"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "name": "body"
+    },
+    "UpdateDatasetDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the dataset",
+          "required": false,
+          "example": "DemoDataset"
+        },
+        "image_url_keys": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "imageURL"
+          },
+          "description": "The keys of the fields containing image_urls for the dataset.",
+          "required": null
+        }
+      },
+      "name": "body"
+    },
+    "DatasetDoc": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "name",
+        "image_url_keys"
+      ],
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was created",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "The user that created the item",
+          "example": "system"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was last updated",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The user that last updated the item",
+          "example": "system"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the dataset.",
+          "required": true,
+          "example": "dataset"
+        },
+        "id": {
+          "type": "string",
+          "description": "The dataset id",
+          "required": true,
+          "example": "MHbdr6BiZdCRtLmCYF7swT"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the dataset.",
+          "required": true,
+          "example": "DemoDataset"
+        },
+        "image_url_keys": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "imageURL"
+          },
+          "description": "The keys of the fields containing image_urls for the dataset.",
+          "required": true
+        }
+      }
+    },
+    "CreateLayerDoc": {
+      "type": "object",
+      "required": [
+        "layer_name"
+      ],
+      "properties": {
+        "layer_name": {
+          "type": "string",
+          "description": "The name of the layer",
+          "required": true,
+          "example": "test_layer"
+        },
+        "layer_fields": {
+          "type": "object",
+          "properties": {},
+          "description": "A list of the fields used by this layer",
+          "example": [
+            "name",
+            "image_url"
+          ]
+        }
+      },
+      "name": "body"
+    },
+    "UpdateLayerDoc": {
+      "type": "object",
+      "required": [
+        "layer_name"
+      ],
+      "properties": {
+        "layer_name": {
+          "type": "string",
+          "description": "The name of the layer",
+          "required": true,
+          "example": "updated_layer"
+        },
+        "layer_fields": {
+          "type": "object",
+          "properties": {},
+          "description": "A list of the fields used by this layer",
+          "example": [
+            "updated_name",
+            "updated_image_url"
+          ]
+        }
+      },
+      "name": "body"
+    },
+    "UpdateLayerMappingDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "field_mappings": {
+          "type": "object",
+          "properties": {},
+          "description": "Layer field to dataset field mappings keyed by dataset id.",
+          "example": {
+            "name": "productName"
+          }
+        }
+      },
+      "name": "body"
+    },
+    "NewSpaceDoc": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the space",
+          "required": true,
+          "example": "DemoSpace"
+        }
+      },
+      "name": "body"
+    },
+    "PatchSpaceDoc": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the space",
+          "required": true,
+          "example": "Updated Name"
+        },
+        "is_active": {
+          "type": "boolean",
+          "description": "Whether a space is active or not."
+        }
+      },
+      "name": "body"
+    },
+    "SpaceDoc": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "account_id"
+      ],
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was created",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "The user that created the item",
+          "example": "system"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was last updated",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The user that last updated the item",
+          "example": "system"
+        },
+        "id": {
+          "type": "string",
+          "description": "The space id",
+          "required": true,
+          "example": "rCTSndt6ExsekyCP75rEPc"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the space",
+          "required": true,
+          "example": "DemoSpace"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "The account id that owns the space",
+          "required": true,
+          "example": "test_inc"
+        }
+      }
+    },
+    "CreateWorkflowDoc": {
+      "type": "object",
+      "required": [
+        "workflow_name",
+        "workflow_weld_statement"
+      ],
+      "properties": {
+        "workflow_name": {
+          "type": "string",
+          "description": "The name of the workflow",
+          "required": true,
+          "example": "test_workflow"
+        },
+        "workflow_weld_statement": {
+          "type": "string",
+          "description": "The combination of operations and operators",
+          "required": true,
+          "example": "SOME(DetectLogos, ClassifyPatterns) THEN TextSearch WITH(dataset_id=\"4AAQSkZJRgABAQAAAQABAAD\")"
+        }
+      },
+      "name": "body"
+    },
+    "UpdateWorkflowDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "workflow_name": {
+          "type": "string",
+          "description": "The name of the workflow",
+          "example": "updated_workflow"
+        },
+        "workflow_weld_statement": {
+          "type": "string",
+          "description": "The combination of operations and operators",
+          "example": "ALL(DetectBarcodes, ClassifyColors) OTHERWISE TextSearch WITH(dataset_id=\"4AAQSkZJRgABAQAAAQABAAD\")"
+        }
+      },
+      "name": "body"
+    },
+    "ExecuteWorkflowDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "image_bytes": {
+          "type": "string",
+          "description": "The base64 encoded string of the image bytes.",
+          "example": "4AAQSkZJRgABAQAAAQABAAD....."
+        },
+        "image_url": {
+          "type": "string",
+          "description": "The url of the image.",
+          "example": "https:\/\/www.google.com\/images\/branding\/googlelogo\/1x\/googlelogo_color_150x54dp.png"
+        },
+        "workflow_options": {
+          "type": "string",
+          "description": "Any options for the workflow to use at runtime.",
+          "example": {
+            "gender": "female"
+          }
+        },
+        "demo_mode": {
+          "type": "boolean",
+          "description": "Return data without actually running the operations.",
+          "example": false
+        }
+      },
+      "name": "body"
+    },
+    "CreateLensDoc": {
+      "type": "object",
+      "required": [
+        "lens_name",
+        "local_detectors",
+        "template",
+        "workflow_id"
+      ],
+      "properties": {
+        "lens_name": {
+          "type": "string",
+          "description": "The name of the lens",
+          "required": true,
+          "example": "test_lens"
+        },
+        "capture_mode": {
+          "type": "string",
+          "description": "The capture mode of the lens",
+          "example": "continuous"
+        },
+        "local_detectors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "2D"
+          },
+          "description": "An array of detectors",
+          "required": true
+        },
+        "template": {
+          "type": "string",
+          "description": "The template to be used",
+          "required": true,
+          "example": "slyce.2d"
+        },
+        "workflow_id": {
+          "type": "string",
+          "description": "The id of the associated workflow",
+          "required": true,
+          "example": "2r4aRUk6xTyoCgMz9sGfa3"
+        }
+      },
+      "name": "body"
+    },
+    "UpdateLensDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "lens_name": {
+          "type": "string",
+          "description": "optional to update the name of the lens. Do not include to leave the same",
+          "example": "updated_lens"
+        },
+        "capture_mode": {
+          "type": "string",
+          "description": "optional to update the capture mode of the lens. Do not include to leave the same",
+          "example": "tapToSearch"
+        },
+        "local_detectors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "2D"
+          },
+          "description": "optional to update the local detectors of the lens. Do not include to leave the same",
+          "required": null
+        },
+        "template": {
+          "type": "string",
+          "description": "optional to update the template of the lens. Do not include to leave the same",
+          "example": "slyce.2d"
+        },
+        "workflow_id": {
+          "type": "string",
+          "description": "optional to update the workflow of the lens. Do not include to leave the same",
+          "example": "2r4aRUk6xTyoCgMz9sGfa3"
+        }
+      },
+      "name": "body"
+    },
+    "AccountDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was created",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "The user that created the item",
+          "example": "system"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was last updated",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The user that last updated the item",
+          "example": "system"
+        },
+        "id": {
+          "type": "string",
+          "description": "The account id",
+          "example": "test_inc"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the account",
+          "example": "Test, Inc."
+        },
+        "is_active": {
+          "type": "boolean",
+          "description": "Whether an account is active or not."
+        }
+      }
+    },
+    "AnalyticsEventTrackingDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "sessionData": {
+          "type": "object",
+          "$ref": "#\/definitions\/AnalyticsEventTracking"
+        },
+        "eventQueue": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#\/definitions\/AnalyticsEvent"
+          },
+          "description": null,
+          "required": null
+        }
+      }
+    },
+    "DatasetItemDoc": {
+      "type": "object",
+      "required": [
+        "imageURL"
+      ],
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was created",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "The user that created the item",
+          "example": "system"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was last updated",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The user that last updated the item",
+          "example": "system"
+        },
+        "imageURL": {
+          "type": "string",
+          "description": "A field mapped to the image_url_keys for this dataset",
+          "required": true,
+          "example": "https:\/\/upload.wikimedia.org\/wikipedia\/en\/d\/d4\/Mickey_Mouse.png"
+        },
+        "title": {
+          "type": "string",
+          "description": "Other field example",
+          "required": false,
+          "example": "Mickey Mouse"
+        }
+      }
+    },
+    "NewDatasetItemDoc": {
+      "type": "object",
+      "required": [
+        "imageURL"
+      ],
+      "properties": {
+        "imageURL": {
+          "type": "string",
+          "description": "A field mapped to the image_url_keys for this dataset",
+          "required": true,
+          "example": "https:\/\/upload.wikimedia.org\/wikipedia\/en\/d\/d4\/Mickey_Mouse.png"
+        },
+        "title": {
+          "type": "string",
+          "description": "Other field example",
+          "required": false,
+          "example": "Mickey Mouse"
+        }
+      }
+    },
+    "LayerDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was created",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "The user that created the item",
+          "example": "system"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was last updated",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The user that last updated the item",
+          "example": "system"
+        },
+        "id": {
+          "type": "string",
+          "description": "The id of the layer",
+          "example": "2r4aRUk6xTyoCgMz9sGfa3"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the layer",
+          "example": "test_layer"
+        },
+        "fields": {
+          "type": "array",
+          "items": [],
+          "description": "A list of the fields used by this layer",
+          "required": null
+        },
+        "mappings": {
+          "type": "object",
+          "properties": {},
+          "description": "Layer field to dataset field mappings keyed by dataset id.",
+          "example": {
+            "3s5bSVl7yUzpDhN0atHgb4": {
+              "name": "productName"
+            }
+          }
+        }
+      }
+    },
+    "BaseClassifierConsumes": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "demo_mode": {
+          "type": "boolean",
+          "description": "Used to toggle demo mode",
+          "example": true
+        },
+        "image": {
+          "type": "object",
+          "$ref": "#\/definitions\/Image"
+        },
+        "settings": {
+          "type": "object",
+          "$ref": "#\/definitions\/ClassifierSettings"
+        }
+      }
+    },
+    "BaseDetectorConsumes": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "demo_mode": {
+          "type": "boolean",
+          "description": "Used to toggle demo mode",
+          "example": true
+        },
+        "image": {
+          "type": "object",
+          "$ref": "#\/definitions\/Image"
+        },
+        "anchor": {
+          "type": "object",
+          "$ref": "#\/definitions\/Anchor"
+        },
+        "settings": {
+          "type": "object",
+          "$ref": "#\/definitions\/DetectorSettings"
+        }
+      }
+    },
+    "DetectReferenceImagesConsumes": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "demo_mode": {
+          "type": "boolean",
+          "description": "Used to toggle demo mode",
+          "example": true
+        },
+        "image": {
+          "type": "object",
+          "$ref": "#\/definitions\/Image"
+        },
+        "settings": {
+          "type": "object",
+          "$ref": "#\/definitions\/BaseSearchSettings"
+        }
+      }
+    },
+    "BaseSearchConsumes": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "demo_mode": {
+          "type": "boolean",
+          "description": "Used to toggle demo mode",
+          "example": true
+        },
+        "settings": {
+          "type": "object",
+          "$ref": "#\/definitions\/SearchSettings"
+        }
+      }
+    },
+    "VisualSearchConsumes": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "demo_mode": {
+          "type": "boolean",
+          "description": "Used to toggle demo mode",
+          "example": true
+        },
+        "settings": {
+          "type": "object",
+          "$ref": "#\/definitions\/VisualSearchSettings"
+        },
+        "image": {
+          "type": "object",
+          "$ref": "#\/definitions\/Image"
+        },
+        "anchor": {
+          "type": "object",
+          "$ref": "#\/definitions\/Anchor"
+        }
+      }
+    },
+    "WorkflowDoc": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was created",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "The user that created the item",
+          "example": "system"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was last updated",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The user that last updated the item",
+          "example": "system"
+        },
+        "id": {
+          "type": "string",
+          "description": "The id of the workflow",
+          "example": "2r4aRUk6xTyoCgMz9sGfa3"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the workflow",
+          "example": "test_workflow"
+        },
+        "weld_statement": {
+          "type": "string",
+          "description": "The combination of operations and operators",
+          "example": "SOME(DetectLogos, ClassifyPatterns) THEN TextSearch WITH(dataset_id=\"4AAQSkZJRgABAQAAAQABAAD\")"
+        }
+      }
+    },
+    "LensDoc": {
+      "type": "object",
+      "required": [
+        "local_detectors",
+        "template",
+        "workflow_id"
+      ],
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was created",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "created_by": {
+          "type": "string",
+          "description": "The user that created the item",
+          "example": "system"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp the item was last updated",
+          "example": "2018-01-04T20:13:55.373557+0000"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The user that last updated the item",
+          "example": "system"
+        },
+        "id": {
+          "type": "string",
+          "description": "The id of the lens",
+          "example": "2r4aRUk6xTyoCgMz9sGfa3"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the lens",
+          "example": "Lens1"
+        },
+        "capture_mode": {
+          "type": "string",
+          "description": "The capture mode of the lens",
+          "example": "continuous"
+        },
+        "local_detectors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "2D"
+          },
+          "description": "An array of detectors",
+          "required": true
+        },
+        "template": {
+          "type": "string",
+          "description": "The template to be used",
+          "required": true,
+          "example": "slyce.2d"
+        },
+        "workflow_id": {
+          "type": "string",
+          "description": "The id of the associated workflow",
+          "required": true,
+          "example": "2r4aRUk6xTyoCgMz9sGfa3"
+        }
+      }
+    }
+  },
+  "paths": {
+    "\/accounts\/": {
+      "post": {
+        "operationId": "Accounts.create_account",
+        "summary": "Create a new account",
+        "description": "Create a new account.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/NewAccountDoc"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "An account with that name already exists."
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "202": {
+            "description": "Processing request."
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "Accounts.create_account",
+        "summary": "List the accounts",
+        "description": "Get a list of all accounts in the system.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The page number to get",
+            "default": 1,
+            "example": 1,
+            "required": false,
+            "in": "query",
+            "name": "page_number"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of items to return",
+            "default": 20,
+            "example": 20,
+            "required": false,
+            "in": "query",
+            "name": "page_size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#\/definitions\/AccountDoc"
+                  }
+                },
+                "page_number": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The current page number",
+                  "example": 1
+                },
+                "page_size": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The number of items returned",
+                  "example": 20
+                },
+                "total_pages": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of pages available",
+                  "example": 1
+                },
+                "total_items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of items available",
+                  "example": 1
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}": {
+      "patch": {
+        "operationId": "Accounts.update_account",
+        "summary": "Update an account",
+        "description": "Update an existing account.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/UpdateAccountDoc"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad request."
+          },
+          "202": {
+            "description": "Processing request."
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "Accounts.update_account",
+        "summary": "Get information about an account",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/analytics\/events\/": {
+      "post": {
+        "operationId": "Analytics.analytics_event_tracking",
+        "summary": "Track event",
+        "description": "Accepts events with a proper schema for analytics tracking",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Analytics"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#\/definitions\/AnalyticsEventTrackingDoc"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "The schema is not valid"
+          },
+          "202": {
+            "description": "Processing request."
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/api-keys\/": {
+      "post": {
+        "operationId": "API Keys.create_api_key",
+        "summary": "Create a new API key",
+        "description": "Create a new API key with a name and access control options.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "API Keys"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/NewAPIKeyDoc"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "API Key Already Exists"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "API Keys.create_api_key",
+        "summary": "List the API keys",
+        "description": "Get a list of all API keys associated with the account.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "API Keys"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The page number to get",
+            "default": 1,
+            "example": 1,
+            "required": false,
+            "in": "query",
+            "name": "page_number"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of items to return",
+            "default": 20,
+            "example": 20,
+            "required": false,
+            "in": "query",
+            "name": "page_size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#\/definitions\/APIKeyDoc"
+                  }
+                },
+                "page_number": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The current page number",
+                  "example": 1
+                },
+                "page_size": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The number of items returned",
+                  "example": 20
+                },
+                "total_pages": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of pages available",
+                  "example": 1
+                },
+                "total_items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of items available",
+                  "example": 1
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/api-keys\/{api_key}": {
+      "patch": {
+        "operationId": "API Keys.update_api_key",
+        "summary": "Update an api key",
+        "description": "Update the name and permissions of an API key.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "API Keys"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "api_key"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/PatchAPIKeyDoc"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "API Key Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/APIKeyDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "API Keys.update_api_key",
+        "summary": "Delete an API key",
+        "description": "Remove an api key entirely, revoking it.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "API Keys"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "api_key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "head": {
+        "operationId": "API Keys.update_api_key",
+        "summary": "Check if an API key exists",
+        "description": "Check if an API key exists.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "API Keys"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "api_key"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found"
+          },
+          "200": {
+            "description": "Successful Operation"
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "API Keys.update_api_key",
+        "summary": "Get information about an API key",
+        "description": "Get name and permissions associated with an API key.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "API Keys"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "api_key"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/APIKeyDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/datasets\/": {
+      "post": {
+        "operationId": "Datasets.create_dataset",
+        "summary": "Create a new dataset",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Datasets"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/NewDatasetDoc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "Datasets.create_dataset",
+        "summary": "List datasets",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Datasets"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The page number to get",
+            "default": 1,
+            "example": 1,
+            "required": false,
+            "in": "query",
+            "name": "page_number"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of items to return",
+            "default": 20,
+            "example": 20,
+            "required": false,
+            "in": "query",
+            "name": "page_size"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#\/definitions\/DatasetDoc"
+                  }
+                },
+                "page_number": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The current page number",
+                  "example": 1
+                },
+                "page_size": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The number of items returned",
+                  "example": 20
+                },
+                "total_pages": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of pages available",
+                  "example": 1
+                },
+                "total_items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of items available",
+                  "example": 1
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/datasets\/external": {
+      "post": {
+        "operationId": "Datasets.create_external_dataset",
+        "summary": "Create a new external dataset",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Datasets"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/NewExternalDatasetDoc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/datasets\/{dataset_id}": {
+      "delete": {
+        "operationId": "Datasets.delete_dataset",
+        "summary": "Delete a dataset",
+        "description": "Remove a dataset entirely.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Datasets"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "dataset_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "Datasets.delete_dataset",
+        "summary": "Update a dataset",
+        "description": "Update an existing dataset.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Datasets"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "dataset_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/UpdateDatasetDoc"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad request."
+          },
+          "202": {
+            "description": "Processing request."
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "Datasets.delete_dataset",
+        "summary": "Get information about a dataset",
+        "description": "Get information about a specific dataset.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Datasets"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "dataset_id"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/DatasetDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/datasets\/{dataset_id}\/items\/": {
+      "get": {
+        "operationId": "Datasets.list_items_by_dataset",
+        "summary": "List items by dataset",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Datasets"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "dataset_id"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The page number to get",
+            "default": 1,
+            "example": 1,
+            "required": false,
+            "in": "query",
+            "name": "page_number"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of items to return",
+            "default": 20,
+            "example": 20,
+            "required": false,
+            "in": "query",
+            "name": "page_size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#\/definitions\/DatasetItemDoc"
+                  }
+                },
+                "page_number": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The current page number",
+                  "example": 1
+                },
+                "page_size": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The number of items returned",
+                  "example": 20
+                },
+                "total_pages": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of pages available",
+                  "example": 1
+                },
+                "total_items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of items available",
+                  "example": 1
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "Datasets.list_items_by_dataset",
+        "summary": "Import Items",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Datasets"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "dataset_id"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewDatasetItemDoc"
+            },
+            "description": null,
+            "required": true,
+            "in": "body",
+            "name": "body"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "Datasets.list_items_by_dataset",
+        "summary": "Clear a dataset's items",
+        "description": "Remove all data items from a dataset.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Datasets"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "dataset_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/datasets\/{dataset_id}\/items\/csv": {
+      "post": {
+        "operationId": "Datasets.import_csv_items",
+        "summary": "Import Items With CSV",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Datasets"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "dataset_id"
+          },
+          {
+            "type": "file",
+            "name": "csv",
+            "description": "file to upload",
+            "required": true,
+            "in": "body"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/images\/ugc\/{image_id}": {
+      "get": {
+        "operationId": "Images.get_ugc_image",
+        "summary": "View a user-generated image.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Images"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "image_id"
+          }
+        ],
+        "responses": {
+          "200": {}
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/jobs\/": {
+      "get": {
+        "operationId": "Jobs.list_jobs",
+        "summary": "List the jobs",
+        "description": "Get a list of all jobs in the system.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Jobs"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The page number to get",
+            "default": 1,
+            "example": 1,
+            "required": false,
+            "in": "query",
+            "name": "page_number"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of items to return",
+            "default": 20,
+            "example": 20,
+            "required": false,
+            "in": "query",
+            "name": "page_size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#\/definitions\/NewJobDoc"
+                  }
+                },
+                "page_number": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The current page number",
+                  "example": 1
+                },
+                "page_size": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The number of items returned",
+                  "example": 20
+                },
+                "total_pages": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of pages available",
+                  "example": 1
+                },
+                "total_items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of items available",
+                  "example": 1
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/jobs\/{job_id}": {
+      "get": {
+        "operationId": "Jobs.get_job",
+        "summary": "Get the status of a job",
+        "description": "Get the status of a job by its id.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Jobs"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "job_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/layers\/": {
+      "get": {
+        "operationId": "Layers.list_layers",
+        "summary": "List the layers",
+        "description": "Get a list of all layers in a space.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Layers"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The page number to get",
+            "default": 1,
+            "example": 1,
+            "required": false,
+            "in": "query",
+            "name": "page_number"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of items to return",
+            "default": 20,
+            "example": 20,
+            "required": false,
+            "in": "query",
+            "name": "page_size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#\/definitions\/LayerDoc"
+                  }
+                },
+                "page_number": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The current page number",
+                  "example": 1
+                },
+                "page_size": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The number of items returned",
+                  "example": 20
+                },
+                "total_pages": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of pages available",
+                  "example": 1
+                },
+                "total_items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of items available",
+                  "example": 1
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "Layers.list_layers",
+        "summary": "Create a new layer.",
+        "description": "Create a new layer in a space.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Layers"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "source_layer_id",
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/CreateLayerDoc"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Layer Already Exists"
+          },
+          "202": {
+            "description": "Layer Created"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/layers\/{layer_id}": {
+      "get": {
+        "operationId": "Layers.get_layer",
+        "summary": "Get a layer",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Layers"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "layer_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/LayerDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "Layers.get_layer",
+        "summary": "Update a layer.",
+        "description": "Update a layer in a space.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Layers"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "layer_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/UpdateLayerDoc"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Layer Not Found"
+          },
+          "202": {
+            "description": "Layer Updated"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "Layers.get_layer",
+        "summary": "Delete a layer in a space.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Layers"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "layer_id"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Layer Updated"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/layers\/{layer_id}\/mappings\/{dataset_id}": {
+      "patch": {
+        "operationId": "Layers.update_layer",
+        "summary": "Update a layer mapping.",
+        "description": "Update a mapping on a layer.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Layers"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "layer_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "dataset_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/UpdateLayerMappingDoc"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Layer or Dataset Not Found"
+          },
+          "202": {
+            "description": "Layer Mapping Updated"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "Layers.update_layer",
+        "summary": "Delete a mapping from a layer.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Layers"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "layer_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "dataset_id"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Layer Mapping Deleted"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/": {
+      "post": {
+        "operationId": "Spaces.create_space",
+        "summary": "Create a new space",
+        "description": "Create a new space with a name.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Spaces"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/NewSpaceDoc"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Space Already Exists"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "Spaces.create_space",
+        "summary": "List the spaces",
+        "description": "Get a list of all spaces associated with the account.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Spaces"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The page number to get",
+            "default": 1,
+            "example": 1,
+            "required": false,
+            "in": "query",
+            "name": "page_number"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of items to return",
+            "default": 20,
+            "example": 20,
+            "required": false,
+            "in": "query",
+            "name": "page_size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#\/definitions\/SpaceDoc"
+                  }
+                },
+                "page_number": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The current page number",
+                  "example": 1
+                },
+                "page_size": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The number of items returned",
+                  "example": 20
+                },
+                "total_pages": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of pages available",
+                  "example": 1
+                },
+                "total_items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of items available",
+                  "example": 1
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}": {
+      "patch": {
+        "operationId": "Spaces.update_space",
+        "summary": "Update a space",
+        "description": "Update attributes concerning a space.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Spaces"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/PatchSpaceDoc"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Space Not Found"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/SpaceDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "Spaces.update_space",
+        "summary": "Delete a space",
+        "description": "Remove a space entirely.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Spaces"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "head": {
+        "operationId": "Spaces.update_space",
+        "summary": "Check if a space exists",
+        "description": "Check if a space exists.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Spaces"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found"
+          },
+          "200": {
+            "description": "Space exists"
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "Spaces.update_space",
+        "summary": "Get information about a space",
+        "description": "Get information about a specific space.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Spaces"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/SpaceDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/sdk\/config\/": {
+      "get": {
+        "operationId": "SDK.get_sdk_config",
+        "summary": "Get the config for the Mobile SDK",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "SDK"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          }
+        ],
+        "responses": {
+          "200": {}
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/services\/ClassifyColors": {
+      "post": {
+        "operationId": "Services.ClassifyColors",
+        "summary": "Classify Colors",
+        "description": "Determines the most prominent colors in the image",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "limit",
+            "example": 25,
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#\/definitions\/BaseClassifierConsumes"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Server not found"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "204": {
+            "description": "Successful request no results found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "The response type",
+                  "example": "ClassfiyColors"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "The item value",
+                        "example": "blue"
+                      },
+                      "confidence": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "The item confidence",
+                        "example": 0.8
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/services\/ClassifyHardware": {
+      "post": {
+        "operationId": "Services.ClassifyHardware",
+        "summary": "Classify Hardware",
+        "description": "Determines the most prominent hardware in the image",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "limit",
+            "example": 25,
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#\/definitions\/BaseClassifierConsumes"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Server not found"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "204": {
+            "description": "Successful request no results found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "The response type",
+                  "example": "ClassfiyHardware"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "The item value",
+                        "example": "pvc elbow"
+                      },
+                      "confidence": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "The item confidence",
+                        "example": 0.8
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/services\/ClassifyPatterns": {
+      "post": {
+        "operationId": "Services.ClassifyPatterns",
+        "summary": "Classify Patterns",
+        "description": "Determines the most prominent patterns in the image",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "limit",
+            "example": 25,
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#\/definitions\/BaseClassifierConsumes"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Server not found"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "204": {
+            "description": "Successful request no results found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "The response type",
+                  "example": "ClassfiyPatterns"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "The item value",
+                        "example": "plaid"
+                      },
+                      "confidence": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "The item confidence",
+                        "example": 0.8
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/services\/DetectApparel": {
+      "post": {
+        "operationId": "Services.DetectApparel",
+        "summary": "Detect Apparel",
+        "description": "Detects apparel in the image",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "limit",
+            "example": 25,
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#\/definitions\/BaseDetectorConsumes"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Server not found"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "204": {
+            "description": "Successful request no results found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "The response type",
+                  "example": "DetectApparel"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "The item value",
+                        "example": "shirt"
+                      },
+                      "confidence": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "The item confidence",
+                        "example": 0.8
+                      },
+                      "anchor_distance": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "The relative distance from the detected apparel and the anchor",
+                        "example": 0.9
+                      },
+                      "coordinates": {
+                        "type": "array",
+                        "items": []
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/services\/DetectBarcodes": {
+      "post": {
+        "operationId": "Services.DetectBarcodes",
+        "summary": "Detect Barcodes",
+        "description": "Detects barcodes in the image",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "limit",
+            "example": 25,
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#\/definitions\/BaseDetectorConsumes"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Server not found"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "204": {
+            "description": "Successful request no results found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "The response type",
+                  "example": "DetectBarcodes"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "The item value",
+                        "example": "shirt"
+                      },
+                      "confidence": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "The item confidence",
+                        "example": 0.8
+                      },
+                      "anchor_distance": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "The relative distance from the detected barcodes and the anchor",
+                        "example": 0.9
+                      },
+                      "coordinates": {
+                        "type": "array",
+                        "items": []
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/services\/DetectLogos": {
+      "post": {
+        "operationId": "Services.DetectLogos",
+        "summary": "Detect Logos",
+        "description": "Detects logos in the image",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "limit",
+            "example": 25,
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#\/definitions\/BaseDetectorConsumes"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Server not found"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "204": {
+            "description": "Successful request no results found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "The response type",
+                  "example": "DetectLogos"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "The item value",
+                        "example": "shirt"
+                      },
+                      "confidence": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "The item confidence",
+                        "example": 0.8
+                      },
+                      "anchor_distance": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "The relative distance from the detected logos and the anchor",
+                        "example": 0.9
+                      },
+                      "coordinates": {
+                        "type": "array",
+                        "items": []
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/services\/DetectReferenceImages": {
+      "post": {
+        "operationId": "Services.DetectReferenceImages",
+        "summary": "Detect Reference Images",
+        "description": "Attempts to find an exact a dataset and image_ids based on an image",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "limit",
+            "example": 25,
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#\/definitions\/DetectReferenceImagesConsumes"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Server not found"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "204": {
+            "description": "Successful request no results found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "The response type",
+                  "example": "Detectreferenceimages"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "dataset_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "dataset id",
+                        "example": "WQsIG5vdCBvbmx5IGJ5"
+                      },
+                      "item_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "description": "item id",
+                          "example": "1234567"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/services\/TextSearch": {
+      "post": {
+        "operationId": "Services.TextSearch",
+        "summary": "Text Search",
+        "description": "text Search with settings",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "limit",
+            "example": 25,
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#\/definitions\/BaseSearchConsumes"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Server not found"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "204": {
+            "description": "Successful request no results found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "The response type",
+                  "example": "TextSearch"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "item title",
+                        "example": "Really Cool Thing"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "item description",
+                        "example": "This is a really cool thing you should buy"
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "item url",
+                        "example": "https:\/\/buy.com\/really-cool-thing"
+                      },
+                      "image_url": {
+                        "type": "string",
+                        "description": "item image url",
+                        "example": "https:\/\/cdn.buy.com\/images\/1234567"
+                      },
+                      "price": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "item price",
+                        "example": 50
+                      }
+                    }
+                  }
+                },
+                "total_items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of items available",
+                  "example": 24
+                },
+                "cursor": {
+                  "type": "string",
+                  "description": "The cursor for paging the items",
+                  "example": "https:\/\/api.slyce.it\/WQsIG5vdCBvbmx5IGJ5"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/services\/VisualSearch": {
+      "post": {
+        "operationId": "Services.VisualSearch",
+        "summary": "Visual Search",
+        "description": "visual Search with settings",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Services"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "limit",
+            "example": 25,
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#\/definitions\/VisualSearchConsumes"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Server not found"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "204": {
+            "description": "Successful request no results found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "The response type",
+                  "example": "VisualSearch"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "item title",
+                        "example": "Really Cool Thing"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "item description",
+                        "example": "This is a really cool thing you should buy"
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "item url",
+                        "example": "https:\/\/buy.com\/really-cool-thing"
+                      },
+                      "image_url": {
+                        "type": "string",
+                        "description": "item image url",
+                        "example": "https:\/\/cdn.buy.com\/images\/1234567"
+                      },
+                      "price": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "item price",
+                        "example": 50
+                      }
+                    }
+                  }
+                },
+                "total_items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of items available",
+                  "example": 24
+                },
+                "cursor": {
+                  "type": "string",
+                  "description": "The cursor for paging the items",
+                  "example": "https:\/\/api.slyce.it\/WQsIG5vdCBvbmx5IGJ5"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/workflows\/": {
+      "get": {
+        "operationId": "Workflows.list_workflows",
+        "summary": "List the workflows",
+        "description": "Get a list of all workflows in a space.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Workflows"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The page number to get",
+            "default": 1,
+            "example": 1,
+            "required": false,
+            "in": "query",
+            "name": "page_number"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of items to return",
+            "default": 20,
+            "example": 20,
+            "required": false,
+            "in": "query",
+            "name": "page_size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#\/definitions\/WorkflowDoc"
+                  }
+                },
+                "page_number": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The current page number",
+                  "example": 1
+                },
+                "page_size": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The number of items returned",
+                  "example": 20
+                },
+                "total_pages": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of pages available",
+                  "example": 1
+                },
+                "total_items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of items available",
+                  "example": 1
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "Workflows.list_workflows",
+        "summary": "Create a new workflow.",
+        "description": "Create a new workflow using Operations and Operators to build out the execution. To copy a workflow add source_workflow_id to the query string and only pass the workflow_name in the body.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Workflows"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "source_workflow_id",
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/CreateWorkflowDoc"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Workflow Already Exists"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/workflows\/{workflow_id}": {
+      "get": {
+        "operationId": "Workflows.get_workflow",
+        "summary": "Get a workflow",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Workflows"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "workflow_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/WorkflowDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "Workflows.get_workflow",
+        "summary": "Update a workflow.",
+        "description": "Update a new workflow using Operations and Operators to build out the execution.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Workflows"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "workflow_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/UpdateWorkflowDoc"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Workflow Already Exists"
+          },
+          "404": {
+            "description": "Workflow Not Found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "Workflows.get_workflow",
+        "summary": "Delete a workflow.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Workflows"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "workflow_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "Workflows.get_workflow",
+        "summary": "Execute a workflow.",
+        "description": "There are two options for this method. You can upload an image or pass an image URL. To upload an image use 'text\/plain' as the 'Content-Type' and upload the image. To pass the image URL use 'application\/json' as the 'Content-Type' and pass 'image_url' as a param on the body.  If passed, 'workflow_options' must be valid JSON.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Workflows"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "workflow_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/ExecuteWorkflowDoc"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Executing Workflow"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/lenses\/": {
+      "get": {
+        "operationId": "Lenses.list_lenses",
+        "summary": "List the lenses",
+        "description": "Get a list of all lenses in a space.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Lenses"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The page number to get",
+            "default": 1,
+            "example": 1,
+            "required": false,
+            "in": "query",
+            "name": "page_number"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of items to return",
+            "default": 20,
+            "example": 20,
+            "required": false,
+            "in": "query",
+            "name": "page_size"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#\/definitions\/LensDoc"
+                  }
+                },
+                "page_number": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The current page number",
+                  "example": 1
+                },
+                "page_size": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The number of items returned",
+                  "example": 20
+                },
+                "total_pages": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of pages available",
+                  "example": 1
+                },
+                "total_items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "The total number of items available",
+                  "example": 1
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "Lenses.list_lenses",
+        "summary": "Create a new lens.",
+        "description": "Create a new lens. To copy a lens add source_lens_id to the query string and only pass the lens_name in the body.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Lenses"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "name": "source_lens_id",
+            "required": null,
+            "in": "query"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/CreateLensDoc"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Lens Already Exists"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/accounts\/{account_id}\/spaces\/{space_id}\/lenses\/{lens_id}": {
+      "get": {
+        "operationId": "Lenses.get_lens",
+        "summary": "Get a lens",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Lenses"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "lens_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/LensDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "Lenses.get_lens",
+        "summary": "Update a lens.",
+        "description": "Update a lens.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Lenses"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "lens_id"
+          },
+          {
+            "type": "object",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#\/definitions\/UpdateLensDoc"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Lens Already Exists"
+          },
+          "404": {
+            "description": "Lens Not Found"
+          },
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "Lenses.get_lens",
+        "summary": "Delete a lens.",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "tags": [
+          "Lenses"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "account_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "space_id"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "in": "path",
+            "name": "lens_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#\/definitions\/NewJobDoc"
+            }
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/api_keys\/mine": {
+      "get": {
+        "operationId": "api_keys_mine",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/validate_weld": {
+      "post": {
+        "operationId": "validate_weld",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    },
+    "\/weld_highlighter": {
+      "get": {
+        "operationId": "weld_highlighter",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          }
+        },
+        "security": [
+          {
+            "slyce-account-id": []
+          },
+          {
+            "slyce-api-key": []
+          }
+        ]
+      }
+    }
+  }
+}

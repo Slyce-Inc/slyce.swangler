@@ -59,7 +59,6 @@ import { SharedVarsService } from './services/shared-vars.service';
   imports: [
     AltInputModule,
     BrowserModule,
-    BsDatepickerModule.forRoot(),
     CollapseModule.forRoot(),
     TabsModule.forRoot(),
     AppRoutingModule,
