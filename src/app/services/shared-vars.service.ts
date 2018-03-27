@@ -31,6 +31,8 @@ export class SharedVarsService implements OnInit {
         });
       }
     });
+    console.log(res);
+
     this.sharedVars = res;
   }
 }

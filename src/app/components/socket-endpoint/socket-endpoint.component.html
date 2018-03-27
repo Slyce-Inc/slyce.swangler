@@ -57,7 +57,7 @@
 
                         <div>
                           <input class="parameter form-control " minlength="0" placeholder="{{parm.required == true ? '(required)' : ''}}" [required]='parm.required'
-                            [(ngModel)]='this.parameterFields[parm.name].value' type="string" [name]='parm.name'>
+                            [(ngModel)]='this.parameterFields[parm.name].value' type="string" [name]='parm.name' (change)="saveToLocalStorage($event)">
                         </div>
 
                         <div class="parameter-content-type"></div>

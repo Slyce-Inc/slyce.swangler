@@ -10,6 +10,7 @@ import { SocketService } from '../../services/socket/socket.service';
 import { SocketObservables } from '../../models/socketObservables/socketObservables';
 import { ImageBytesService } from '../../services/image-bytes.service';
 import {AltInputEventModel} from '../alt-input/model/AltInputEvent.model';
+import { SharedVarsService } from '../../services/shared-vars.service';
 
 
 @Component({
@@ -47,7 +48,8 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
     public socketService: SocketService,
     public swaggerService: SwaggerService,
     public localStorageService: LocalStorageService,
-    public notificationService: NotificationsService
+    public notificationService: NotificationsService,
+    public sharedVarsService: SharedVarsService,
   ) {
   }
 
@@ -90,14 +92,23 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
         element.value = element.default;
         this.parameterFields[element.name] = element;
 
-        // if (element.in.toLocaleLowerCase() === 'body') {
-        //   this.bodyParams.push(element);
-        // }
-
-        if (this.localStorageService.getStorageVar(element.name)) {
-          this.parameterFields[element.name].value = this.localStorageService.getStorageVar(element.name);
+        if (this.sharedVarsService.sharedVars[params[p].name]) {
+          ((elem) => {
+            this.sharedVarsService.sharedVars[elem]
+              .subscribe(value => {
+                  this.parameterFields[elem].value = value;
+                });
+          })(params[p].name);
         }
       }
+    }
+  }
+
+  saveToLocalStorage(event) {
+    const name = event.srcElement.getAttribute('ng-reflect-name');
+    if (this.sharedVarsService.sharedVars[name]) {
+      this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
+      this.localStorageService.setStorageVar(name, event.srcElement.value);
     }
   }
 
