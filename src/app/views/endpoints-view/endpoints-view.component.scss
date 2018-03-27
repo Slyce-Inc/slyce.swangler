@@ -24,3 +24,19 @@ tab{
     }
   }
 }
+.modal-dialog{
+  .response_body{
+    pre{
+      font-size: 0;
+    }
+  }
+}
+
+.modal-dialog{
+  .hljs{
+    font-size: 0.87rem;
+  }
+  code{
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;;
+  }
+}

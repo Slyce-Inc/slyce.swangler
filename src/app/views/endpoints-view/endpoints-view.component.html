@@ -46,6 +46,7 @@
   </div>
 
 
+
   <div class="modal fade" bsModal #modal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xlg">
       <div class="modal-content">
@@ -72,7 +73,7 @@
             <div class="mt-2 mb-3 response_body rounded">
               <!-- <pre class="json"><code [innerHTML]="this['result'].responseBody" class="rounded hljs"></code></pre> -->
               <pre class="json">
-                <code class="rounded" appJsonFormat [json]="this['result'].responseBodyJson"></code>
+                <code class="rounded hljs" appJsonFormat [json]="this['result'].responseBodyJson"></code>
               </pre>
             </div>
 
@@ -100,7 +101,7 @@
               <tab class="response_body" [heading]="message.msg_type" *ngFor="let message of this['result'].messages">
                 <pre class="json">
                     <!-- <code [innerHTML]="message.response" class="rounded hljs"></code> -->
-                    <code class="rounded" appJsonFormat [json]="message.response"></code>
+                    <code class="rounded hljs" appJsonFormat [json]="message.response"></code>
                   </pre>
               </tab>
             </tabset>

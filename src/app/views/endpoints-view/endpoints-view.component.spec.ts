@@ -9,19 +9,25 @@ import 'rxjs/add/observable/of';
 import { SwaggerService } from '../../services/swagger.service';
 import { ApiData } from '../../models/apidata.model';
 import { By } from '@angular/platform-browser';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpHeaders} from '@angular/common/http';
 import { NotificationsService } from 'angular2-notifications';
 import {APPENDPOINT, REQUEST_INITIATOR} from '../../models/MOCK_DATA';
 import { TabsModule } from 'ngx-bootstrap';
 import {WsSpecModel} from '../../models/ws-spec.model';
 import {ConfigService} from '../../services/config-service/config.service';
+import { SharedVarsService } from '../../services/shared-vars.service';
 
 const ConfigServiceStub: Partial<ConfigService> = {
   initConfigService: () => {
     return new Promise((resolve, reject) => {
-      resolve(WsSpecModel);
+      resolve({});
     });
   }
+};
+
+const sharedVarsServiceStub = {
+  sharedVars: {},
+  initSharedVars: () => {}
 };
 
 const modalMock = {
@@ -154,7 +160,8 @@ describe('EndpointsViewComponent', () => {
         { provide: ActivatedRoute, useValue: ActivatedRouteStub },
         { provide: LocalStorageService, useValue: LocalStorageServiceStub },
         { provide: SwaggerService, useValue: SwaggerServiceStub },
-        { provide: ConfigService, useValue: ConfigServiceStub }
+        { provide: ConfigService, useValue: ConfigServiceStub },
+        { provide: SharedVarsService, useValue: sharedVarsServiceStub },
       ]
     })
     .compileComponents();

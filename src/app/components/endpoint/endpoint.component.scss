@@ -26,3 +26,8 @@
 .samples, .content{
   transition: unset !important;
 }
+
+textarea{
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.66rem;
+}

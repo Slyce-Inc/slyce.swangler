@@ -6,6 +6,7 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import {SwaggerService} from '../../services/swagger.service';
 import { EndpointsSharedService } from '../../services/endpoints-shared.service';
 import { NotificationsService } from 'angular2-notifications';
+import { SharedVarsService } from '../../services/shared-vars.service';
 
 
 @Component({
@@ -35,7 +36,9 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
 
   constructor(
     public endpointsSharedService: EndpointsSharedService,
-    public notify: NotificationsService
+    public notify: NotificationsService,
+    public sharedVarsService: SharedVarsService,
+    public localStorageService: LocalStorageService
   ) {
   }
 
@@ -68,11 +71,28 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
   /* Init the default parameters to the parameter fields */
   private initParameterFields() {
     const params = this.endpointData.parameters;
-    for ( const p in params) {
+    for (const p in params) {
       if (params[p].hasOwnProperty('name')) {
         params[p].value = params[p].default;
         this.parameterFields[params[p].name] = params[p];
+
+        if (this.sharedVarsService.sharedVars[params[p].name]) {
+          ((elem) => {
+            this.sharedVarsService.sharedVars[elem]
+              .subscribe(value => {
+                  this.parameterFields[elem].value = value;
+                });
+          })(params[p].name);
+        }
       }
+    }
+  }
+
+  saveToLocalStorage(event) {
+    const name = event.srcElement.getAttribute('ng-reflect-name');
+    if (this.sharedVarsService.sharedVars[name]) {
+      this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
+      this.localStorageService.setStorageVar(name, event.srcElement.value);
     }
   }
 
@@ -80,11 +100,11 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
     if ( id ) {
       const elem = document.getElementById(id);
       if (elem) {
-        window.scrollTo(0, elem.offsetTop + 56);
+        window.scrollTo(0, elem.offsetTop + 40);
         // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, elem.offsetTop);
       }
     } else {
-      window.scrollTo(0, 0 + 56);
+      window.scrollTo(0, 0 + 40);
       // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, 0);
     }
   }
@@ -98,7 +118,7 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
         window.scrollTo(0, i);
         i += 100;
         if ( i >= targetPosition ) {
-          window.scrollTo(0, targetPosition + 56);
+          window.scrollTo(0, targetPosition + 40);
           clearInterval(interval);
         }
       }, 15);
@@ -110,7 +130,7 @@ export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
         window.scrollTo(0, i);
         i -= 100;
         if ( i <= targetPosition ) {
-          window.scrollTo(0, targetPosition + 56);
+          window.scrollTo(0, targetPosition + 40);
           clearInterval(interval);
         }
       }, 15);

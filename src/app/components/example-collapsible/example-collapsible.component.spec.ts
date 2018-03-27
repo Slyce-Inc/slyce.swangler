@@ -9,6 +9,7 @@ import {Schema} from '../../models/endpoint/endpoint.model';
 import { By } from '@angular/platform-browser';
 import {REQUEST_SCHEMA, RESPONSE_SCHEMA} from '../../models/MOCK_DATA';
 import { Input, Directive } from '@angular/core';
+import '../../../assets/js/helpers.js';
 
 const SwaggerServiceStub: Partial<SwaggerService> = {
   getApiData: () => {
