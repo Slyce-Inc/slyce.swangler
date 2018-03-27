@@ -216,6 +216,7 @@ export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit
 
   showMessagesClicked() {
     const socketData = {};
+    socketData['header'] = this.endpointData.summary;
     socketData['url'] = this.connection.socket.url;
     socketData['messages'] = this.socketMessages;
     this.clickedSeeSocketMessages.emit(socketData);

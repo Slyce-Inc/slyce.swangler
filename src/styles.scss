@@ -11,3 +11,28 @@
   background-color: transparent;
   border-color: #8898aa #8898aa #f7f9fa;
 }
+
+
+.card-body {
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
+
+
+.break-all {
+  word-break: break-all;
+}
+
+.text-shorten {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  display: block;
+}
+
+@media (min-width: 576px) {
+  .modal-xlg {
+    width: 90%;
+    max-width: 1000px;
+  }
+}
