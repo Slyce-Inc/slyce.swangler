@@ -98,10 +98,10 @@
 
             <small class="text-uppercase">Messages</small>
             <tabset>
-              <tab class="response_body" [heading]="message.msg_type" *ngFor="let message of this['result'].messages">
+              <tab class="response_body" [heading]="message.msg_type || 'Message'" *ngFor="let message of this['result'].messages">
                 <pre class="json">
                     <!-- <code [innerHTML]="message.response" class="rounded hljs"></code> -->
-                    <code class="rounded hljs" appJsonFormat [json]="message.response"></code>
+                    <code class="rounded hljs" appJsonFormat [json]="message"></code>
                   </pre>
               </tab>
             </tabset>
