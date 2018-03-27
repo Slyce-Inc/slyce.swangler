@@ -9,7 +9,11 @@ describe('ExampleSideBar Test', () => {
   beforeEach(() => {
     exampleSideBarSection.navigateTo();
   });
-  it('exampleSideBar should not throw an error', async function () {
+
+  /**
+   * Check all collapsables of the example side bar to see if any console message is thrown which may indicate an error
+   */
+  it('exampleSideBar should not throw a console message/error', async function () {
     const errors = [];
     sidebarNavSection.processCollasibles((link) => {
       return browser.get(link).then(async () => {
