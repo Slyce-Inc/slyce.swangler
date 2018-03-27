@@ -176,7 +176,11 @@ export class SwaggerService {
           protocol = (apiData.spec.schemes.indexOf('https') !== -1 ? 'https' : apiData.spec.schemes[0] || 'http') + '://';
         }
       } else {
-        host = apiData.url.match('(https*:\\/\\/[^\\/]*)')[0];
+        try {
+          host = apiData.url.match('(https*:\\/\\/[^\\/]*)')[0];
+        } catch ( e ) {
+          this.notify.error('Failed to parse host url for api');
+        }
         protocol = '';
       }
 

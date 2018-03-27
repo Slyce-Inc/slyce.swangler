@@ -16,9 +16,9 @@
   </div>
   <!--Response Messages-->
   <div style="padding: 20px 20px 20px 20px">
-    <nav class="nav flex-column parent_menu">
-      <nav class="collapsable-nav-header" routerLinkActive="active">
-        <h5 class="nav-header">Responses</h5>
+    <nav class="">
+      <nav routerLinkActive="active">
+        <h5>Responses</h5>
         <tabset>
           <tab *ngFor="let m of this.endpoint?.responseMessages; let i = index" heading="{{('Response ' +1)}}" id="{{'response' + i}}">
             <div class='socketMessageDescription'style="padding: 5px">
