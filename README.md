@@ -5,6 +5,13 @@ Swangler (like Strangler) is a recreation of SwaggerUI with basic WebSocket Supp
 
 The two below spec files both are independent files but are later combined by the application.
 
+## Deployment Notes for Forge
+### add subtree to repository of choice
+git subtree add --prefix api/app/lib/openapi/swangler https://github.com/Slyce-Inc/slyce.swangler.git swangler-dist --squash
+
+### if subtree already added,to update to latest release build of swangler
+git subtree pull --prefix api/app/lib/openapi/swangler https://github.com/Slyce-Inc/slyce.swangler.git swangler-dist --squash
+
 ## REST Endpoint Spec JSON File Documentation (v1.2^)
 Specifications similar to https://swagger.io/specification/
 
