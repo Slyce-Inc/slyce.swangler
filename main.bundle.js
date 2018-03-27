@@ -164,12 +164,14 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_alt_input_altInput_module__ = __webpack_require__("./src/app/components/alt-input/altInput.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__directives_json_format_directive__ = __webpack_require__("./src/app/directives/json-format.directive.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__services_config_service_config_service__ = __webpack_require__("./src/app/services/config-service/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__services_shared_vars_service__ = __webpack_require__("./src/app/services/shared-vars.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -229,19 +231,26 @@ var AppModule = /** @class */ (function () {
             imports: [
                 __WEBPACK_IMPORTED_MODULE_29__components_alt_input_altInput_module__["a" /* AltInputModule */],
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["BrowserModule"],
-                __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* BsDatepickerModule */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_9_ngx_bootstrap_collapse__["a" /* CollapseModule */].forRoot(),
-                __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* TabsModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["b" /* TabsModule */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_11__app_routing_module__["a" /* AppRoutingModule */],
                 __WEBPACK_IMPORTED_MODULE_7__angular_forms__["a" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["b" /* HttpClientModule */],
-                __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["b" /* ModalModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* ModalModule */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_22_angular2_notifications__["SimpleNotificationsModule"].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_23__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_27__angular_common__["CommonModule"],
-                __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* TabsModule */].forRoot()
+                __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["b" /* TabsModule */].forRoot()
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_31__services_config_service_config_service__["a" /* ConfigService */], __WEBPACK_IMPORTED_MODULE_4__services_swagger_service__["a" /* SwaggerService */], __WEBPACK_IMPORTED_MODULE_6__services_local_storage_service__["a" /* LocalStorageService */], __WEBPACK_IMPORTED_MODULE_21__services_endpoints_shared_service__["a" /* EndpointsSharedService */], __WEBPACK_IMPORTED_MODULE_24__services_image_bytes_service__["a" /* ImageBytesService */], __WEBPACK_IMPORTED_MODULE_26__services_socket_socket_service__["a" /* SocketService */]],
+            providers: [
+                __WEBPACK_IMPORTED_MODULE_32__services_shared_vars_service__["a" /* SharedVarsService */],
+                __WEBPACK_IMPORTED_MODULE_31__services_config_service_config_service__["a" /* ConfigService */],
+                __WEBPACK_IMPORTED_MODULE_4__services_swagger_service__["a" /* SwaggerService */],
+                __WEBPACK_IMPORTED_MODULE_6__services_local_storage_service__["a" /* LocalStorageService */],
+                __WEBPACK_IMPORTED_MODULE_21__services_endpoints_shared_service__["a" /* EndpointsSharedService */],
+                __WEBPACK_IMPORTED_MODULE_24__services_image_bytes_service__["a" /* ImageBytesService */],
+                __WEBPACK_IMPORTED_MODULE_26__services_socket_socket_service__["a" /* SocketService */],
+            ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
@@ -255,7 +264,7 @@ var AppModule = /** @class */ (function () {
 /***/ "./src/app/components/alt-input/alt-file-upload/alt-file-upload.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"alert alert-warning\" role=\"alert\">\n  <strong>Substitute -> {{this.header}}:</strong>\n<div>\n</div>\n\n  <div class=\"container-fluid\">\n    <div class=\"row no-gutters\">\n      <div class=\"col-10\">\n        <input id=\"input\" type=\"file\" accept=\"image/x-png,image/jpeg\" (change)=\"this.getBytes($event)\" #fileInput>\n      </div>\n      <div class=\"col-1\">\n        <span (click) = \"this.clearInput()\" *ngIf=\"this.hasContent\" class=\"badge badge-danger\">X</span>\n      </div>\n      <div class='col-1'>\n        <span *ngIf=\"this.hasContent\" (click) = \"this.applyButtonClicked()\" class=\"badge badge-success\">Apply</span>\n      </div>\n    </div>\n  </div>\n</div>\n\n\n<!--\n<input *ngIf=\"parm.schema.properties.image_bytes\" class=\"image-input\" type=\"file\" accept=\"image/x-png,image/jpeg\" (change)=\"this.getBytes($event)\">\n-->\n"
+module.exports = "<div class=\"alert alert-warning\" role=\"alert\">\n  <strong>Substitute -> {{this.header}}:</strong>\n<div>\n</div>\n\n  <div>\n    <div class=\"row no-gutters\">\n      <div class=\"col-10\">\n        <input id=\"input\" type=\"file\" accept=\"image/x-png,image/jpeg\" (change)=\"this.getBytes($event)\" #fileInput>\n      </div>\n      <div class=\"col-1\">\n        <span (click) = \"this.clearInput()\" *ngIf=\"this.hasContent\" class=\"badge badge-danger\">X</span>\n      </div>\n      <div class='col-1'>\n        <span *ngIf=\"this.hasContent\" (click) = \"this.applyButtonClicked()\" class=\"badge badge-success\">Apply</span>\n      </div>\n    </div>\n  </div>\n</div>\n\n\n<!--\n<input *ngIf=\"parm.schema.properties.image_bytes\" class=\"image-input\" type=\"file\" accept=\"image/x-png,image/jpeg\" (change)=\"this.getBytes($event)\">\n-->\n"
 
 /***/ }),
 
@@ -494,7 +503,7 @@ var AltInputEventModel = /** @class */ (function () {
 /***/ "./src/app/components/auth-component/auth-component.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"auth_options\">\n\n  <div id=\"apikeys\" class=\"auth_container form-group pt-3\">\n\n    <label class=\"auth_label text-uppercase\">Authentication Header:</label>\n\n    <div class=\"security-definitions\" *ngIf=\"this.securityDefinitions != null\">\n      <input *ngFor=\"let sdName of Object.keys(this.securityDefinitions);\" [(ngModel)]=\"inputFields[sdName]\" type=\"text\" class=\"form-control form-control-sm security-definition-input\" aria-describedby=\"auth\" placeholder=\"{{sdName}}\">\n      <div class=\"input-group-append\">\n        <button (click)=\"this.clickApplyButton()\" id=\"applyButton1257235\" type=\"button\" class=\"btn btn-secondary apply-security-definitions\">Apply</button>\n      </div>\n    </div>\n\n  </div>\n</div>\n"
+module.exports = "<div id=\"auth_options\">\n\n  <div id=\"apikeys\" class=\"auth_container form-group pt-3\">\n\n    <label class=\"auth_label text-uppercase\">Authentication Header:</label>\n\n    <div class=\"security-definitions\" *ngIf=\"this.securityDefinitions != null\">\n      <input *ngFor=\"let sdName of Object.keys(this.securityDefinitions);\" [(ngModel)]=\"inputFields[sdName]\" type=\"text\" class=\"form-control form-control-sm security-definition-input\" aria-describedby=\"auth\" placeholder=\"{{sdName}}\">\n      <div class=\"input-group-append\">\n        <button (click)=\"this.clickApplyButton()\" id=\"applyButton1257235\" type=\"button\" class=\"btn btn-sm btn-secondary apply-security-definitions\">Apply</button>\n      </div>\n    </div>\n\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -740,14 +749,14 @@ var ContactComponent = /** @class */ (function () {
 /***/ "./src/app/components/endpoint/endpoint.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"endpoint\" [id]='endpointData.operationId'>\n  <div class=\"operations\">\n    <div class=\"get operation\">\n      <div class=\"row\">\n        <div id='gridChange' class=\"content pt-3 pb-3\" [ngClass]=\"endpointsSharedService.isExamplesHidden ? 'col-lg-9 col-xl-9' : 'col-lg-6 col-xl-6'\">\n          <h4>\n            {{this.endpointData?.summary}}\n          </h4>\n\n\n          <div class=\"d-lg-flex break-all align-items-center\">\n            <div class=\"mr-auto\">\n              <h5>\n                <span *ngIf=\"this.endpointData.method\" id='methodBadge' class=\"http_method badge badge-primary\">{{this.endpointData.method}}</span>\n                <span *ngIf=\"this.endpointData.url\" id='url' class=\"path text-muted\">{{this.endpointData.url}}</span>\n              </h5>\n            </div>\n          </div>\n\n\n          <div id=\"description\" *ngIf=\"endpointData?.description\" class=\"markdown action-summary\">\n            <p>{{this?.endpointData?.description}}</p>\n          </div>\n\n          <h6>\n            <span *ngIf=\"this.endpointData.parameters && this.endpointData.parameters.length > 0\"> Parameters </span>\n            <span id=\"toggle-examples\" class=\"toggle-examples\" (click)=\"this.clickedToggleExamples()\">\n              <small class=\"text\">\n                <span class=\"sampleState\" *ngIf=\"endpointsSharedService.isExamplesHidden\">Show Samples</span>\n                <span class=\"sampleState\" *ngIf=\"!endpointsSharedService.isExamplesHidden\">Hide Samples</span>\n              </small>\n              <svg style=\"height:1em; width:1em;\" class=\"svg-inline--fa fa-code fa-w-18\" aria-hidden=\"true\" data-fa-processed=\"\" data-prefix=\"fal\"\n                data-icon=\"code\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 576 512\">\n                <path fill=\"currentColor\" d=\"M228.5 511.8l-25-7.1c-3.2-.9-5-4.2-4.1-7.4L340.1 4.4c.9-3.2 4.2-5 7.4-4.1l25 7.1c3.2.9 5 4.2 4.1 7.4L235.9 507.6c-.9 3.2-4.3 5.1-7.4 4.2zm-75.6-125.3l18.5-20.9c1.9-2.1 1.6-5.3-.5-7.1L49.9 256l121-102.5c2.1-1.8 2.4-5 .5-7.1l-18.5-20.9c-1.8-2.1-5-2.3-7.1-.4L1.7 252.3c-2.3 2-2.3 5.5 0 7.5L145.8 387c2.1 1.8 5.3 1.6 7.1-.5zm277.3.4l144.1-127.2c2.3-2 2.3-5.5 0-7.5L430.2 125.1c-2.1-1.8-5.2-1.6-7.1.4l-18.5 20.9c-1.9 2.1-1.6 5.3.5 7.1l121 102.5-121 102.5c-2.1 1.8-2.4 5-.5 7.1l18.5 20.9c1.8 2.1 5 2.3 7.1.4z\"></path>\n              </svg>\n            </span>\n          </h6>\n\n          <div data-content=\"\" class=\"operation-params card card-body bg-light mb-3\">\n\n            <div class=\"parameter-item container\">\n              <form #endpointForm=\"ngForm\">\n                <div id=\"parameters\" class=\"form-group row\">\n                  <div id=\"{{parm.name}}\" class=\"param\" *ngFor=\"let parm of this.endpointData?.parameters\">\n                    <div class=\"row\">\n                      <div class=\"col-lg-4 col-xl-3\">\n                        <label class=\"param-property text-nowrap col-form-label\">\n                          <span [title]=\"parm.name\" class=\"text-shorten\">{{parm.name}}:</span>\n                          <br>\n                          <small class=\"text-muted\">\n                            <em>{{parm?.in}}</em>\n                          </small>\n                        </label>\n                      </div>\n\n                      <div class=\"col-lg-8 col-xl-9\">\n                        <div *ngIf=\"parm['in'].toLowerCase() == 'body'\">\n                          <textarea placeholder=\"{{parm.required == true ? '(required)' : ''}}\" [required]='parm.required' [(ngModel)]='this.parameterFields[parm.name].value'\n                            class=\"form-control\" id=\"exampleTextarea\" rows=\"3\" [name]='parm.name'></textarea>\n\n                          <div *ngIf=\"this.parm?.schema && this.Object.keys(this.parm?.schema).length !== 0\" class=\"parameter-content-type\">\n                            <div>\n                              <div class=\"media mt-2\">\n                                <label class=\"align-self-center mb-0 mr-3\">Content type:</label>\n                                <div class=\"media-body\">\n                                  <select class=\"parameter form-control form-control-sm\" name=\"responseContentType\">\n                                    <option [(ngValue)]=\"this.parameterFields[parm.name]['contentType']\" *ngFor=\"let option of this.endpointData.consumes\" value=\"option\">{{option}}</option>\n                                  </select>\n                                </div>\n                              </div>\n                            </div>\n                          </div>\n\n                        </div>\n                        <div *ngIf=\"parm['in'].toLowerCase() !== 'body'\">\n                          <input class=\"parameter form-control \" minlength=\"0\" placeholder=\"{{parm.required == true ? '(required)' : ''}}\" [required]='parm.required'\n                            [(ngModel)]='this.parameterFields[parm.name].value' type=\"string\" [name]='parm.name'>\n                        </div>\n                        <div class=\"parameter-content-type\"></div>\n                        <div class=\"small-description media mt-2\">\n                          <small>\n                            <pre *ngIf=\"parm.type !== null || parm.type.trim() !== ''\" class=\"mb-0 mr-2\"><code class=\"code-signature hljs rounded\">{{parm.type}}</code></pre>\n                          </small>\n                          <div class=\"media-body\">\n                            <small class=\"text-muted\">{{parm?.description}}</small>\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </form>\n            </div>\n\n          </div>\n          <div>\n\n            <div class=\"sandbox_header mb-5\" data-content=\"\">\n              <button (click)=\"this.tryEndpointRequest(endpointForm)\" id=\"testEndpointBut799\" type=\"button\" class=\"btn btn-primary\">Test EndPoint</button>\n            </div>\n\n            <div class=\"response-content-type card card-body pb-3 bg-light mb-3\">\n              <div>\n                <div class=\"media\">\n                  <label class=\"align-self-center mb-0 mr-3\">Response Type:</label>\n                  <div class=\"media-body\">\n                    <select class=\"parameter form-control form-control-sm\" name=\"responseContentType\">\n                      <option [(ngValue)]=\"this.selectedResponse\" *ngFor=\"let option of this.endpointData?.produces\" value=\"application/json\">{{option}}</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n\n            <h6>\n              Status Codes\n            </h6>\n            <div class=\"card\">\n              <ul class=\"list-group list-group-flush\">\n                <li *ngIf=\"!this.endpointData.responses || Object.keys(this.endpointData.responses).length < 1\" class=\"list-group-item\">\n                  <div>\n                    <span style=\"padding-right:2em;\">\n                      No Status Codes Available\n                    </span>\n                  </div>\n                </li>\n                <li *ngFor=\"let s of this.Object.keys(this.endpointData.responses)\" class=\"list-group-item\">\n                  <div>\n                    <span style=\"padding-right:2em;\">\n                      {{s}}\n                    </span>\n                    <span>\n                      {{this.endpointData.responses[s].description}}\n                    </span>\n                  </div>\n                </li>\n              </ul>\n            </div>\n          </div>\n\n        </div>\n\n        <div class=\"samples\" [ngClass]=\"endpointsSharedService.isExamplesHidden ? 'col-lg-3 col-xl-3 d-none' : 'col-lg-6 col-xl-6'\">\n          <app-example-side-bar [endpoint]=\"this.endpointData\" (clickedBodySample)=\"populateBody($event)\"></app-example-side-bar>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"endpoint\" [id]='endpointData.operationId'>\n  <div class=\"operations\">\n    <div class=\"get operation\">\n      <div class=\"row\">\n        <div id='gridChange' class=\"content pt-3 pb-3\" [ngClass]=\"endpointsSharedService.isExamplesHidden ? 'col-lg-9 col-xl-9' : 'col-lg-6 col-xl-6'\">\n          <h4>\n            {{this.endpointData?.summary}}\n          </h4>\n\n\n          <div class=\"d-lg-flex break-all align-items-center\">\n            <div class=\"mr-auto\">\n              <h5>\n                <span *ngIf=\"this.endpointData.method\" id='methodBadge' class=\"http_method badge badge-primary\">{{this.endpointData.method}}</span>\n                <span *ngIf=\"this.endpointData.url\" id='url' class=\"path text-muted\">{{this.endpointData.url}}</span>\n              </h5>\n            </div>\n          </div>\n\n\n          <div id=\"description\" *ngIf=\"endpointData?.description\" class=\"markdown action-summary\">\n            <p>{{this?.endpointData?.description}}</p>\n          </div>\n\n          <h6>\n            <span *ngIf=\"this.endpointData.parameters && this.endpointData.parameters.length > 0\"> Parameters </span>\n            <span id=\"toggle-examples\" class=\"toggle-examples\" (click)=\"this.clickedToggleExamples()\">\n              <small class=\"text\">\n                <span class=\"sampleState\" *ngIf=\"endpointsSharedService.isExamplesHidden\">Show Samples</span>\n                <span class=\"sampleState\" *ngIf=\"!endpointsSharedService.isExamplesHidden\">Hide Samples</span>\n              </small>\n              <svg style=\"height:1em; width:1em;\" class=\"svg-inline--fa fa-code fa-w-18\" aria-hidden=\"true\" data-fa-processed=\"\" data-prefix=\"fal\"\n                data-icon=\"code\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 576 512\">\n                <path fill=\"currentColor\" d=\"M228.5 511.8l-25-7.1c-3.2-.9-5-4.2-4.1-7.4L340.1 4.4c.9-3.2 4.2-5 7.4-4.1l25 7.1c3.2.9 5 4.2 4.1 7.4L235.9 507.6c-.9 3.2-4.3 5.1-7.4 4.2zm-75.6-125.3l18.5-20.9c1.9-2.1 1.6-5.3-.5-7.1L49.9 256l121-102.5c2.1-1.8 2.4-5 .5-7.1l-18.5-20.9c-1.8-2.1-5-2.3-7.1-.4L1.7 252.3c-2.3 2-2.3 5.5 0 7.5L145.8 387c2.1 1.8 5.3 1.6 7.1-.5zm277.3.4l144.1-127.2c2.3-2 2.3-5.5 0-7.5L430.2 125.1c-2.1-1.8-5.2-1.6-7.1.4l-18.5 20.9c-1.9 2.1-1.6 5.3.5 7.1l121 102.5-121 102.5c-2.1 1.8-2.4 5-.5 7.1l18.5 20.9c1.8 2.1 5 2.3 7.1.4z\"></path>\n              </svg>\n            </span>\n          </h6>\n\n          <div data-content=\"\" class=\"operation-params card card-body bg-light mb-3\">\n\n            <div class=\"parameter-item container\">\n              <form #endpointForm=\"ngForm\">\n                <div id=\"parameters\" class=\"form-group row\">\n                  <div id=\"{{parm.name}}\" class=\"param\" *ngFor=\"let parm of this.endpointData?.parameters\">\n                    <div class=\"row\">\n                      <div class=\"col-lg-4 col-xl-3\">\n                        <label class=\"param-property text-nowrap col-form-label\">\n                          <span [title]=\"parm.name\" class=\"text-shorten\">{{parm.name}}:</span>\n                          <small class=\"text-muted\">\n                            <em>{{parm?.in}}</em>\n                          </small>\n                        </label>\n                      </div>\n\n                      <div class=\"col-lg-8 col-xl-9\">\n                        <div *ngIf=\"parm['in'].toLowerCase() == 'body'\">\n                          <textarea placeholder=\"{{parm.required == true ? '(required)' : ''}}\" [required]='parm.required' [(ngModel)]='this.parameterFields[parm.name].value'\n                            class=\"form-control\" id=\"exampleTextarea\" rows=\"3\" [name]='parm.name'></textarea>\n\n                          <div *ngIf=\"this.parm?.schema && this.Object.keys(this.parm?.schema).length !== 0\" class=\"parameter-content-type\">\n                            <div>\n                              <div class=\"media mt-2\">\n                                <label class=\"align-self-center mb-0 mr-3\">Content type:</label>\n                                <div class=\"media-body\">\n                                  <select class=\"parameter form-control form-control-sm\" name=\"responseContentType\">\n                                    <option [(ngValue)]=\"this.parameterFields[parm.name]['contentType']\" *ngFor=\"let option of this.endpointData.consumes\" value=\"option\">{{option}}</option>\n                                  </select>\n                                </div>\n                              </div>\n                            </div>\n                          </div>\n\n                        </div>\n                        <div *ngIf=\"parm['in'].toLowerCase() !== 'body'\">\n                          <input class=\"parameter form-control \" minlength=\"0\" placeholder=\"{{parm.required == true ? '(required)' : ''}}\" [required]='parm.required'\n                            [(ngModel)]='this.parameterFields[parm.name].value' type=\"string\" [name]='parm.name' (change)=\"saveToLocalStorage($event)\">\n                        </div>\n                        <div class=\"parameter-content-type\"></div>\n                        <div class=\"small-description media mt-2\">\n                          <small>\n                            <pre *ngIf=\"parm.type !== null || parm.type.trim() !== ''\" class=\"mb-0 mr-2\"><code class=\"code-signature hljs rounded\">{{parm.type}}</code></pre>\n                          </small>\n                          <div class=\"media-body\">\n                            <small class=\"text-muted\">{{parm?.description}}</small>\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </form>\n            </div>\n\n          </div>\n          <div>\n\n            <div class=\"sandbox_header mb-5\" data-content=\"\">\n              <button (click)=\"this.tryEndpointRequest(endpointForm)\" id=\"testEndpointBut799\" type=\"button\" class=\"btn btn-primary\">Test EndPoint</button>\n            </div>\n\n            <div class=\"response-content-type card card-body pb-3 bg-light mb-3\">\n              <div>\n                <div class=\"media\">\n                  <label class=\"align-self-center mb-0 mr-3\">Response Type:</label>\n                  <div class=\"media-body\">\n                    <select class=\"parameter form-control form-control-sm\" name=\"responseContentType\">\n                      <option [(ngValue)]=\"this.selectedResponse\" *ngFor=\"let option of this.endpointData?.produces\" value=\"application/json\">{{option}}</option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n\n            <h6>\n              Status Codes\n            </h6>\n            <div class=\"card\">\n              <ul class=\"list-group list-group-flush\">\n                <li *ngIf=\"!this.endpointData.responses || Object.keys(this.endpointData.responses).length < 1\" class=\"list-group-item\">\n                  <div>\n                    <span style=\"padding-right:2em;\">\n                      No Status Codes Available\n                    </span>\n                  </div>\n                </li>\n                <li *ngFor=\"let s of this.Object.keys(this.endpointData.responses)\" class=\"list-group-item\">\n                  <div>\n                    <span style=\"padding-right:2em;\">\n                      {{s}}\n                    </span>\n                    <span>\n                      {{this.endpointData.responses[s].description}}\n                    </span>\n                  </div>\n                </li>\n              </ul>\n            </div>\n          </div>\n\n        </div>\n\n        <div class=\"samples\" [ngClass]=\"endpointsSharedService.isExamplesHidden ? 'col-lg-3 col-xl-3 d-none' : 'col-lg-6 col-xl-6'\">\n          <app-example-side-bar [endpoint]=\"this.endpointData\" (clickedBodySample)=\"populateBody($event)\"></app-example-side-bar>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
 /***/ "./src/app/components/endpoint/endpoint.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".param {\n  width: 100%; }\n  .param > .row {\n    padding: 10px 0; }\n  .param-property {\n  width: 100%; }\n  #testEndpointBut799 {\n  padding-left: 2em;\n  padding-right: 2em; }\n  .toggle-examples {\n  float: right;\n  cursor: pointer;\n  color: #868e96; }\n  .toggle-examples:hover {\n    color: #6c757d; }\n  .samples, .content {\n  -webkit-transition: unset !important;\n  transition: unset !important; }\n"
+module.exports = ".param {\n  width: 100%; }\n  .param > .row {\n    padding: 10px 0; }\n  .param-property {\n  width: 100%; }\n  #testEndpointBut799 {\n  padding-left: 2em;\n  padding-right: 2em; }\n  .toggle-examples {\n  float: right;\n  cursor: pointer;\n  color: #868e96; }\n  .toggle-examples:hover {\n    color: #6c757d; }\n  .samples, .content {\n  -webkit-transition: unset !important;\n  transition: unset !important; }\n  textarea {\n  font-family: SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;\n  font-size: 0.66rem; }\n"
 
 /***/ }),
 
@@ -759,9 +768,11 @@ module.exports = ".param {\n  width: 100%; }\n  .param > .row {\n    padding: 10
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_endpoint_endpoint_model__ = __webpack_require__("./src/app/models/endpoint/endpoint.model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_endpoint_clicked_test_res__ = __webpack_require__("./src/app/models/endpoint/clicked-test-res.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_endpoints_shared_service__ = __webpack_require__("./src/app/services/endpoints-shared.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angular2_notifications__ = __webpack_require__("./node_modules/angular2-notifications/angular2-notifications.umd.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angular2_notifications___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_angular2_notifications__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_local_storage_service__ = __webpack_require__("./src/app/services/local-storage.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_endpoints_shared_service__ = __webpack_require__("./src/app/services/endpoints-shared.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular2_notifications__ = __webpack_require__("./node_modules/angular2-notifications/angular2-notifications.umd.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular2_notifications___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_angular2_notifications__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_shared_vars_service__ = __webpack_require__("./src/app/services/shared-vars.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -776,10 +787,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var EndpointComponent = /** @class */ (function () {
-    function EndpointComponent(endpointsSharedService, notify) {
+    function EndpointComponent(endpointsSharedService, notify, sharedVarsService, localStorageService) {
         this.endpointsSharedService = endpointsSharedService;
         this.notify = notify;
+        this.sharedVarsService = sharedVarsService;
+        this.localStorageService = localStorageService;
         /* Call back on sample toggle */
         this.clickedSample = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         /* Call back on test button click */
@@ -813,24 +828,40 @@ var EndpointComponent = /** @class */ (function () {
     };
     /* Init the default parameters to the parameter fields */
     EndpointComponent.prototype.initParameterFields = function () {
+        var _this = this;
         var params = this.endpointData.parameters;
         for (var p in params) {
             if (params[p].hasOwnProperty('name')) {
                 params[p].value = params[p].default;
                 this.parameterFields[params[p].name] = params[p];
+                if (this.sharedVarsService.sharedVars[params[p].name]) {
+                    (function (elem) {
+                        _this.sharedVarsService.sharedVars[elem]
+                            .subscribe(function (value) {
+                            _this.parameterFields[elem].value = value;
+                        });
+                    })(params[p].name);
+                }
             }
+        }
+    };
+    EndpointComponent.prototype.saveToLocalStorage = function (event) {
+        var name = event.srcElement.getAttribute('ng-reflect-name');
+        if (this.sharedVarsService.sharedVars[name]) {
+            this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
+            this.localStorageService.setStorageVar(name, event.srcElement.value);
         }
     };
     EndpointComponent.prototype.scrollToElem = function (id) {
         if (id) {
             var elem = document.getElementById(id);
             if (elem) {
-                window.scrollTo(0, elem.offsetTop + 56);
+                window.scrollTo(0, elem.offsetTop + 40);
                 // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, elem.offsetTop);
             }
         }
         else {
-            window.scrollTo(0, 0 + 56);
+            window.scrollTo(0, 0 + 40);
             // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, 0);
         }
     };
@@ -842,7 +873,7 @@ var EndpointComponent = /** @class */ (function () {
                 window.scrollTo(0, i_1);
                 i_1 += 100;
                 if (i_1 >= targetPosition) {
-                    window.scrollTo(0, targetPosition + 56);
+                    window.scrollTo(0, targetPosition + 40);
                     clearInterval(interval_1);
                 }
             }, 15);
@@ -854,7 +885,7 @@ var EndpointComponent = /** @class */ (function () {
                 window.scrollTo(0, i_2);
                 i_2 -= 100;
                 if (i_2 <= targetPosition) {
-                    window.scrollTo(0, targetPosition + 56);
+                    window.scrollTo(0, targetPosition + 40);
                     clearInterval(interval_2);
                 }
             }, 15);
@@ -909,8 +940,10 @@ var EndpointComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/components/endpoint/endpoint.component.html"),
             styles: [__webpack_require__("./src/app/components/endpoint/endpoint.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__services_endpoints_shared_service__["a" /* EndpointsSharedService */],
-            __WEBPACK_IMPORTED_MODULE_4_angular2_notifications__["NotificationsService"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__services_endpoints_shared_service__["a" /* EndpointsSharedService */],
+            __WEBPACK_IMPORTED_MODULE_5_angular2_notifications__["NotificationsService"],
+            __WEBPACK_IMPORTED_MODULE_6__services_shared_vars_service__["a" /* SharedVarsService */],
+            __WEBPACK_IMPORTED_MODULE_3__services_local_storage_service__["a" /* LocalStorageService */]])
     ], EndpointComponent);
     return EndpointComponent;
 }());
@@ -922,14 +955,14 @@ var EndpointComponent = /** @class */ (function () {
 /***/ "./src/app/components/example-collapsible/example-collapsible.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div style=\"padding: 0px 20px 0px 20px\">\n  <nav class=\"nav flex-column parent_menu\" [ngClass]=\"{'expanded' : !collapsed}\">\n    <nav (click)=\"toggleCollapse()\" class=\"collapsable-nav-header\" routerLinkActive=\"active\">\n      <h5 class=\"nav-header\">{{this.header}}</h5>\n      <div class=\"toggle-collapse\">\n        <i class=\"fas fa-angle-down\"></i>\n      </div>\n    </nav>\n    <nav [ngStyle]=\"{display:this.collapsed ? 'none' : 'block'}\" class=\"collapsable-nav-body nav flex-column sub_menu\">\n      <div *ngIf=\"this.type?.toLowerCase() == 'schema'\">\n        <app-param-console [title]=\"'Parent'\" [schema]=\"this.schema\"></app-param-console>\n      </div>\n\n      <div *ngIf=\"this.type?.toLowerCase() == 'sample'\">\n        <pre class=\"sample-body\" (click)=\"this.clickedSample.emit(this.generatedSample.json)\">\n          <!-- <code [innerHTML] = 'this.generatedSample?.highlight' class=\"hljs json\" id=\"sample79815\"></code> -->\n          <code appJsonFormat [json]=\"this.generatedSample?.json\"></code>\n        </pre>\n      </div>\n    </nav>\n  </nav>\n</div>\n<hr>\n"
+module.exports = "<div style=\"padding: 0px 20px 0px 20px\">\n  <nav class=\"nav flex-column parent_menu\" [ngClass]=\"{'expanded' : !collapsed}\">\n    <nav (click)=\"toggleCollapse()\" class=\"collapsable-nav-header\" routerLinkActive=\"active\">\n      <h5 class=\"nav-header\">{{this.header}}</h5>\n      <div class=\"toggle-collapse\">\n        <i class=\"fas fa-angle-down\"></i>\n      </div>\n    </nav>\n    <nav [ngStyle]=\"{display:this.collapsed ? 'none' : 'block'}\" class=\"collapsable-nav-body nav flex-column sub_menu\">\n      <div *ngIf=\"this.type?.toLowerCase() == 'schema'\">\n        <app-param-console [title]=\"'Parent'\" [schema]=\"this.schema\"></app-param-console>\n      </div>\n\n      <div *ngIf=\"this.type?.toLowerCase() == 'sample'\" class=\"sample-snippet rounded\">\n        <pre class=\"sample-body\" (click)=\"this.clickedSample.emit(this.generatedSample.json)\">\n          <!-- <code [innerHTML] = 'this.generatedSample?.highlight' class=\"hljs json\" id=\"sample79815\"></code> -->\n          <code appJsonFormat [json]=\"this.generatedSample?.json\"></code>\n        </pre>\n      </div>\n    </nav>\n  </nav>\n</div>\n<hr>\n"
 
 /***/ }),
 
 /***/ "./src/app/components/example-collapsible/example-collapsible.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = "/* Method Badge Colors */\n/* Nav Arrow Color */\n.collapsable-nav-header {\n  padding: 1rem 0;\n  position: relative;\n  cursor: pointer; }\n.collapsable-nav-body {\n  margin-bottom: 1rem; }\nhr {\n  margin: 0; }\nnav {\n  width: 100%;\n  color: #212529; }\nh5,\ni {\n  color: white; }\n.nav-link {\n  padding: .5rem 1rem; }\n.toggle-collapse {\n  width: 20px;\n  text-align: center;\n  position: absolute;\n  top: 16px;\n  right: 0; }\n.toggle-collapse i {\n    -webkit-transition: -webkit-transform .3s;\n    transition: -webkit-transform .3s;\n    transition: transform .3s;\n    transition: transform .3s, -webkit-transform .3s; }\n.expanded .toggle-collapse i {\n  -webkit-transform: rotate(180deg);\n          transform: rotate(180deg); }\n#sample79815 {\n  border-radius: 5px; }\npre {\n  font-size: 0; }\npre code {\n    font-size: 1rem; }\n.nav-header {\n  margin-bottom: 0; }\n.schema-property {\n  margin: 0 15px; }\n.sample-body {\n  background-color: #3f474e; }\n"
+module.exports = "/* Method Badge Colors */\n/* Nav Arrow Color */\n.collapsable-nav-header {\n  padding: 1rem 0;\n  position: relative;\n  cursor: pointer; }\n.collapsable-nav-body {\n  margin-bottom: 1rem; }\nhr {\n  margin: 0; }\nnav {\n  width: 100%;\n  color: #212529; }\n.nav-link {\n  padding: .5rem 1rem; }\n.toggle-collapse {\n  width: 20px;\n  text-align: center;\n  position: absolute;\n  top: 16px;\n  right: 0; }\n.toggle-collapse i {\n    -webkit-transition: -webkit-transform .3s;\n    transition: -webkit-transform .3s;\n    transition: transform .3s;\n    transition: transform .3s, -webkit-transform .3s; }\n.expanded .toggle-collapse i {\n  -webkit-transform: rotate(180deg);\n          transform: rotate(180deg); }\n#sample79815 {\n  border-radius: 5px; }\npre {\n  font-size: 0; }\npre code {\n    font-size: 1rem; }\n.nav-header {\n  margin-bottom: 0; }\n.schema-property {\n  margin: 0 15px; }\n"
 
 /***/ }),
 
@@ -1013,7 +1046,8 @@ var ExampleCollapsibleComponent = /** @class */ (function () {
                     temp = temp + this.generateSample(schema.items);
                 }
                 else {
-                    temp = temp + ("\"" + schema.items.type + "\"");
+                    var type = schema.items.type ? schema.items.type.toString().escapeSpecialChars() : schema.items.type;
+                    temp = temp + ("\"" + type + "\"");
                 }
             }
         }
@@ -1044,7 +1078,8 @@ var ExampleCollapsibleComponent = /** @class */ (function () {
                 }
                 else {
                     var property = schema.properties[keys[i]];
-                    temp = temp + ": \"" + property.example + "\"";
+                    var example = property.example ? property.example.toString().escapeSpecialChars() : property.example;
+                    temp = temp + ": \"" + example + "\"";
                 }
                 if (i < keys.length - 1) {
                     temp = temp + ',';
@@ -1088,14 +1123,14 @@ var ExampleCollapsibleComponent = /** @class */ (function () {
 /***/ "./src/app/components/example-side-bar/example-side-bar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\n<div id=\"appEndPoint\" *ngIf=\"!this.endpoint.protocol\">\n  <app-example-collapsible class=\"request-body-sample\" (clickedSample)=\"this.clickedBodySample.emit($event)\" *ngIf=\"this.requestSchema\" [header]=\"'Body Sample'\" [type]=\"'sample'\" [schema]=\"this.requestSchema\"></app-example-collapsible>\n  <app-example-collapsible *ngIf=\"this.requestSchema\" [header]=\"'Body Schema'\" [type]=\"'schema'\" [schema]=\"this.requestSchema\"></app-example-collapsible>\n\n  <app-example-collapsible *ngIf=\"this.responseSchema\" [header]=\"'Response Sample'\" [type]=\"'sample'\" [schema]=\"this.responseSchema\"></app-example-collapsible>\n  <app-example-collapsible *ngIf=\"this.responseSchema\" [header]=\"'Response Schema'\" [type]=\"'schema'\" [schema]=\"this.responseSchema\"></app-example-collapsible>\n</div>\n\n\n<div id=\"socketEndpoint\" *ngIf=\"this.endpoint.protocol\">\n  <!--Request Messages-->\n  <div id=\"{{'request' + j}}\" *ngFor=\"let m of this.endpoint?.requestMessages | getIndex: this.showRequestMessageOfIndex; let j = index\">\n    <app-example-collapsible id=\"{{'requestSample' + j}}\" (clickedSample)=\"this.clickedBodySample.emit($event)\" *ngIf=\"m.schema\" [header]=\"'Request Sample'\" [type]=\"'sample'\" [schema]=\"m.schema\"></app-example-collapsible>\n    <app-example-collapsible id=\"{{'requestSchema' + j}}\" *ngIf=\"m.schema\" [header]=\"'Request Schema'\" [type]=\"'schema'\" [schema]=\"m.schema\"></app-example-collapsible>\n  </div>\n  <!--Response Messages-->\n  <div style=\"padding: 20px 20px 20px 20px\">\n    <nav class=\"nav flex-column parent_menu\">\n      <nav class=\"collapsable-nav-header\" routerLinkActive=\"active\">\n        <h5 class=\"nav-header\">Responses</h5>\n        <tabset>\n          <tab *ngFor=\"let m of this.endpoint?.responseMessages; let i = index\" heading=\"{{('Response ' +1)}}\" id=\"{{'response' + i}}\">\n            <div class='socketMessageDescription'style=\"padding: 5px\">\n              {{m.description}}\n            </div>\n            <app-example-collapsible id=\"{{'responseSample' + i}}\" *ngIf=\"m.schema\" [header]=\"'Sample'\" [type]=\"'sample'\" [schema]=\"m.schema\"></app-example-collapsible>\n            <app-example-collapsible id=\"{{'responseSchema' + i}}\" *ngIf=\"m.schema\" [header]=\"'Schema'\" [type]=\"'schema'\" [schema]=\"m.schema\"></app-example-collapsible>\n          </tab>\n        </tabset>\n      </nav>\n    </nav>\n  </div>\n</div>\n<h5 *ngIf=\"(!this.responseSchema && !this.requestSchema) && (!_isArray(this.endpoint.requestMessages) && !_isArray(this.endpoint.responseMessages))\" class=\"no-samples text-muted\">No Samples</h5>\n"
+module.exports = "\n<div id=\"appEndPoint\" *ngIf=\"!this.endpoint.protocol\">\n  <app-example-collapsible class=\"request-body-sample\" (clickedSample)=\"this.clickedBodySample.emit($event)\" *ngIf=\"this.requestSchema\" [header]=\"'Body Sample'\" [type]=\"'sample'\" [schema]=\"this.requestSchema\"></app-example-collapsible>\n  <app-example-collapsible *ngIf=\"this.requestSchema\" [header]=\"'Body Schema'\" [type]=\"'schema'\" [schema]=\"this.requestSchema\"></app-example-collapsible>\n\n  <app-example-collapsible *ngIf=\"this.responseSchema\" [header]=\"'Response Sample'\" [type]=\"'sample'\" [schema]=\"this.responseSchema\"></app-example-collapsible>\n  <app-example-collapsible *ngIf=\"this.responseSchema\" [header]=\"'Response Schema'\" [type]=\"'schema'\" [schema]=\"this.responseSchema\"></app-example-collapsible>\n</div>\n\n\n<div id=\"socketEndpoint\" *ngIf=\"this.endpoint.protocol\">\n  <!--Request Messages-->\n  <div id=\"{{'request' + j}}\" *ngFor=\"let m of this.endpoint?.requestMessages | getIndex: this.showRequestMessageOfIndex; let j = index\">\n    <app-example-collapsible id=\"{{'requestSample' + j}}\" (clickedSample)=\"this.clickedBodySample.emit($event)\" *ngIf=\"m.schema\" [header]=\"'Request Sample'\" [type]=\"'sample'\" [schema]=\"m.schema\"></app-example-collapsible>\n    <app-example-collapsible id=\"{{'requestSchema' + j}}\" *ngIf=\"m.schema\" [header]=\"'Request Schema'\" [type]=\"'schema'\" [schema]=\"m.schema\"></app-example-collapsible>\n  </div>\n  <!--Response Messages-->\n  <div style=\"padding: 20px 20px 20px 20px\">\n    <nav class=\"\">\n      <nav routerLinkActive=\"active\">\n        <h5>Responses</h5>\n        <tabset>\n          <tab *ngFor=\"let m of this.endpoint?.responseMessages; let i = index\" heading=\"{{('Response ' +1)}}\" id=\"{{'response' + i}}\">\n            <div class='socketMessageDescription'style=\"padding: 5px\">\n              {{m.description}}\n            </div>\n            <app-example-collapsible id=\"{{'responseSample' + i}}\" *ngIf=\"m.schema\" [header]=\"'Sample'\" [type]=\"'sample'\" [schema]=\"m.schema\"></app-example-collapsible>\n            <app-example-collapsible id=\"{{'responseSchema' + i}}\" *ngIf=\"m.schema\" [header]=\"'Schema'\" [type]=\"'schema'\" [schema]=\"m.schema\"></app-example-collapsible>\n          </tab>\n        </tabset>\n      </nav>\n    </nav>\n  </div>\n</div>\n<h5 *ngIf=\"(!this.responseSchema && !this.requestSchema) && (!_isArray(this.endpoint.requestMessages) && !_isArray(this.endpoint.responseMessages))\" class=\"no-samples text-muted\">No Samples</h5>\n"
 
 /***/ }),
 
 /***/ "./src/app/components/example-side-bar/example-side-bar.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".no-samples {\n  padding: calc(15px + 1rem); }\n\nh5,\ni {\n  color: white; }\n\n.socketMessageDescription {\n  padding: 10px;\n  color: white; }\n"
+module.exports = ".no-samples {\n  padding: calc(15px + 1rem); }\n\n.socketMessageDescription {\n  padding: 10px; }\n"
 
 /***/ }),
 
@@ -1433,12 +1468,12 @@ var SocketEndpointComponent = /** @class */ (function () {
         if (id) {
             var elem = document.getElementById(id);
             if (elem) {
-                window.scrollTo(0, elem.offsetTop + 56);
+                window.scrollTo(0, elem.offsetTop + 40);
                 // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, elem.offsetTop);
             }
         }
         else {
-            window.scrollTo(0, 0 + 56);
+            window.scrollTo(0, 0 + 40);
             // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, 0);
         }
     };
@@ -1450,7 +1485,7 @@ var SocketEndpointComponent = /** @class */ (function () {
                 window.scrollTo(0, i_1);
                 i_1 += 100;
                 if (i_1 >= targetPosition) {
-                    window.scrollTo(0, targetPosition + 56);
+                    window.scrollTo(0, targetPosition + 40);
                     clearInterval(interval_1);
                 }
             }, 15);
@@ -1462,7 +1497,7 @@ var SocketEndpointComponent = /** @class */ (function () {
                 window.scrollTo(0, i_2);
                 i_2 -= 100;
                 if (i_2 <= targetPosition) {
-                    window.scrollTo(0, targetPosition + 56);
+                    window.scrollTo(0, targetPosition + 40);
                     clearInterval(interval_2);
                 }
             }, 15);
@@ -1687,7 +1722,7 @@ var JsonFormatDirective = /** @class */ (function () {
                 this.json = JSON.parse(this.json);
             }
             this.el.nativeElement.innerHTML = '';
-            var formatter = new __WEBPACK_IMPORTED_MODULE_1_json_formatter_js___default.a(this.json, 1, options);
+            var formatter = new __WEBPACK_IMPORTED_MODULE_1_json_formatter_js___default.a(this.json, 3, options);
             var elem = formatter.render();
             this.renderer.appendChild(this.el.nativeElement, elem);
         }
@@ -3248,6 +3283,61 @@ var LocalStorageService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/services/shared-vars.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SharedVarsService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__local_storage_service__ = __webpack_require__("./src/app/services/local-storage.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var SharedVarsService = /** @class */ (function () {
+    function SharedVarsService(localStorageService) {
+        this.localStorageService = localStorageService;
+    }
+    SharedVarsService.prototype.ngOnInit = function () {
+    };
+    SharedVarsService.prototype.initSharedVars = function (endpoints) {
+        var _this = this;
+        var res = {};
+        endpoints.forEach(function (endpoint) {
+            if (endpoint.parameters && endpoint.parameters.length) {
+                endpoint.parameters.forEach(function (param) {
+                    if (!param.default && param.in !== 'body' && !res[param.name]) {
+                        res[param.name] = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+                        var localStorageVal = _this.localStorageService.getStorageVar(param.name);
+                        if (localStorageVal) {
+                            res[param.name].next(localStorageVal);
+                        }
+                    }
+                });
+            }
+        });
+        this.sharedVars = res;
+    };
+    SharedVarsService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__local_storage_service__["a" /* LocalStorageService */]])
+    ], SharedVarsService);
+    return SharedVarsService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/services/socket/socket.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3316,6 +3406,7 @@ var SwaggerService = /** @class */ (function () {
         this.http = http;
         this.notify = notify;
         this.specHost = '';
+        this.endpoints = [];
         this.apiDataSubject = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.endpointsSubject = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.wsEndpointsSubject = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
@@ -3408,6 +3499,7 @@ var SwaggerService = /** @class */ (function () {
                 var _loop_2 = function (methodKey) {
                     if (path.hasOwnProperty(methodKey)) {
                         var method_1 = path[methodKey];
+                        this_1.endpoints.push(method_1);
                         if (method_1.tags) {
                             method_1.tags.filter(function (tag) {
                                 if (!result[tag]) {
@@ -3433,6 +3525,7 @@ var SwaggerService = /** @class */ (function () {
                 }
             }
         };
+        var this_1 = this;
         for (var pathKey in endpoints) {
             _loop_1(pathKey);
         }
@@ -3450,7 +3543,12 @@ var SwaggerService = /** @class */ (function () {
                 }
             }
             else {
-                host = apiData.url.match('(https*:\\/\\/[^\\/]*)')[0];
+                try {
+                    host = apiData.url.match('(https*:\\/\\/[^\\/]*)')[0];
+                }
+                catch (e) {
+                    this.notify.error('Failed to parse host url for api');
+                }
                 protocol = '';
             }
             basePath = apiData.spec && apiData.spec.basePath ? apiData.spec.basePath : '';
@@ -3465,10 +3563,12 @@ var SwaggerService = /** @class */ (function () {
             _this.setHostUrl(apiData);
             _this.setApiData(apiData);
             if (websocketSpecUrl) {
-                _this.initWsSpec(websocketSpecUrl).then(function (res) {
+                return _this.initWsSpec(websocketSpecUrl).then(function (res) {
                     var sortedRestEndpoints = _this.sortApiEndpointsByTags(apiData.spec.paths);
                     var sortedCombinedEndpoints = _this.appendWsEndpointToTags(sortedRestEndpoints, res);
+                    // this.sharedVarsService.initSharedVars(this.endpoints);
                     _this.setSortedEndpoints(sortedCombinedEndpoints);
+                    return _this.endpoints;
                 }, function (error) {
                     _this.notify.error('Error', 'Swangler socket spec JSON was not loaded');
                     _this.setSortedEndpoints(_this.sortApiEndpointsByTags(apiData.spec.paths));
@@ -3484,8 +3584,10 @@ var SwaggerService = /** @class */ (function () {
         });
     };
     SwaggerService.prototype.appendWsEndpointToTags = function (restEndpoints, wsEndpoints) {
+        var _this = this;
         if (wsEndpoints && wsEndpoints.socketEndpoints) {
             wsEndpoints.socketEndpoints.forEach(function (endpoint) {
+                _this.endpoints.push(endpoint);
                 if (endpoint && endpoint.tags && endpoint.tags.length > 0) {
                     endpoint.tags.forEach(function (tag) {
                         if (!restEndpoints[tag]) {
@@ -3538,14 +3640,14 @@ var SwaggerService = /** @class */ (function () {
 /***/ "./src/app/views/endpoints-view/endpoints-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<main role=\"main\" class=\"container-fluid\">\n  <div id=\"swagger-ui-container\" class=\"row\">\n\n    <div id=\"swagger_sidebar\" class=\"col-lg-3 col-xl-2 sps sps--blw\">\n\n      <div id=\"auth_main_container\" class=\"collapse \">\n        <div class=\"row\">\n          <div class=\"col-12\">\n\n            <app-auth-component [securityDefinitions]='apiData?.spec.securityDefinitions'></app-auth-component>\n\n          </div>\n        </div>\n      </div>\n\n      <div id=\"sticky_nav_wrapper\" class=\"sticky-top collapse mb-3\">\n        <div id=\"sticky_nav\" class=\"pt-2 pb-2\">\n          <div class=\"row\" data-navigator=\"\">\n\n            <app-sidebar-nav [tags]='sortedApiData | async' [sectionToExpand]='endpointTag'></app-sidebar-nav>\n\n          </div>\n        </div>\n\n        <app-contact class=\"card d-block\" [contactData]='apiData?.spec.info'></app-contact>\n      </div>\n\n\n    </div>\n\n    <div id=\"resources_container\" class=\"col-lg-9 col-xl-10\">\n      <div id=\"resources\" class=\"\">\n        <div id=\"resource_Accounts\" class=\"resource\">\n          <h5 *ngIf=\"this.wrongTag\" class=\"no-endpoint-data\">No data for {{this.endpointTag}}</h5>\n          <div *ngIf=\"!this.wrongTag\" class=\"endpoints\" id=\"Accounts_endpoint_list\">\n            <div *ngFor=\"let endpoint of endpoints\">\n              <app-endpoint *ngIf=\"endpoint.responses\" (clickedTestEndPoint)=\"this.clickTest($event, modal)\" [endpointData]=\"endpoint\"\n                [scrollToId]='scrollToId'></app-endpoint>\n              <app-socket-endpoint *ngIf=\"endpoint.responseMessages\" (clickedSeeSocketMessages)=\"this.showSocketMessages($event, modal)\"\n                [endpointData]=\"endpoint\" [scrollToId]='scrollToId'></app-socket-endpoint>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n\n  <div class=\"modal fade\" bsModal #modal=\"bs-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"mySmallModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-xlg\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <h5 class=\"modal-title text-center\">{{this['result'].header}}\n            <span class=\"http_method badge badge-primary\">{{this['result'].method}}</span>\n          </h5>\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <svg class=\"svg-inline--fa fa-times fa-w-12\" aria-hidden=\"true\" data-fa-processed=\"\" data-prefix=\"fal\" data-icon=\"times\"\n              role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\">\n              <path fill=\"currentColor\" d=\"M217.5 256l137.2-137.2c4.7-4.7 4.7-12.3 0-17l-8.5-8.5c-4.7-4.7-12.3-4.7-17 0L192 230.5 54.8 93.4c-4.7-4.7-12.3-4.7-17 0l-8.5 8.5c-4.7 4.7-4.7 12.3 0 17L166.5 256 29.4 393.2c-4.7 4.7-4.7 12.3 0 17l8.5 8.5c4.7 4.7 12.3 4.7 17 0L192 281.5l137.2 137.2c4.7 4.7 12.3 4.7 17 0l8.5-8.5c4.7-4.7 4.7-12.3 0-17L217.5 256z\"></path>\n            </svg>\n          </button>\n        </div>\n        <div class=\"modal-body\">\n\n          <div class=\"response\" *ngIf=\"!this['result'].websocket\">\n            <small class=\"text-uppercase\">Request URL</small>\n            <div class=\"mt-2 mb-3 request_url\">\n              <div class=\"hljs rounded\">{{this['result'].url}}</div>\n            </div>\n\n            <small class=\"text-uppercase\">Response Body</small>\n            <div class=\"mt-2 mb-3 response_body rounded\">\n              <!-- <pre class=\"json\"><code [innerHTML]=\"this['result'].responseBody\" class=\"rounded hljs\"></code></pre> -->\n              <pre class=\"json\">\n                <code class=\"rounded\" appJsonFormat [json]=\"this['result'].responseBodyJson\"></code>\n              </pre>\n            </div>\n\n\n            <small class=\"text-uppercase\">Response Code</small>\n            <div class=\"mt-2 mb-3 response_code\">\n              <pre><code class=\"hljs rounded\" [innerHTML]=\"this['result'].responseCode\"></code></pre>\n            </div>\n\n            <small class=\"text-uppercase\">Response Headers</small>\n            <div class=\"mt-2 response_headers\">\n              <pre clas=\"json\"><code class=\"hljs rounded json\" [innerHTML]=\"this['result'].responseHeader\"></code></pre>\n            </div>\n          </div>\n\n          <div class=\"response\" *ngIf=\"this['result'].websocket\">\n            <small class=\"text-uppercase\">Request URL</small>\n            <div class=\"mt-2 mb-3 request_url\">\n              <div class=\"hljs rounded\">{{this['result'].url}}</div>\n            </div>\n\n\n            <small class=\"text-uppercase\">Messages</small>\n            <tabset>\n              <tab class=\"response_body\" [heading]=\"message.msg_type\" *ngFor=\"let message of this['result'].messages\">\n                <pre class=\"json\">\n                    <!-- <code [innerHTML]=\"message.response\" class=\"rounded hljs\"></code> -->\n                    <code class=\"rounded\" appJsonFormat [json]=\"message.response\"></code>\n                  </pre>\n              </tab>\n            </tabset>\n          </div>\n\n        </div>\n      </div>\n\n    </div>\n  </div>\n</main>\n"
+module.exports = "<main role=\"main\" class=\"container-fluid\">\n  <div id=\"swagger-ui-container\" class=\"row\">\n\n    <div id=\"swagger_sidebar\" class=\"col-lg-3 col-xl-2 sps sps--blw\">\n\n      <div id=\"auth_main_container\" class=\"collapse \">\n        <div class=\"row\">\n          <div class=\"col-12\">\n\n            <app-auth-component [securityDefinitions]='apiData?.spec.securityDefinitions'></app-auth-component>\n\n          </div>\n        </div>\n      </div>\n\n      <div id=\"sticky_nav_wrapper\" class=\"sticky-top collapse mb-3\">\n        <div id=\"sticky_nav\" class=\"pt-2 pb-2\">\n          <div class=\"row\" data-navigator=\"\">\n\n            <app-sidebar-nav [tags]='sortedApiData | async' [sectionToExpand]='endpointTag'></app-sidebar-nav>\n\n          </div>\n        </div>\n\n        <app-contact class=\"card d-block\" [contactData]='apiData?.spec.info'></app-contact>\n      </div>\n\n\n    </div>\n\n    <div id=\"resources_container\" class=\"col-lg-9 col-xl-10\">\n      <div id=\"resources\" class=\"\">\n        <div id=\"resource_Accounts\" class=\"resource\">\n          <h5 *ngIf=\"this.wrongTag\" class=\"no-endpoint-data\">No data for {{this.endpointTag}}</h5>\n          <div *ngIf=\"!this.wrongTag\" class=\"endpoints\" id=\"Accounts_endpoint_list\">\n            <div *ngFor=\"let endpoint of endpoints\">\n              <app-endpoint *ngIf=\"endpoint.responses\" (clickedTestEndPoint)=\"this.clickTest($event, modal)\" [endpointData]=\"endpoint\"\n                [scrollToId]='scrollToId'></app-endpoint>\n              <app-socket-endpoint *ngIf=\"endpoint.responseMessages\" (clickedSeeSocketMessages)=\"this.showSocketMessages($event, modal)\"\n                [endpointData]=\"endpoint\" [scrollToId]='scrollToId'></app-socket-endpoint>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n\n\n  <div class=\"modal fade\" bsModal #modal=\"bs-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"mySmallModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-xlg\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <h5 class=\"modal-title text-center\">{{this['result'].header}}\n            <span class=\"http_method badge badge-primary\">{{this['result'].method}}</span>\n          </h5>\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <svg class=\"svg-inline--fa fa-times fa-w-12\" aria-hidden=\"true\" data-fa-processed=\"\" data-prefix=\"fal\" data-icon=\"times\"\n              role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\">\n              <path fill=\"currentColor\" d=\"M217.5 256l137.2-137.2c4.7-4.7 4.7-12.3 0-17l-8.5-8.5c-4.7-4.7-12.3-4.7-17 0L192 230.5 54.8 93.4c-4.7-4.7-12.3-4.7-17 0l-8.5 8.5c-4.7 4.7-4.7 12.3 0 17L166.5 256 29.4 393.2c-4.7 4.7-4.7 12.3 0 17l8.5 8.5c4.7 4.7 12.3 4.7 17 0L192 281.5l137.2 137.2c4.7 4.7 12.3 4.7 17 0l8.5-8.5c4.7-4.7 4.7-12.3 0-17L217.5 256z\"></path>\n            </svg>\n          </button>\n        </div>\n        <div class=\"modal-body\">\n\n          <div class=\"response\" *ngIf=\"!this['result'].websocket\">\n            <small class=\"text-uppercase\">Request URL</small>\n            <div class=\"mt-2 mb-3 request_url\">\n              <div class=\"hljs rounded\">{{this['result'].url}}</div>\n            </div>\n\n            <small class=\"text-uppercase\">Response Body</small>\n            <div class=\"mt-2 mb-3 response_body rounded\">\n              <!-- <pre class=\"json\"><code [innerHTML]=\"this['result'].responseBody\" class=\"rounded hljs\"></code></pre> -->\n              <pre class=\"json\">\n                <code class=\"rounded hljs\" appJsonFormat [json]=\"this['result'].responseBodyJson\"></code>\n              </pre>\n            </div>\n\n\n            <small class=\"text-uppercase\">Response Code</small>\n            <div class=\"mt-2 mb-3 response_code\">\n              <pre><code class=\"hljs rounded\" [innerHTML]=\"this['result'].responseCode\"></code></pre>\n            </div>\n\n            <small class=\"text-uppercase\">Response Headers</small>\n            <div class=\"mt-2 response_headers\">\n              <pre clas=\"json\"><code class=\"hljs rounded json\" [innerHTML]=\"this['result'].responseHeader\"></code></pre>\n            </div>\n          </div>\n\n          <div class=\"response\" *ngIf=\"this['result'].websocket\">\n            <small class=\"text-uppercase\">Request URL</small>\n            <div class=\"mt-2 mb-3 request_url\">\n              <div class=\"hljs rounded\">{{this['result'].url}}</div>\n            </div>\n\n\n            <small class=\"text-uppercase\">Messages</small>\n            <tabset>\n              <tab class=\"response_body\" [heading]=\"message.msg_type\" *ngFor=\"let message of this['result'].messages\">\n                <pre class=\"json\">\n                    <!-- <code [innerHTML]=\"message.response\" class=\"rounded hljs\"></code> -->\n                    <code class=\"rounded hljs\" appJsonFormat [json]=\"message.response\"></code>\n                  </pre>\n              </tab>\n            </tabset>\n          </div>\n\n        </div>\n      </div>\n\n    </div>\n  </div>\n</main>\n"
 
 /***/ }),
 
 /***/ "./src/app/views/endpoints-view/endpoints-view.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".request_url {\n  font-family: SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace; }\n\n.response code {\n  max-height: 300px; }\n\n.no-endpoint-data {\n  padding: 1rem; }\n\n.response_body {\n  background-color: #3f474e; }\n\ntab pre {\n  font-size: 0; }\n\ntab pre code {\n    font-size: 1rem; }\n"
+module.exports = ".request_url {\n  font-family: SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace; }\n\n.response code {\n  max-height: 300px; }\n\n.no-endpoint-data {\n  padding: 1rem; }\n\n.response_body {\n  background-color: #3f474e; }\n\ntab pre {\n  font-size: 0; }\n\ntab pre code {\n    font-size: 1rem; }\n\n.modal-dialog .response_body pre {\n  font-size: 0; }\n\n.modal-dialog .hljs {\n  font-size: 0.87rem; }\n\n.modal-dialog code {\n  font-family: SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace; }\n"
 
 /***/ }),
 
@@ -3564,6 +3666,7 @@ module.exports = ".request_url {\n  font-family: SFMono-Regular, Menlo, Monaco, 
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_notifications__ = __webpack_require__("./node_modules/angular2-notifications/angular2-notifications.umd.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_notifications___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_angular2_notifications__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_config_service_config_service__ = __webpack_require__("./src/app/services/config-service/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_shared_vars_service__ = __webpack_require__("./src/app/services/shared-vars.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3581,22 +3684,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var EndpointsViewComponent = /** @class */ (function () {
-    function EndpointsViewComponent(route, swaggerService, localDataService, notify, configService) {
+    function EndpointsViewComponent(route, swaggerService, localDataService, notify, configService, sharedVarsService) {
         this.route = route;
         this.swaggerService = swaggerService;
         this.localDataService = localDataService;
         this.notify = notify;
         this.configService = configService;
+        this.sharedVarsService = sharedVarsService;
         this.wrongTag = false;
         this.scrollToId = null;
         this.sortedApiData = this.swaggerService.getEndpointsSortedByTags();
-        this.result = {};
+        this.result = {
+            'header': '',
+            'method': '',
+            'url': '',
+            'responseBody': '',
+            'responseCode': '',
+            'responseHeader': ''
+        };
     }
     EndpointsViewComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.configService.initConfigService().then(function (config) {
-            _this.swaggerService.initSwagger(config.spec, config.websocket_spec);
+            _this.swaggerService.initSwagger(config.spec, config.websocket_spec)
+                .then(function (endpoints) {
+                if (endpoints) {
+                    _this.sharedVarsService.initSharedVars(endpoints);
+                }
+            });
         }, function (error) {
             _this.notify.error(error);
         });
@@ -3693,7 +3810,8 @@ var EndpointsViewComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_2__services_swagger_service__["a" /* SwaggerService */],
             __WEBPACK_IMPORTED_MODULE_4__services_local_storage_service__["a" /* LocalStorageService */],
             __WEBPACK_IMPORTED_MODULE_6_angular2_notifications__["NotificationsService"],
-            __WEBPACK_IMPORTED_MODULE_7__services_config_service_config_service__["a" /* ConfigService */]])
+            __WEBPACK_IMPORTED_MODULE_7__services_config_service_config_service__["a" /* ConfigService */],
+            __WEBPACK_IMPORTED_MODULE_8__services_shared_vars_service__["a" /* SharedVarsService */]])
     ], EndpointsViewComponent);
     return EndpointsViewComponent;
 }());
