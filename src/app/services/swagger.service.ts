@@ -84,7 +84,9 @@ export class SwaggerService {
       for (const queryName in callData.query) {
         if (callData.query.hasOwnProperty(queryName)) {
           const queryValue = callData.query[queryName];
-          options['params'] = options['params'].append(queryName, queryValue);
+          if (queryValue) {
+            options['params'] = options['params'].append(queryName, queryValue);
+          }
         }
       }
     }
