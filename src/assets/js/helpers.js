@@ -9,5 +9,3 @@ String.prototype.escapeSpecialChars = function() {
     .replace(/[\r]/g, '\\r')
     .replace(/[\t]/g, '\\t');
 };
-
-console.log('init')
