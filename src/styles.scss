@@ -30,6 +30,11 @@
   display: block;
 }
 
+textarea {
+  white-space: nowrap;
+  min-height: 200px;
+}
+
 @media (min-width: 576px) {
   .modal-xlg {
     width: 90%;

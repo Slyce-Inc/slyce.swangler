@@ -18,6 +18,7 @@ import { ImageBytesService } from '../../services/image-bytes.service';
 import { TabsModule } from 'ngx-bootstrap';
 import { Subject } from 'rxjs/Subject';
 import {AltInputModule} from '../alt-input/altInput.module';
+import { SharedVarsService } from '../../services/shared-vars.service';
 
 const openSubj = new Subject();
 const closeSubj = new Subject();
@@ -38,6 +39,10 @@ const connection = {
     },
     send: () => {},
   }
+};
+
+const sharedVarsServiceStub = {
+  sharedVars: {}
 };
 
 const SocketServiceStub = {
@@ -83,7 +88,7 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
   }
 };
 
-describe('SocketEndpointComponent', () => {
+fdescribe('SocketEndpointComponent', () => {
   @Component({
     selector: 'app-example-side-bar',
     template: '<span></span>'
@@ -110,6 +115,7 @@ describe('SocketEndpointComponent', () => {
       providers: [
         EndpointsSharedService,
         NotificationsService,
+        { provide: SharedVarsService, useValue: sharedVarsServiceStub },
         { provide: SocketService, useValue: SocketServiceStub },
         { provide: SwaggerService, useValue: SwaggerServiceStub },
         { provide: LocalStorageService, useValue: LocalStorageServiceStub },
@@ -149,6 +155,10 @@ describe('SocketEndpointComponent', () => {
         fail();
       }
     });
+
+    console.log(component.parameterFields);
+    console.log(component.endpointData);
+
     expect(component.parameterFields['account_id'].value).toEqual('spec-test');
   });
 
