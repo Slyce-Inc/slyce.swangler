@@ -20,14 +20,12 @@ import { ParamConsoleComponent } from './components/param-console/param-console.
 import { SidebarNavComponent } from './components/sidebar-nav/sidebar-nav.component';
 import {MainViewComponent} from './views/main/main.component';
 import { ExampleCollapsibleComponent } from './components/example-collapsible/example-collapsible.component';
-import { EndpointComponent } from './components/endpoint/endpoint.component';
 import {ExampleSideBarComponent} from './components/example-side-bar/example-side-bar.component';
 import {EndpointsViewComponent} from './views/endpoints-view/endpoints-view.component';
 import { EndpointsSharedService } from './services/endpoints-shared.service';
 import {SimpleNotificationsModule} from 'angular2-notifications';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ImageBytesService } from './services/image-bytes.service';
-import { SocketEndpointComponent } from './components/socket-endpoint/socket-endpoint.component';
 import { SocketService } from './services/socket/socket.service';
 import {CommonModule} from '@angular/common';
 import { GetIndexPipe } from './pipes/get-index.pipe';
@@ -35,7 +33,11 @@ import {AltInputModule} from './components/alt-input/altInput.module';
 import { JsonFormatDirective } from './directives/json-format.directive';
 import {ConfigService} from './services/config-service/config.service';
 import { SharedVarsService } from './services/shared-vars.service';
-
+import { RestEndpointComponent } from './components/temp-endpoint/rest-endpoint/rest-endpoint.component';
+import {SocketEndpointComponent} from './components/temp-endpoint/socket-endpoint/socket-endpoint.component';
+import { InSelectorComponent } from './components/temp-endpoint/in-selector/in-selector.component';
+import { BodyComponent } from './components/temp-endpoint/in-selector/body/body.component';
+import { OtherComponent } from './components/temp-endpoint/in-selector/other/other.component';
 @NgModule({
   declarations: [
     ContactComponent,
@@ -50,11 +52,14 @@ import { SharedVarsService } from './services/shared-vars.service';
     CollapsableNavComponent,
     ExampleSideBarComponent,
     MainViewComponent,
-    EndpointComponent,
     EndpointsViewComponent,
     SocketEndpointComponent,
     GetIndexPipe,
-    JsonFormatDirective
+    JsonFormatDirective,
+    RestEndpointComponent,
+    InSelectorComponent,
+    BodyComponent,
+    OtherComponent
   ],
   imports: [
     AltInputModule,
