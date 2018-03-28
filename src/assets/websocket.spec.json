@@ -3,7 +3,7 @@
     {
       "operationId": "test",
       "summary": "test endpoint summary",
-      "url": "/accounts/{account_id}/spaces/{space_id}/workflows/{workflow_id}",
+      "url": "/ws/accounts/{account_id}/spaces/{space_id}/workflows/{workflow_id}",
       "protocol": [ "ws", "wss" ],
       "name": "message",
       "parameters": [
@@ -92,14 +92,14 @@
           "in": "path",
           "name": "space_id",
           "type": "string",
-          "default": "8cf3c527-6bfa-46a9-8457-014ed1b05858",
+          "default": "",
           "required": "true"
         },
         {
           "in": "path",
           "name": "workflow_id",
           "type": "string",
-          "default": "441af309-ea03-474f-8946-42da6c89a1a9",
+          "default": "",
           "required": "true"
         },
         {
@@ -259,5 +259,5 @@
       ]
     }
   ],
-  "baseURL": "ws://localhost:8001"
+  "baseURL": "ws://localhost"
 }

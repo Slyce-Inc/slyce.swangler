@@ -84,7 +84,9 @@ export class SwaggerService {
       for (const queryName in callData.query) {
         if (callData.query.hasOwnProperty(queryName)) {
           const queryValue = callData.query[queryName];
-          options['params'] = options['params'].append(queryName, queryValue);
+          if (queryValue) {
+            options['params'] = options['params'].append(queryName, queryValue);
+          }
         }
       }
     }
@@ -170,22 +172,22 @@ export class SwaggerService {
       let host;
       let basePath;
 
+      if (apiData.spec && apiData.spec.schemes) {
+        protocol = (apiData.spec.schemes.indexOf('https') !== -1 ? 'https' : apiData.spec.schemes[0] || 'http') + '://';
+      } else {
+        protocol = window.location.protocol + '//';
+      }
       if (apiData.spec && apiData.spec.host) {
         host = apiData.spec.host;
-        if (apiData.spec.schemes) {
-          protocol = (apiData.spec.schemes.indexOf('https') !== -1 ? 'https' : apiData.spec.schemes[0] || 'http') + '://';
-        }
       } else {
         try {
-          host = apiData.url.match('(https*:\\/\\/[^\\/]*)')[0];
+          const matches = apiData.url.match('(https*://)*([^/]*)');
+          host = matches[matches.length - 1];
         } catch ( e ) {
-          this.notify.error('Failed to parse host url for api');
+          host = window.location.host;
         }
-        protocol = '';
       }
-
       basePath = apiData.spec && apiData.spec.basePath ? apiData.spec.basePath : '';
-
       this.specHost = protocol + host + basePath;
     }
   }

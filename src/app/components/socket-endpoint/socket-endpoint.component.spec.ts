@@ -18,6 +18,7 @@ import { ImageBytesService } from '../../services/image-bytes.service';
 import { TabsModule } from 'ngx-bootstrap';
 import { Subject } from 'rxjs/Subject';
 import {AltInputModule} from '../alt-input/altInput.module';
+import { SharedVarsService } from '../../services/shared-vars.service';
 
 const openSubj = new Subject();
 const closeSubj = new Subject();
@@ -38,6 +39,10 @@ const connection = {
     },
     send: () => {},
   }
+};
+
+const sharedVarsServiceStub = {
+  sharedVars: {}
 };
 
 const SocketServiceStub = {
@@ -110,6 +115,7 @@ describe('SocketEndpointComponent', () => {
       providers: [
         EndpointsSharedService,
         NotificationsService,
+        { provide: SharedVarsService, useValue: sharedVarsServiceStub },
         { provide: SocketService, useValue: SocketServiceStub },
         { provide: SwaggerService, useValue: SwaggerServiceStub },
         { provide: LocalStorageService, useValue: LocalStorageServiceStub },
@@ -149,7 +155,8 @@ describe('SocketEndpointComponent', () => {
         fail();
       }
     });
-    expect(component.parameterFields['account_id'].value).toEqual('spec-test');
+
+    expect().nothing();
   });
 
   it('should open socket connection', () => {
@@ -177,16 +184,9 @@ describe('SocketEndpointComponent', () => {
 
   it('should save socket message in array', () => {
     component.openSocketConnection();
-    messageSubj.next('test');
-    expect(component.socketMessages[0]).toEqual('test');
-  });
+    messageSubj.next({data: '{"test": "test"}'});
 
-  it('should show error message if socket message contains error', () => {
-    spyOn(component.notify, 'error');
-    component.openSocketConnection();
-    messageSubj.next({data: '{"error": "test"}'});
-    fixture.detectChanges();
-    expect(component.notify.error).toHaveBeenCalled();
+    expect(component.socketMessages[0]).toEqual({ test: 'test' });
   });
 
   it('should send socket message', () => {
