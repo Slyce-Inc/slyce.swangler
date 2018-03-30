@@ -15,13 +15,15 @@ export class AppClickedTestRes {
   };
 
   public selectedResponse?: any;
+  public selectedRequest?: any;
   public parameterFields?: any;
   public endPointData?: AppEndPoint;
 
-  constructor(endPointData: AppEndPoint, selectedResponse, parameterFields) {
+  constructor(endPointData: AppEndPoint, selectedResponse, selectedRequest, parameterFields) {
     this.selectedResponse = selectedResponse;
     this.parameterFields = parameterFields;
     this.endPointData = endPointData;
+    this.selectedRequest = selectedRequest;
   }
 }
 

@@ -9,9 +9,10 @@ import { Observable } from 'rxjs/Observable';
 import { LocalStorageService } from './local-storage.service';
 import {Access, EndpointAccesses} from '../models/endpointAccess/endpoint-access.model';
 import {ApiData} from '../models/apidata.model';
-import {APPENDPOINT, REQUEST_INITIATOR} from '../models/MOCK_DATA';
+import {APPENDPOINT, REQUEST_INITIATOR, REQUEST_INITIATOR_OBJ} from '../models/MOCK_DATA';
+import {AppClickedTestRes} from '../models/endpoint/clicked-test-res';
 
-const endpointsMockData = [{ 'test': APPENDPOINT }];
+const endpointsMockData = [{ 'test': JSON.parse(JSON.stringify(APPENDPOINT)) }];
 
 const LocalStorageServiceStub: Partial<LocalStorageService> = {
   getStorageVar: (varName) => {
@@ -113,9 +114,18 @@ describe('SwaggerService', () => {
 
     service.setHostUrl({ 'url': 'http://forge.local/openapi/spec.json', 'spec': { 'host': 'test.com', schemes: [], basePath: '/v2' } });
     expect(service.specHost).toEqual('http://test.com/v2');
+
+    service.setHostUrl({ 'url': '../openapi/spec.json', 'spec': { 'host': null, schemes: ['http'], basePath: '/v2' } });
+    expect(service.specHost).toEqual('http://' + window.location.host + '/v2');
+
+    service.setHostUrl({ 'url': '../openapi/spec.json', 'spec': { 'host': null, schemes: ['https'], basePath: '/v2' } });
+    expect(service.specHost).toEqual('https://' + window.location.host + '/v2');
+
+    service.setHostUrl({ 'url': '../openapi/spec.json', 'spec': { 'host': null, schemes: ['http']} });
+    expect(service.specHost).toEqual('http://' + window.location.host);
   });
 
-  it('should call initSwagger', () => {
+  it('should call initSwaggerconso', () => {
     spyOn(service, 'initSwagger');
     service.setSpecUrl('');
     expect(service.initSwagger).toHaveBeenCalled();
@@ -131,10 +141,23 @@ describe('SwaggerService', () => {
 
   it('should build endpoint options', fakeAsync(() => {
     const endpointOptions = service.buildEndpointOptions(new RequestInitiator(requestMockData, localStorageService));
-
     expect(endpointOptions['observe']).toEqual('response');
     expect(endpointOptions['headers'].get('slyce-account-id')).toEqual('test');
     expect(endpointOptions['headers'].get('slyce-api-key')).toEqual('test');
+    expect(endpointOptions['headers'].get('accept')).toEqual('application/json');
+    expect(endpointOptions['headers'].get('content-type')).toBeFalsy();
+    expect(endpointOptions['params'].get('page_number')).toEqual(1);
+    expect(endpointOptions['params'].get('page_size')).toEqual(20);
+  }));
+
+  it('should build endpoint options', fakeAsync(() => {
+    const test: AppClickedTestRes = JSON.parse(JSON.stringify(requestMockData));
+    test.selectedRequest = 'application/json';
+    const endpointOptions = service.buildEndpointOptions(new RequestInitiator(test, localStorageService));
+    expect(endpointOptions['observe']).toEqual('response');
+    expect(endpointOptions['headers'].get('slyce-account-id')).toEqual('test');
+    expect(endpointOptions['headers'].get('slyce-api-key')).toEqual('test');
+    expect(endpointOptions['headers'].get('accept')).toEqual('application/json');
     expect(endpointOptions['headers'].get('content-type')).toEqual('application/json');
     expect(endpointOptions['params'].get('page_number')).toEqual(1);
     expect(endpointOptions['params'].get('page_size')).toEqual(20);
@@ -240,5 +263,20 @@ describe('SwaggerService', () => {
     test(fake, 'null tag');
     delete fake.socketEndpoints[0].tags;
     test(fake, 'no tag field');
+  });
+
+  it('should build body correctly on content-type application/json', function () {
+    const test: RequestInitiator = JSON.parse(JSON.stringify(REQUEST_INITIATOR_OBJ));
+    test.headers['Content-Type'] = 'application/json';
+    expect(service.buildBody(test)).toEqual(test.body);
+  });
+  it('should build body correctly on content-type ', function () {
+    const test: RequestInitiator = JSON.parse(JSON.stringify(REQUEST_INITIATOR_OBJ));
+    test.headers['Content-Type'] = 'multipart/form-data';
+    const result: FormData = service.buildBody(test);
+    /*for (const pair of result.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
+    }*/
+    expect(result).toBeTruthy();
   });
 });
