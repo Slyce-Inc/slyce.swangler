@@ -113,6 +113,15 @@ describe('SwaggerService', () => {
 
     service.setHostUrl({ 'url': 'http://forge.local/openapi/spec.json', 'spec': { 'host': 'test.com', schemes: [], basePath: '/v2' } });
     expect(service.specHost).toEqual('http://test.com/v2');
+
+    service.setHostUrl({ 'url': '../openapi/spec.json', 'spec': { 'host': null, schemes: ['http'], basePath: '/v2' } });
+    expect(service.specHost).toEqual('http://' + window.location.host + '/v2');
+
+    service.setHostUrl({ 'url': '../openapi/spec.json', 'spec': { 'host': null, schemes: ['https'], basePath: '/v2' } });
+    expect(service.specHost).toEqual('https://' + window.location.host + '/v2');
+
+    service.setHostUrl({ 'url': '../openapi/spec.json', 'spec': { 'host': null, schemes: ['http']} });
+    expect(service.specHost).toEqual('http://' + window.location.host);
   });
 
   it('should call initSwaggerconso', () => {

@@ -198,7 +198,7 @@ export class SwaggerService {
         host = apiData.spec.host;
       } else {
         try {
-          const matches = apiData.url.match('(https*://)*([^/]*)');
+          const matches = apiData.url.match('(https*://)([^/]*)');
           host = matches[matches.length - 1];
         } catch ( e ) {
           host = window.location.host;
