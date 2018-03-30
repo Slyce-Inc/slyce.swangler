@@ -63,14 +63,7 @@ export class SocketEndpointComponent extends EndpointComponent {
       }
     }
   }
-  /* Init the default parameters to the parameter fields */
-  public saveToLocalStorage(event) {
-    const name = event.srcElement.getAttribute('ng-reflect-name');
-    if (this.sharedVarsService.sharedVars[name]) {
-      this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
-      this.localStorageService.setStorageVar(name, event.srcElement.value);
-    }
-  }
+
   applySampleBody(event, selectedRequest) {
     this.endpointData['requestMessages'][selectedRequest].value = event;
   }
