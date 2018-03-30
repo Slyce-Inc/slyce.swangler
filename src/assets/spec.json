@@ -2833,7 +2833,7 @@
             "name": "csv",
             "description": "file to upload",
             "required": true,
-            "in": "body"
+            "in": "formData"
           }
         ],
         "responses": {

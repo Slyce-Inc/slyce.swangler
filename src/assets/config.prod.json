@@ -1,0 +1,4 @@
+{
+  "spec": "../openapi/spec.json",
+  "websocket_spec" : "assets/websocket.spec.json"
+}

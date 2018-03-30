@@ -3,18 +3,14 @@ import { NgModule } from '@angular/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { SwaggerService } from './services/swagger.service';
-
 import { AuthComponent } from './components/auth-component/auth-component.controller';
 import { LocalStorageService } from './services/local-storage.service';
 import { FormsModule } from '@angular/forms';
-
 import {BsDatepickerModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
-
 import {SampleViewComponent} from './views/sample/sample.controller';
 import {AppRoutingModule} from './app-routing.module';
 import { CollapsableNavComponent } from './components/collapsable-nav/collapsable-nav.component';
-
 import { ContactComponent } from './components/contact/contact.component';
 import { ParamConsoleComponent } from './components/param-console/param-console.component';
 import { SidebarNavComponent } from './components/sidebar-nav/sidebar-nav.component';
@@ -33,11 +29,8 @@ import {AltInputModule} from './components/alt-input/altInput.module';
 import { JsonFormatDirective } from './directives/json-format.directive';
 import {ConfigService} from './services/config-service/config.service';
 import { SharedVarsService } from './services/shared-vars.service';
-import { RestEndpointComponent } from './components/temp-endpoint/rest-endpoint/rest-endpoint.component';
-import {SocketEndpointComponent} from './components/temp-endpoint/socket-endpoint/socket-endpoint.component';
-import { InSelectorComponent } from './components/temp-endpoint/in-selector/in-selector.component';
-import { BodyComponent } from './components/temp-endpoint/in-selector/body/body.component';
-import { OtherComponent } from './components/temp-endpoint/in-selector/other/other.component';
+import { RestEndpointComponent } from './components/endpoint/rest-endpoint/rest-endpoint.component';
+import {SocketEndpointComponent} from './components/endpoint/socket-endpoint/socket-endpoint.component';
 @NgModule({
   declarations: [
     ContactComponent,
@@ -56,10 +49,7 @@ import { OtherComponent } from './components/temp-endpoint/in-selector/other/oth
     SocketEndpointComponent,
     GetIndexPipe,
     JsonFormatDirective,
-    RestEndpointComponent,
-    InSelectorComponent,
-    BodyComponent,
-    OtherComponent
+    RestEndpointComponent
   ],
   imports: [
     AltInputModule,

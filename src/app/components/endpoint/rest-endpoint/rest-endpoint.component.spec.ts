@@ -1,24 +1,24 @@
+import {SecurityDefinition} from '../../../models/auth/security-definition';
 import {Observable} from 'rxjs/Observable';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {AppEndPoint} from '../../../models/endpoint/endpoint.model';
+import {RestEndpointComponent} from './rest-endpoint.component';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
+import {SharedVarsService} from '../../../services/shared-vars.service';
+import {LocalStorageService} from '../../../services/local-storage.service';
+import {EndpointsSharedService} from '../../../services/endpoints-shared.service';
 import {NotificationsService} from 'angular2-notifications';
+import {APPENDPOINT} from '../../../models/MOCK_DATA';
 import {By} from '@angular/platform-browser';
 import {Subject} from 'rxjs/Subject';
-import {SecurityDefinition} from '../../models/auth/security-definition';
-import {AppEndPoint} from '../../models/endpoint/endpoint.model';
-import {RestEndpointComponent} from './rest-endpoint/rest-endpoint.component';
-import {SharedVarsService} from '../../services/shared-vars.service';
-import {LocalStorageService} from '../../services/local-storage.service';
-import {EndpointsSharedService} from '../../services/endpoints-shared.service';
-import {APPENDPOINT} from '../../models/MOCK_DATA';
 
 
 const sharedVarsServiceStub = {
   sharedVars: {}
 };
 
-const securityDefinition = JSON.parse(JSON.stringify(SecurityDefinition.MOCK_DATA));
+const securityDefinition = SecurityDefinition.MOCK_DATA;
 
 const storage = {};
 const LocalStorageServiceStub = {
@@ -263,12 +263,5 @@ describe('EndpointComponent', () => {
     component.sharedVarsService.sharedVars['account_id'].next('test2');
 
     expect(component.parameterFields['account_id'].value).toEqual('test2');
-  });
-  it('should init selected request for the content type to the first available', function () {
-    const test: AppEndPoint = JSON.parse(JSON.stringify(APPENDPOINT));
-    test.consumes[0] = 'multipart/form-data';
-    component.endpointData = test;
-    component.initSelectedRequest();
-    expect(component.selectedRequest).toEqual('multipart/form-data');
   });
 });
