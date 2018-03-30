@@ -72,7 +72,7 @@
 
                         </div>
 
-                        <div *ngIf="parm['in'].toLowerCase() == 'formdata'">
+                        <div *ngIf="this.shouldUseFileUploadBox(parm)">
                           <input id="input" type="file" (change)="this.onChangeInput(parm.name, $event)">
                           <div class="media-body">
                             <label class="align-self-center mb-0 mr-3">Content Type:</label>
@@ -82,7 +82,7 @@
                           </div>
                         </div>
 
-                        <div *ngIf="parm['in'].toLowerCase() !== 'body' && parm['in'].toLowerCase() !== 'formdata'">
+                        <div *ngIf="parm['in'].toLowerCase() !== 'body' && !this.shouldUseFileUploadBox(parm)">
                           <input class="parameter form-control " minlength="0" placeholder="{{parm.required == true ? '(required)' : ''}}" [required]='parm.required'
                                  [(ngModel)]='this.parameterFields[parm.name].value' type="string" [name]='parm.name' (change)="saveToLocalStorage($event)">
                         </div>
