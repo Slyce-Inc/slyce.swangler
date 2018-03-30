@@ -1,0 +1,4 @@
+{
+  "spec": "assets/spec.json",
+  "websocket_spec" : "assets/websocket.spec.json"
+}
