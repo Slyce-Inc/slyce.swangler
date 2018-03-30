@@ -10,6 +10,7 @@ import { LocalStorageService } from './local-storage.service';
 import {Access, EndpointAccesses} from '../models/endpointAccess/endpoint-access.model';
 import {ApiData} from '../models/apidata.model';
 import {APPENDPOINT, REQUEST_INITIATOR, REQUEST_INITIATOR_OBJ} from '../models/MOCK_DATA';
+import {AppClickedTestRes} from '../models/endpoint/clicked-test-res';
 
 const endpointsMockData = [{ 'test': JSON.parse(JSON.stringify(APPENDPOINT)) }];
 
@@ -144,7 +145,20 @@ describe('SwaggerService', () => {
     expect(endpointOptions['headers'].get('slyce-account-id')).toEqual('test');
     expect(endpointOptions['headers'].get('slyce-api-key')).toEqual('test');
     expect(endpointOptions['headers'].get('accept')).toEqual('application/json');
-    expect(endpointOptions['headers'].get('content-type')).toEqual('multipart/form-data');
+    expect(endpointOptions['headers'].get('content-type')).toBeFalsy();
+    expect(endpointOptions['params'].get('page_number')).toEqual(1);
+    expect(endpointOptions['params'].get('page_size')).toEqual(20);
+  }));
+
+  it('should build endpoint options', fakeAsync(() => {
+    const test: AppClickedTestRes = JSON.parse(JSON.stringify(requestMockData));
+    test.selectedRequest = 'application/json';
+    const endpointOptions = service.buildEndpointOptions(new RequestInitiator(test, localStorageService));
+    expect(endpointOptions['observe']).toEqual('response');
+    expect(endpointOptions['headers'].get('slyce-account-id')).toEqual('test');
+    expect(endpointOptions['headers'].get('slyce-api-key')).toEqual('test');
+    expect(endpointOptions['headers'].get('accept')).toEqual('application/json');
+    expect(endpointOptions['headers'].get('content-type')).toEqual('application/json');
     expect(endpointOptions['params'].get('page_number')).toEqual(1);
     expect(endpointOptions['params'].get('page_size')).toEqual(20);
   }));
