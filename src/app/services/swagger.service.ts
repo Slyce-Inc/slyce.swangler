@@ -83,7 +83,8 @@ export class SwaggerService {
   }
 
   buildEndpointOptions(callData: RequestInitiator) {
-    const options = { observe: 'response' };
+    const options = {};
+    options['observe'] = 'response';
     if (callData.headers) {
       options['headers'] = new HttpHeaders();
 
