@@ -1,4 +1,5 @@
 import {LocalStorageService} from '../../services/local-storage.service';
+import {AppClickedTestRes} from './clicked-test-res';
 
 export class Endpoint {
   public operationId: string;
@@ -60,8 +61,7 @@ export class RequestInitiator {
   public headers: RequestEntry = {};
   public method: string;
   [httpPart: string]: RequestEntry | any;
-  constructor(request, localDataService: LocalStorageService) {
-    // console.log(request);
+  constructor(request: AppClickedTestRes, localDataService: LocalStorageService) {
     this.method = request.endPointData.method;
     this.url = request.endPointData.url;
     if ( request.endPointData.security ) {
@@ -74,8 +74,11 @@ export class RequestInitiator {
       });
     }
 
+    if (request.selectedRequest) {
+      this.setContentType(request.selectedRequest);
+    }
     if (request.selectedResponse) {
-      this.setContentType(request.selectedResponse);
+      this.setAccept(request.selectedResponse);
     }
     if (request.parameterFields) {
       Object.keys(request.parameterFields).forEach(entry => {
@@ -93,7 +96,9 @@ export class RequestInitiator {
   public setContentType(contentType: string) {
     this.headers['Content-Type'] = contentType;
   }
-
+  public setAccept(acceptType: string) {
+    this.headers['Accept'] = acceptType;
+  }
   public addHeader(headerKey: string, headerValue: string) {
     this.headers[headerKey] = headerValue;
   }

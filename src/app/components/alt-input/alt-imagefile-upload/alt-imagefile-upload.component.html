@@ -1,12 +1,12 @@
 <div class="alert alert-warning" role="alert">
   <strong>Substitute -> {{this.header}}:</strong>
-  <div>
-  </div>
+<div>
+</div>
 
   <div>
     <div class="row no-gutters">
       <div class="col-10">
-        <input id="input" type="file" (change)="this.onChangeAction($event)" #fileInput>
+        <input id="input" type="file" accept="image/x-png,image/jpeg" (change)="this.onChangeAction($event)" #fileInput>
       </div>
       <div class="col-1">
         <span (click) = "this.clearInput()" *ngIf="this.hasContent" class="badge badge-danger">X</span>
