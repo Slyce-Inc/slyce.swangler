@@ -191,7 +191,6 @@ export const RESPONSE_SCHEMA =  {
 };
 export const REQUEST_INITIATOR = {
   'selectedResponse': 'application/json',
-  'selectedRequest': 'multipart/form-data',
   'parameterFields': {
     'page_number': {
       'type': 'integer',
@@ -345,23 +344,6 @@ export const REQUEST_INITIATOR = {
     'url': '/accounts/',
     'method': 'get'
   }
-};
-
-export const REQUEST_INITIATOR_OBJ = {
-  'headers': {
-    'slyce-account-id': 'slyce',
-    'slyce-api-key': 'slyce',
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  },
-  'method': 'post',
-  'url': '/accounts/{account_id}/spaces/{space_id}/datasets/',
-  'path': {
-    'account_id': 'test_inc',
-    'space_id': '95YVr4JzyyxJa2GkHGz7Jb'
-  },
-  'body': '{\n    \'dataset_type\': \'dataset\',\n    \'name\': \'DemoDataset\',\n    \'image_url_keys\': [\n       ' +
-  ' \'string\'\n    ],\n    \'copy_from\': \'none\'\n}'
 };
 
 export const APPENDPOINT = {

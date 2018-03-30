@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   sortedApiData: Observable<any> = this.swaggerService.getEndpointsSortedByTags();
   apiData;
 
-  public appEndPoint: AppEndPoint = JSON.parse(JSON.stringify(APPENDPOINT));
+  public appEndPoint: AppEndPoint = APPENDPOINT;
   public options = {
     timeOut: 5000,
     showProgressBar: false,

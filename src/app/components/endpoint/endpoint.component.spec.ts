@@ -1,24 +1,26 @@
-import {Observable} from 'rxjs/Observable';
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { EndpointComponent } from './endpoint.component';
 import {FormsModule} from '@angular/forms';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {AppEndPoint} from '../../models/endpoint/endpoint.model';
+import {EndpointsSharedService} from '../../services/endpoints-shared.service';
 import {NotificationsService} from 'angular2-notifications';
 import {By} from '@angular/platform-browser';
-import {Subject} from 'rxjs/Subject';
-import {SecurityDefinition} from '../../models/auth/security-definition';
-import {AppEndPoint} from '../../models/endpoint/endpoint.model';
-import {RestEndpointComponent} from './rest-endpoint/rest-endpoint.component';
-import {SharedVarsService} from '../../services/shared-vars.service';
-import {LocalStorageService} from '../../services/local-storage.service';
-import {EndpointsSharedService} from '../../services/endpoints-shared.service';
 import {APPENDPOINT} from '../../models/MOCK_DATA';
+import { SharedVarsService } from '../../services/shared-vars.service';
+import { Observable } from 'rxjs/Observable';
+import { SecurityDefinition } from '../../models/auth/security-definition';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { Subject } from 'rxjs/Subject';
+
 
 
 const sharedVarsServiceStub = {
   sharedVars: {}
 };
 
-const securityDefinition = JSON.parse(JSON.stringify(SecurityDefinition.MOCK_DATA));
+const securityDefinition = SecurityDefinition.MOCK_DATA;
 
 const storage = {};
 const LocalStorageServiceStub = {
@@ -43,13 +45,13 @@ describe('EndpointComponent', () => {
     @Input('endpoint') endpoint: AppEndPoint;
     @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
   }
-  let component: RestEndpointComponent;
-  let fixture: ComponentFixture<RestEndpointComponent>;
+  let component: EndpointComponent;
+  let fixture: ComponentFixture<EndpointComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        RestEndpointComponent,
+        EndpointComponent,
         ExampleSideBarComponent
       ],
       imports: [
@@ -66,11 +68,15 @@ describe('EndpointComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RestEndpointComponent);
+    fixture = TestBed.createComponent(EndpointComponent);
     component = fixture.componentInstance;
     component.endpointData = JSON.parse(JSON.stringify(APPENDPOINT));
     this.endpointsSharedService = TestBed.get(EndpointsSharedService);
     fixture.detectChanges();
+  });
+  it('should check if smoothScroll is called without failure', () => {
+    component.smoothScroll(1, 1000);
+    component.smoothScroll(1000, 1);
   });
   it('should initSelectedResponse with data from endpointData', () => {
     component.ngOnInit();
@@ -263,12 +269,5 @@ describe('EndpointComponent', () => {
     component.sharedVarsService.sharedVars['account_id'].next('test2');
 
     expect(component.parameterFields['account_id'].value).toEqual('test2');
-  });
-  it('should init selected request for the content type to the first available', function () {
-    const test: AppEndPoint = JSON.parse(JSON.stringify(APPENDPOINT));
-    test.consumes[0] = 'multipart/form-data';
-    component.endpointData = test;
-    component.initSelectedRequest();
-    expect(component.selectedRequest).toEqual('multipart/form-data');
   });
 });
