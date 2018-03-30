@@ -30,7 +30,7 @@ describe('SharedVarsService', () => {
   }));
 
   it('should init shared vars', inject([SharedVarsService], (service: SharedVarsService) => {
-    service.initSharedVars([APPENDPOINT]);
+    service.initSharedVars([JSON.parse(JSON.stringify(APPENDPOINT))]);
     expect(service.sharedVars['account_id']).toBeDefined();
   }));
 });

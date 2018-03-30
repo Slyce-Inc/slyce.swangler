@@ -19,7 +19,6 @@ export class SampleViewComponent {
   public endPointData: AppEndPoint = APPENDPOINT as AppEndPoint;
   constructor(public swagger: SwaggerService) {
     this.swagger.getEndpointsSortedByTags().subscribe(res => {
-      console.log(res);
       this.swaggerData = res;
     });
   }

@@ -55,17 +55,35 @@ export class SwaggerService {
 
   testEndpoint(callData: RequestInitiator): Observable<any> {
     const options = this.buildEndpointOptions(callData);
-
-    if (callData.body && (callData.method === 'put' || 'patch' || 'post')) {
-      return this.http[callData.method](this.specHost + this.substitutePath(callData.url, callData.path), callData.body, options);
+    const body = this.buildBody(callData);
+    if (callData.method === 'put' || 'patch' || 'post') {
+      return this.http[callData.method](this.specHost + this.substitutePath(callData.url, callData.path), body, options);
     } else {
       return this.http[callData.method](this.specHost + this.substitutePath(callData.url, callData.path), options);
     }
   }
 
+  buildBody(callData: RequestInitiator): any {
+    if (callData.headers && callData.headers['Content-Type'] === 'multipart/form-data') {
+      const formData: FormData = new FormData();
+      if (callData['formData']) {
+        for (const property in callData['formData']) {
+          if (callData['formData'].hasOwnProperty(property)) {
+            formData.append(property, callData['formData'][property],  callData['formData'][property].filename);
+          }
+        }
+      }
+      if (callData['body']) {
+        formData.append('data', JSON.stringify(callData['body']));
+      }
+      return formData;
+    } else {
+      return callData.body;
+    }
+  }
+
   buildEndpointOptions(callData: RequestInitiator) {
     const options = { observe: 'response' };
-
     if (callData.headers) {
       options['headers'] = new HttpHeaders();
 
@@ -90,7 +108,6 @@ export class SwaggerService {
         }
       }
     }
-
     return options;
   }
 
@@ -210,14 +227,15 @@ export class SwaggerService {
           }, error => {
             this.notify.error('Error', 'Swangler socket spec JSON was not loaded');
             this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
+            throw error;
           });
         } else {
           this.setSortedEndpoints(this.sortApiEndpointsByTags(apiData.spec.paths));
         }
       })
-      .catch( err => {
-        console.error(err);
+      .catch( error => {
         this.notify.error('Error', 'Swagger spec JSON was not loaded');
+        throw error;
       });
   }
 
