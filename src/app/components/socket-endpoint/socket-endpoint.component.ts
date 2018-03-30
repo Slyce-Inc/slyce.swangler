@@ -1,24 +1,39 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {RequestInitiator} from '../../../models/endpoint/endpoint.model';
-import {AppClickedTestRes} from '../../../models/endpoint/clicked-test-res';
-import {AltInputEventModel} from '../../alt-input/model/AltInputEvent.model';
-import {SharedVarsService} from '../../../services/shared-vars.service';
-import {NotificationsService} from 'angular2-notifications';
-import {EndpointsSharedService} from '../../../services/endpoints-shared.service';
-import {LocalStorageService} from '../../../services/local-storage.service';
-import {SocketObservables} from '../../../models/socketObservables/socketObservables';
-import {SwaggerService} from '../../../services/swagger.service';
-import {SocketService} from '../../../services/socket/socket.service';
-import {EndpointComponent} from '../endpoint.component';
+import {Component, EventEmitter, Input, OnInit, Output, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
+import {AppEndPoint, RequestInitiator} from '../../models/endpoint/endpoint.model';
+import {AppClickedSampleRes} from '../../models/endpoint/clicked-sample-res';
+import {AppClickedTestRes} from '../../models/endpoint/clicked-test-res';
+import {LocalStorageService} from '../../services/local-storage.service';
+import {SwaggerService} from '../../services/swagger.service';
+import { EndpointsSharedService } from '../../services/endpoints-shared.service';
+import { NotificationsService } from 'angular2-notifications';
+import { SocketService } from '../../services/socket/socket.service';
+import { SocketObservables } from '../../models/socketObservables/socketObservables';
+import { ImageBytesService } from '../../services/image-bytes.service';
+import {AltInputEventModel} from '../alt-input/model/AltInputEvent.model';
+import { SharedVarsService } from '../../services/shared-vars.service';
+
 
 @Component({
   selector: 'app-socket-endpoint',
   templateUrl: './socket-endpoint.component.html',
   styleUrls: ['./socket-endpoint.component.scss']
 })
-export class SocketEndpointComponent extends EndpointComponent {
+export class SocketEndpointComponent implements OnInit, OnChanges, AfterViewInit {
+  @Input() scrollToId: string;
+  /* Accepts AppEndPoint object */
+  @Input('endpointData') endpointData: AppEndPoint;
+  /* Call back on sample toggle */
+  @Output('clickedSample') clickedSample: EventEmitter<AppClickedSampleRes> = new EventEmitter();
+  /* Call back on test button click */
+  @Output('clickedTestEndPoint') clickedTestEndPoint: EventEmitter<AppClickedTestRes> = new EventEmitter<any>();
   @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
 
+  /* Selected wanted response format from endpoint */
+  public selectedResponse;
+  /* Inputed values from user for each parameter otherwise go default */
+  public parameterFields = {};
+  public Object = Object;
+  isExamplesHidden;
   bodyParams = [];
   selectedRequestType = 0;
   isConnectionStarted = false;
@@ -29,16 +44,41 @@ export class SocketEndpointComponent extends EndpointComponent {
   public altInputs = {};
   constructor(
     public endpointsSharedService: EndpointsSharedService,
+    public notify: NotificationsService,
+    public socketService: SocketService,
+    public swaggerService: SwaggerService,
+    public localStorageService: LocalStorageService,
     public notificationService: NotificationsService,
     public sharedVarsService: SharedVarsService,
-    public localStorageService: LocalStorageService, public swaggerService: SwaggerService, public socketService: SocketService) {
-    super(endpointsSharedService, notificationService, sharedVarsService, localStorageService);
+  ) {
   }
 
-  /**
-   * Override
-   */
-  public initParameterFields() {
+  ngOnInit() {
+    this.initParameterFields();
+    this.initSelectedResponse();
+  }
+
+  ngAfterViewInit() {
+    if ( this.endpointData.operationId === this.scrollToId ) {
+      this.scrollToElem(this.scrollToId);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ( changes.scrollToId.currentValue ) {
+      if ( this.endpointData.operationId === changes.scrollToId.currentValue ) {
+        this.scrollToElem(changes.scrollToId.currentValue);
+      }
+    } else if ( changes.scrollToId.currentValue === null ) {
+      this.scrollToElem();
+    }
+  }
+  private getElementById(id) {
+    return document.getElementById(id);
+  }
+
+  /* Init the default parameters to the parameter fields */
+  private initParameterFields() {
     for (let i = 0; i < this.endpointData['requestMessages'].length; i++) {
       const element = this.endpointData['requestMessages'][i];
       element.value = element.default || element.example || null;
@@ -56,30 +96,92 @@ export class SocketEndpointComponent extends EndpointComponent {
           ((elem) => {
             this.sharedVarsService.sharedVars[elem]
               .subscribe(value => {
-                this.parameterFields[elem].value = value;
-              });
+                  this.parameterFields[elem].value = value;
+                });
           })(params[p].name);
         }
       }
     }
   }
-  /* Init the default parameters to the parameter fields */
-  public saveToLocalStorage(event) {
+
+  saveToLocalStorage(event) {
     const name = event.srcElement.getAttribute('ng-reflect-name');
     if (this.sharedVarsService.sharedVars[name]) {
       this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
       this.localStorageService.setStorageVar(name, event.srcElement.value);
     }
   }
+
+  private scrollToElem(id?: string) {
+    if ( id ) {
+      const elem = document.getElementById(id);
+      if (elem) {
+        window.scrollTo(0, elem.offsetTop + 40);
+        // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, elem.offsetTop);
+      }
+    } else {
+      window.scrollTo(0, 0 + 40);
+      // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, 0);
+    }
+  }
+
+  smoothScroll (currentPosition, targetPosition) {
+
+    if (currentPosition < targetPosition) {
+      // scroll down
+      let i = currentPosition;
+      const interval = setInterval(() => {
+        window.scrollTo(0, i);
+        i += 100;
+        if ( i >= targetPosition ) {
+          window.scrollTo(0, targetPosition + 40);
+          clearInterval(interval);
+        }
+      }, 15);
+
+    } else {
+      // scoll up
+      let i = currentPosition;
+      const interval = setInterval(() => {
+        window.scrollTo(0, i);
+        i -= 100;
+        if ( i <= targetPosition ) {
+          window.scrollTo(0, targetPosition + 40);
+          clearInterval(interval);
+        }
+      }, 15);
+
+    }
+  }
+
+  tryEndpointRequest(endpointForm) {
+    const invalidFields = [];
+    for (const key in endpointForm.controls) {
+      if (endpointForm.controls.hasOwnProperty(key)) {
+        const element = endpointForm.controls[key];
+        if (element.invalid) {
+          invalidFields.push(key);
+        }
+      }
+    }
+
+    if (endpointForm.invalid) {
+      this.notify.error('Error', invalidFields.join(', ') + ' required!');
+    }
+
+    this.clickedTestEndPoint.emit(this.clickTestEndPointButton());
+  }
+
   applySampleBody(event, selectedRequest) {
     this.endpointData['requestMessages'][selectedRequest].value = event;
   }
+
   openSocketConnection() {
     if ( !this.isConnectionStarted ) {
       this.socketMessages = [];
 
       const request = new RequestInitiator(
-        new AppClickedTestRes(this.endpointData, this.selectedResponse, this.selectedRequestType, this.parameterFields),
+        new AppClickedTestRes(this.endpointData, this.selectedResponse, this.parameterFields),
         this.localStorageService
       );
       this.swaggerService.getWsEndpoints().subscribe( data => {
@@ -111,6 +213,7 @@ export class SocketEndpointComponent extends EndpointComponent {
       this.socketMessages = [];
     }
   }
+
   showMessagesClicked() {
     const socketData = {};
     socketData['header'] = this.endpointData.summary;
@@ -118,6 +221,7 @@ export class SocketEndpointComponent extends EndpointComponent {
     socketData['messages'] = this.socketMessages;
     this.clickedSeeSocketMessages.emit(socketData);
   }
+
   sendSocketMessage() {
     if (this.endpointData['requestMessages'][this.selectedRequestType].value) {
       this.connection.socket.send(this.endpointData['requestMessages'][this.selectedRequestType].value);
@@ -179,4 +283,15 @@ export class SocketEndpointComponent extends EndpointComponent {
     }
     return result;
   }
+
+  private initSelectedResponse() {
+    this.selectedResponse = this.endpointData.produces ? this.endpointData.produces[0] : null;
+  }
+  public clickTestEndPointButton() {
+    return ( new AppClickedTestRes(this.endpointData, this.selectedResponse, this.parameterFields));
+  }
+  public clickedToggleExamples() {
+    this.endpointsSharedService.endpointsExamplesToggle();
+  }
 }
+

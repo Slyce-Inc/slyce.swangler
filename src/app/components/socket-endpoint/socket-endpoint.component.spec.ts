@@ -1,22 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {Subject} from 'rxjs/Subject';
-import {ImageBytesService} from '../../../services/image-bytes.service';
-import {LocalStorageService} from '../../../services/local-storage.service';
-import {WS_SPEC_MOCK, WSENDPOINT} from '../../../models/MOCK_DATA';
-import {SwaggerService} from '../../../services/swagger.service';
-import {Observable} from 'rxjs/Observable';
-import {ApiData} from '../../../models/apidata.model';
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {AppEndPoint} from '../../../models/endpoint/endpoint.model';
-import {SocketEndpointComponent} from './socket-endpoint.component';
-import {FormsModule} from '@angular/forms';
-import {TabsModule} from 'ngx-bootstrap';
-import {AltInputModule} from '../../alt-input/altInput.module';
-import {EndpointsSharedService} from '../../../services/endpoints-shared.service';
-import {NotificationsService} from 'angular2-notifications';
-import {SharedVarsService} from '../../../services/shared-vars.service';
-import {SocketService} from '../../../services/socket/socket.service';
-import {By} from '@angular/platform-browser';
+
+import { SocketEndpointComponent } from './socket-endpoint.component';
+import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, Directive } from '@angular/core';
+import { AppEndPoint } from '../../models/endpoint/endpoint.model';
+import { EndpointsSharedService } from '../../services/endpoints-shared.service';
+import { NotificationsService } from 'angular2-notifications';
+import { By } from '@angular/platform-browser';
+import { WSENDPOINT, WS_SPEC_MOCK } from '../../models/MOCK_DATA';
+import { SocketService } from '../../services/socket/socket.service';
+import { SwaggerService } from '../../services/swagger.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import { ApiData } from '../../models/apidata.model';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { ImageBytesService } from '../../services/image-bytes.service';
+import { TabsModule } from 'ngx-bootstrap';
+import { Subject } from 'rxjs/Subject';
+import {AltInputModule} from '../alt-input/altInput.module';
+import { SharedVarsService } from '../../services/shared-vars.service';
 
 const openSubj = new Subject();
 const closeSubj = new Subject();
@@ -134,6 +136,11 @@ describe('SocketEndpointComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should check if smoothScroll is called without failure', () => {
+    component.smoothScroll(1, 1000);
+    component.smoothScroll(1000, 1);
+  });
+
   it('should initParameterFields with endpointData', () => {
     component.ngOnInit();
 
@@ -201,6 +208,13 @@ describe('SocketEndpointComponent', () => {
   it('should init selected response', () => {
     component.ngOnInit();
     expect(component.selectedResponse).toEqual('application/json');
+  });
+
+
+
+  it('should check if smoothScroll is called without failure', () => {
+    component.smoothScroll(1, 1000);
+    component.smoothScroll(1000, 1);
   });
   it('should initSelectedResponse with data from endpointData', () => {
     component.ngOnInit();

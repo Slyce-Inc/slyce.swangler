@@ -51,8 +51,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
           }
         });
     }, error => {
-      this.notify.error(error.message);
-      throw error;
+      this.notify.error(error);
     });
     this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
       if (queryParams.enpt) {

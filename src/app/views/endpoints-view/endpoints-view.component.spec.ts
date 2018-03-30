@@ -13,6 +13,7 @@ import { HttpHeaders} from '@angular/common/http';
 import { NotificationsService } from 'angular2-notifications';
 import {APPENDPOINT, REQUEST_INITIATOR} from '../../models/MOCK_DATA';
 import { TabsModule } from 'ngx-bootstrap';
+import {WsSpecModel} from '../../models/ws-spec.model';
 import {ConfigService} from '../../services/config-service/config.service';
 import { SharedVarsService } from '../../services/shared-vars.service';
 
@@ -50,7 +51,7 @@ const LocalStorageServiceStub: Partial<LocalStorageService> = {
 
 const groupedEndpointsMock = [];
 groupedEndpointsMock['test'] = [];
-groupedEndpointsMock['test'].push(JSON.parse(JSON.stringify(APPENDPOINT)));
+groupedEndpointsMock['test'].push(APPENDPOINT);
 
 const SwaggerServiceStub: Partial<SwaggerService> = {
   getEndpointsSortedByTags: () => {
@@ -127,9 +128,9 @@ class MockContactComponent {
 
 @Component({
   template: '',
-  selector: 'app-rest-endpoint'
+  selector: 'app-endpoint'
 })
-class MockRestEndpointComponent {
+class MockEndpointComponent {
   @Input() endpointData;
   @Input() scrollToId;
   @Output() clickedTestEndPoint: EventEmitter<any> = new EventEmitter();
@@ -146,7 +147,7 @@ describe('EndpointsViewComponent', () => {
         MockAuthComponent,
         MockSidebarNavComponent,
         MockContactComponent,
-        MockRestEndpointComponent,
+        MockEndpointComponent,
         MockBsModalDirective,
         MockJsonFormatDirective,
         MockSocketEndpointComponent
@@ -183,7 +184,7 @@ describe('EndpointsViewComponent', () => {
     spyOn(component, 'clickTest').and.returnValue(true);
     component.ngOnInit();
     fixture.detectChanges();
-    const appEndpoint = fixture.debugElement.query(By.css('app-rest-endpoint')).nativeElement;
+    const appEndpoint = fixture.debugElement.query(By.css('app-endpoint')).nativeElement;
     appEndpoint.dispatchEvent(new Event('clickedTestEndPoint'));
     expect(component.clickTest).toHaveBeenCalled();
   });

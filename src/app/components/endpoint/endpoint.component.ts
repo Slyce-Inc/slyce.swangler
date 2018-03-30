@@ -1,12 +1,24 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
 import {AppEndPoint} from '../../models/endpoint/endpoint.model';
 import {AppClickedSampleRes} from '../../models/endpoint/clicked-sample-res';
 import {AppClickedTestRes} from '../../models/endpoint/clicked-test-res';
-import {NotificationsService} from 'angular2-notifications';
-import {SharedVarsService} from '../../services/shared-vars.service';
 import {LocalStorageService} from '../../services/local-storage.service';
-import {EndpointsSharedService} from '../../services/endpoints-shared.service';
-export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
+import {SwaggerService} from '../../services/swagger.service';
+import { EndpointsSharedService } from '../../services/endpoints-shared.service';
+import { NotificationsService } from 'angular2-notifications';
+import { SharedVarsService } from '../../services/shared-vars.service';
+
+
+@Component({
+  selector: 'app-endpoint',
+  templateUrl: './endpoint.component.html',
+  styleUrls: ['./endpoint.component.scss']
+})
+export class EndpointComponent implements OnInit, OnChanges, AfterViewInit {
+  /* Sample toggle on button click is hidden*/
+  public isHidden: Boolean;
+
+
   @Input() scrollToId: string;
   /* Accepts AppEndPoint object */
   @Input('endpointData') endpointData: AppEndPoint;
@@ -14,10 +26,9 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   @Output('clickedSample') clickedSample: EventEmitter<AppClickedSampleRes> = new EventEmitter();
   /* Call back on test button click */
   @Output('clickedTestEndPoint') clickedTestEndPoint: EventEmitter<AppClickedTestRes> = new EventEmitter<any>();
-  @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
+
   /* Selected wanted response format from endpoint */
   public selectedResponse;
-  public selectedRequest;
   /* Inputed values from user for each parameter otherwise go default */
   public parameterFields = {};
   public Object = Object;
@@ -25,14 +36,20 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
 
   constructor(
     public endpointsSharedService: EndpointsSharedService,
-    public notificationService: NotificationsService,
+    public notify: NotificationsService,
     public sharedVarsService: SharedVarsService,
-    public localStorageService: LocalStorageService) {
+    public localStorageService: LocalStorageService
+  ) {
   }
+
   ngOnInit() {
     this.initParameterFields();
     this.initSelectedResponse();
-    this.initSelectedRequest();
+
+    // this.endpointsSharedService.onEndpointsExamplesToggle()
+    //   .subscribe( value => {
+    //     this.isExamplesHidden = value;
+    //   });
   }
 
   ngAfterViewInit() {
@@ -52,7 +69,7 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   /* Init the default parameters to the parameter fields */
-  public initParameterFields() {
+  private initParameterFields() {
     const params = this.endpointData.parameters;
     for (const p in params) {
       if (params[p].hasOwnProperty('name')) {
@@ -63,31 +80,65 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
           ((elem) => {
             this.sharedVarsService.sharedVars[elem]
               .subscribe(value => {
-                this.parameterFields[elem].value = value;
-              });
+                  this.parameterFields[elem].value = value;
+                });
           })(params[p].name);
         }
       }
     }
   }
-  public saveToLocalStorage(event) {
+
+  saveToLocalStorage(event) {
     const name = event.srcElement.getAttribute('ng-reflect-name');
     if (this.sharedVarsService.sharedVars[name]) {
       this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
       this.localStorageService.setStorageVar(name, event.srcElement.value);
     }
   }
-  public scrollToElem(id?: string) {
+
+  private scrollToElem(id?: string) {
     if ( id ) {
       const elem = document.getElementById(id);
       if (elem) {
         window.scrollTo(0, elem.offsetTop + 40);
+        // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, elem.offsetTop);
       }
     } else {
       window.scrollTo(0, 0 + 40);
+      // this.smoothScroll(document.documentElement.scrollTop || document.body.scrollTop, 0);
     }
   }
-  public tryEndpointRequest(endpointForm) {
+
+  smoothScroll (currentPosition, targetPosition) {
+
+    if (currentPosition < targetPosition) {
+      // scroll down
+      let i = currentPosition;
+      const interval = setInterval(() => {
+        window.scrollTo(0, i);
+        i += 100;
+        if ( i >= targetPosition ) {
+          window.scrollTo(0, targetPosition + 40);
+          clearInterval(interval);
+        }
+      }, 15);
+
+    } else {
+      // scoll up
+      let i = currentPosition;
+      const interval = setInterval(() => {
+        window.scrollTo(0, i);
+        i -= 100;
+        if ( i <= targetPosition ) {
+          window.scrollTo(0, targetPosition + 40);
+          clearInterval(interval);
+        }
+      }, 15);
+
+    }
+  }
+
+  tryEndpointRequest(endpointForm) {
     const invalidFields = [];
     for (const key in endpointForm.controls) {
       if (endpointForm.controls.hasOwnProperty(key)) {
@@ -97,23 +148,23 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
         }
       }
     }
+
     if (endpointForm.invalid) {
-      this.notificationService.error('Error', invalidFields.join(', ') + ' required!');
+      this.notify.error('Error', invalidFields.join(', ') + ' required!');
     }
 
     this.clickedTestEndPoint.emit(this.clickTestEndPointButton());
   }
-  public populateBody(event) {
+
+  populateBody(event) {
     this.parameterFields['body'].value = event;
   }
-  public initSelectedResponse() {
+
+  private initSelectedResponse() {
     this.selectedResponse = this.endpointData.produces ? this.endpointData.produces[0] : null;
   }
-  public initSelectedRequest() {
-    this.selectedRequest = this.endpointData.consumes ? this.endpointData.consumes[0] : null;
-  }
   public clickTestEndPointButton() {
-    return ( new AppClickedTestRes(this.endpointData, this.selectedResponse, this.selectedRequest, this.parameterFields));
+    return ( new AppClickedTestRes(this.endpointData, this.selectedResponse, this.parameterFields));
   }
   public clickedToggleExamples() {
     this.endpointsSharedService.endpointsExamplesToggle();

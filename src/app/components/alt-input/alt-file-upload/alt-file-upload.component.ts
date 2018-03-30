@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AltInputEventModel} from '../model/AltInputEvent.model';
 import {AltInputComponent} from '../alt-input.component';
+import {ImageBytesService} from '../../../services/image-bytes.service';
+import {AltInputEventModel} from '../model/AltInputEvent.model';
 
 @Component({
   selector: 'app-alt-file-upload',
@@ -10,24 +11,19 @@ import {AltInputComponent} from '../alt-input.component';
 export class AltFileUploadComponent extends AltInputComponent implements OnInit {
   public hasContent = false;
   @ViewChild('fileInput') fileInput;
-  constructor() {
+
+  constructor(public imageBytesService: ImageBytesService) {
     super();
   }
+
   ngOnInit() {
   }
-  public onChangeAction(event) {
-    const fileInput: HTMLInputElement = event.target;
-    const file = fileInput.files[0];
-    const fileReader = new FileReader();
-    const that = this;
-    if (fileReader && file) {
-      fileReader.readAsArrayBuffer(file);
-      fileReader.onload = function () {
-        const fileData = fileReader.result;
-        that.hasContent = true;
-        that.event.emit(new AltInputEventModel(AltInputEventModel.EVENT_TYPES.DATA, fileData));
-      };
-    }
+  public getBytes($event) {
+    this.hasContent = true;
+    this.imageBytesService.getImageBytes($event.target)
+      .subscribe(bytes => {
+        this.event.emit(new AltInputEventModel(AltInputEventModel.EVENT_TYPES.DATA, bytes.toString()));
+      });
   }
   public clearInput() {
     this.fileInput.nativeElement.value = '';
