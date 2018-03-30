@@ -56,7 +56,7 @@ export class SwaggerService {
   testEndpoint(callData: RequestInitiator): Observable<any> {
     const options = this.buildEndpointOptions(callData);
     const body = this.buildBody(callData);
-    if (callData.method === 'put' || 'patch' || 'post') {
+    if (callData.method === 'put' || callData.method === 'patch' || callData.method === 'post') {
       return this.http[callData.method](this.specHost + this.substitutePath(callData.url, callData.path), body, options);
     } else {
       return this.http[callData.method](this.specHost + this.substitutePath(callData.url, callData.path), options);
