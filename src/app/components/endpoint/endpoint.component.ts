@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectorRef} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AppEndPoint} from '../../models/endpoint/endpoint.model';
 import {AppClickedSampleRes} from '../../models/endpoint/clicked-sample-res';
 import {AppClickedTestRes} from '../../models/endpoint/clicked-test-res';
@@ -28,7 +28,6 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
     public notificationService: NotificationsService,
     public sharedVarsService: SharedVarsService,
     public localStorageService: LocalStorageService,
-    public changeDetector: ChangeDetectorRef
   ) {
   }
 
