@@ -21,11 +21,17 @@ export class SharedVarsService implements OnInit {
     endpoints.forEach(endpoint => {
       if ( endpoint.parameters && endpoint.parameters.length ) {
         endpoint.parameters.forEach(param => {
-          if (!param.default && param.in !== 'body' && !res[param.name]) {
-            res[param.name] = new BehaviorSubject(null);
-            const localStorageVal = this.localStorageService.getStorageVar(param.name);
+          if (!param.default && !res[param.name]) {
+            let sharedVarName;
+            if (param.in === 'body') {
+              sharedVarName = endpoint.operationId + '_body';
+            } else {
+              sharedVarName = param.name;
+            }
+            res[sharedVarName] = new BehaviorSubject(null);
+            const localStorageVal = this.localStorageService.getStorageVar(sharedVarName);
             if ( localStorageVal ) {
-              res[param.name].next(localStorageVal);
+              res[sharedVarName].next(localStorageVal);
             }
           }
         });
