@@ -27,8 +27,10 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
     public endpointsSharedService: EndpointsSharedService,
     public notificationService: NotificationsService,
     public sharedVarsService: SharedVarsService,
-    public localStorageService: LocalStorageService) {
+    public localStorageService: LocalStorageService,
+  ) {
   }
+
   ngOnInit() {
     this.initParameterFields();
     this.initSelectedResponse();
@@ -67,14 +69,23 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
               });
           })(params[p].name);
         }
+
+        if (params[p].name === 'body' && this.sharedVarsService.sharedVars[this.endpointData.operationId + '_body']) {
+          ((elem) => {
+            this.sharedVarsService.sharedVars[elem]
+              .subscribe(value => {
+                this.parameterFields['body'].value = value;
+              });
+          })(this.endpointData.operationId + '_body');
+        }
       }
     }
   }
 
-
   public saveToLocalStorage(event) {
     const name = event.srcElement.getAttribute('data-name');
     if (this.sharedVarsService.sharedVars[name]) {
+      console.log(event);
       this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
       this.localStorageService.setStorageVar(name, event.srcElement.value);
     }
@@ -107,6 +118,11 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   }
   public populateBody(event) {
     this.parameterFields['body'].value = event;
+
+    if (this.sharedVarsService.sharedVars[this.endpointData.operationId + '_body']) {
+      this.sharedVarsService.sharedVars[this.endpointData.operationId + '_body'].next(event);
+      this.localStorageService.setStorageVar(this.endpointData.operationId + '_body', event);
+    }
   }
   public initSelectedResponse() {
     this.selectedResponse = this.endpointData.produces ? this.endpointData.produces[0] : null;

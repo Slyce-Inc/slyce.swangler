@@ -91,7 +91,7 @@
 
                           <div class="col-lg-8 col-xl-9">
                             <textarea placeholder="{{parm.required == true ? '(required)' : ''}}" [required]='parm.required' [(ngModel)]="this.endpointData['requestMessages'][i].value"
-                                      class="form-control" id="exampleTextarea" rows="3" [name]='parm.description'></textarea>
+                                      class="form-control" rows="3" [name]='parm.description' [attr.data-name]='endpointData.operationId + "_ws_message_" + i' (change)="saveToLocalStorage($event)"></textarea>
 
                             <div class="parameter-content-type"></div>
                             <div class="small-description media mt-2">

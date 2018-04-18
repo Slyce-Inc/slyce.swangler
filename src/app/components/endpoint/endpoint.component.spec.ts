@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs/Observable';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 import {NotificationsService} from 'angular2-notifications';
 import {By} from '@angular/platform-browser';
@@ -12,6 +12,7 @@ import {SharedVarsService} from '../../services/shared-vars.service';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {EndpointsSharedService} from '../../services/endpoints-shared.service';
 import {APPENDPOINT} from '../../models/MOCK_DATA';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 const sharedVarsServiceStub = {
@@ -253,6 +254,33 @@ describe('EndpointComponent', () => {
     input.triggerEventHandler('click', null);
 
     expect(component.saveToLocalStorage).toHaveBeenCalled();
+  });
+
+  it('should populate body', () => {
+    component.sharedVarsService.sharedVars['API_Keys_create_api_key1_body'] = new Subject();
+    component.populateBody('test');
+
+
+    component.sharedVarsService.sharedVars['API_Keys_create_api_key1_body']
+      .subscribe((e) => {
+        if (e) {
+          expect(component.parameterFields['body'].value).toEqual('test');
+          expect(component.localStorageService.getStorageVar('API_Keys_create_api_key1_body')).toEqual('test');
+        }
+      });
+  });
+
+  it('should set body textarea value if localStorage value exists', () => {
+    component.sharedVarsService.sharedVars['API_Keys_create_api_key1_body'] = new BehaviorSubject('test');
+    component.ngOnInit();
+
+    fixture.detectChanges();
+
+    const element = fixture.debugElement.query(By.css('[data-name=API_Keys_create_api_key1_body]'));
+
+    setTimeout(() => {
+      expect(element.nativeElement.value).toEqual('test');
+    });
   });
 
   it('should change value in input once value in sharedVarsService is changed', () => {

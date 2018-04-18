@@ -17,6 +17,7 @@ import {NotificationsService} from 'angular2-notifications';
 import {SharedVarsService} from '../../../services/shared-vars.service';
 import {SocketService} from '../../../services/socket/socket.service';
 import {By} from '@angular/platform-browser';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 const openSubj = new Subject();
 const closeSubj = new Subject();
@@ -59,6 +60,9 @@ const LocalStorageServiceStub: Partial<LocalStorageService> = {
   getStorageVar: (varName) => {
     return storage ? storage[varName] : null;
   },
+  setStorageVar: (varName, varVal) => {
+    storage[varName] = varVal;
+  }
 };
 
 const groupedEndpointsMock = [];
@@ -341,6 +345,42 @@ describe('SocketEndpointComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     expect(component.selectedResponse).toEqual(null);
+  });
+
+  it('should apply sanmple WS message body', () => {
+    component.sharedVarsService.sharedVars['test_ws_message_0'] = new BehaviorSubject(null);
+
+    component.sharedVarsService.sharedVars['test_ws_message_0']
+      .subscribe((e) => {
+        if (e) {
+          expect(component.sharedVarsService.sharedVars['test_ws_message_0'].value).toEqual('test');
+          expect(component.localStorageService.getStorageVar('test_ws_message_0')).toEqual('test');
+        }
+      });
+
+    component.applySampleBody('test', 0);
+  });
+
+  it('should change value of ws message textarea element once sharedVarsService is changed', () => {
+    component.sharedVarsService.sharedVars['test_ws_message_0'] = new BehaviorSubject('test');
+    component.ngOnInit();
+    fixture.detectChanges();
+    const element = fixture.debugElement.query(By.css('[data-name=test_ws_message_0]'));
+    component.sharedVarsService.sharedVars['test_ws_message_0']
+      .subscribe((e) => {
+        if (e) {
+          expect(component.endpointData['requestMessages'][0].value).toEqual('test');
+        }
+      });
+  });
+
+  it('should change value of ws message once sharedVarsService is changed', () => {
+    component.sharedVarsService.sharedVars['test_ws_message_0'] = new BehaviorSubject('test1');
+    component.ngOnInit();
+
+    component.sharedVarsService.sharedVars['test_ws_message_0'].next('test2');
+
+    expect(component.endpointData['requestMessages'][0].value).toEqual('test2');
   });
 
 });
