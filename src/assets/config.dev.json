@@ -1,4 +1,5 @@
 {
   "spec": "assets/spec.json",
-  "websocket_spec" : "assets/websocket.spec.json"
+  "websocket_spec" : "assets/websocket.spec.json",
+  "app_name" : "Swangler_Like_Strangler"
 }

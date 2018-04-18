@@ -43,7 +43,7 @@ export class AuthComponent implements OnInit {
   public clickApplyButton() {
     for (const i in this.inputFields) {
       if (this.inputFields.hasOwnProperty(i)) {
-        this.localStorageService.setStorageVar(i, this.inputFields[i]);
+        this.localStorageService.setStorageSecurityDef(i, this.inputFields[i]);
       }
     }
     this.notify.success('Success', this.APPLIED_AUTH_MSG);
