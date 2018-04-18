@@ -85,6 +85,7 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   public saveToLocalStorage(event) {
     const name = event.srcElement.getAttribute('data-name');
     if (this.sharedVarsService.sharedVars[name]) {
+      console.log(event);
       this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
       this.localStorageService.setStorageVar(name, event.srcElement.value);
     }

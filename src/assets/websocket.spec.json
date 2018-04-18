@@ -1,7 +1,7 @@
 {
   "socketEndpoints": [
     {
-      "operationId": "test",
+      "operationId": "execute_workflow",
       "summary": "test endpoint summary",
       "url": "/ws/accounts/{account_id}/spaces/{space_id}/workflows/{workflow_id}",
       "protocol": [ "ws", "wss" ],

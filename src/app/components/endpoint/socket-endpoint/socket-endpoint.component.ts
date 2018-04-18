@@ -62,10 +62,28 @@ export class SocketEndpointComponent extends EndpointComponent {
         }
       }
     }
+
+    this.endpointData['requestMessages'].forEach((requestMessage, i) => {
+      const sharedVarName = this.endpointData.operationId + '_ws_message_' + i;
+
+      if (this.sharedVarsService.sharedVars[sharedVarName]) {
+        ((elem, index) => {
+          this.sharedVarsService.sharedVars[elem]
+            .subscribe(value => {
+              this.endpointData['requestMessages'][index].value = value;
+            });
+        })(sharedVarName, i);
+      }
+    });
   }
 
   applySampleBody(event, selectedRequest) {
     this.endpointData['requestMessages'][selectedRequest].value = event;
+
+    if (this.sharedVarsService.sharedVars[this.endpointData.operationId + '_ws_message_' + selectedRequest]) {
+      this.sharedVarsService.sharedVars[this.endpointData.operationId + '_ws_message_' + selectedRequest].next(event);
+      this.localStorageService.setStorageVar(this.endpointData.operationId + '_ws_message_' + selectedRequest, event);
+    }
   }
   openSocketConnection() {
     if ( !this.isConnectionStarted ) {

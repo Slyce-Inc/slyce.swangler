@@ -36,7 +36,18 @@ export class SharedVarsService implements OnInit {
           }
         });
       }
+      if (endpoint.requestMessages) {
+        endpoint.requestMessages.forEach((requestMessage, i) => {
+          const sharedVarName = endpoint.operationId + '_ws_message_' + i;
+          res[sharedVarName] = new BehaviorSubject(null);
+          const localStorageVal = this.localStorageService.getStorageVar(sharedVarName);
+            if ( localStorageVal ) {
+              res[sharedVarName].next(localStorageVal);
+            }
+        });
+      }
     });
+
     this.sharedVars = res;
   }
 }
