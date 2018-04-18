@@ -89,16 +89,16 @@ describe('ExampleCollapsibleComponent', () => {
     expect(res).toEqual('{ \n' +
       '"sampleItems" : ["string"],"items" : [\n' +
       '{ \n' +
-      '"created_at": "2018-01-04T20:13:55.373557+0000","created_by": "system","updated_at": "2018-01-04T20:13:55.37355' +
-      '7+0000","updated_by": "system","id": "test_inc","name": "Test, Inc.","is_active": "undefined"}],"page_number": ' +
-      '"1","page_size": "20","total_pages": "1","total_items": "1"}');
+      '"created_at": "2018-01-04T20:13:55.373557+0000","created_by": "system","updated_at": "2018-01-04T20:13:55.373557+0000",' +
+      '"updated_by": "system","id": "test_inc","name": "Test, Inc.","is_active": true}],"page_number": 1,"page_size": 20,' +
+      '"total_pages": 1,"total_items": 1}');
   });
 
   it('should generate sample from object with examples even if no property field exist for examples', () => {
     const res = component.generateSampleFromObject(REQUEST_SCHEMA);
     expect(res).toEqual('{ \n' +
       '"name": "DemoAPIKey","acl" : { \n' +
-      '"create-space": "false","get-space-by-id": "true"}}');
+      '"create-space": false,"get-space-by-id": true}}');
   });
 
   it('should generate sample from array', () => {
@@ -106,9 +106,8 @@ describe('ExampleCollapsibleComponent', () => {
     const res = component.generateSampleFromArray(responseSchema.properties.items);
     expect(res).toEqual('[\n' +
       '{ \n' +
-      '"created_at": "2018-01-04T20:13:55.373557+0000","created_by": "system","updated_at":' +
-      ' "2018-01-04T20:13:55.373557+0000","updated_by": "system","id": "test_inc","name":' +
-      ' "Test, Inc.","is_active": "undefined"}]');
+      '"created_at": "2018-01-04T20:13:55.373557+0000","created_by": "system","updated_at": "2018-01-04T20:13:55.373557+0000",' +
+      '"updated_by": "system","id": "test_inc","name": "Test, Inc.","is_active": true}]');
   });
 
   it('should generate sample from array if no sample for that array is provided instead provide datatype', () => {
