@@ -6,6 +6,8 @@ import {
 import * as hl from '../../../../node_modules/highlight.js/';
 import {SwaggerService} from '../../services/swagger.service';
 
+
+
 @Component({
   selector: 'app-example-collapsible',
   templateUrl: './example-collapsible.component.html',
@@ -108,8 +110,29 @@ export class ExampleCollapsibleComponent implements OnInit {
               temp = temp + ' : ' + this.generateSample(schema2);
             } else {
               const property: Property = schema.properties[keys[i]];
-              const example = property.example ? property.example.toString().escapeSpecialChars() : property.example ;
-              temp = `${temp}: "${example}"`;
+              const example = (property.example && typeof property.example === 'string')
+                ? property.example.toString().escapeSpecialChars() : property.example ;
+              if (example !== undefined && example !== null) {
+                if (typeof example === 'string') {
+                  temp = `${temp}: "${example}"`;
+                } else if (typeof example === 'object') {
+                  temp = `${temp}: ${JSON.stringify(example)}`;
+                } else {
+                  temp = `${temp}: ${example}`;
+                }
+              } else {
+                if ( property.type ) {
+                  if ( property.type === 'boolean') {
+                    temp = `${temp}: true`;
+                  } else if (property.type === 'number') {
+                    temp = `${temp}: 1`;
+                  } else {
+                    temp = `${temp}: "${property.type}"`;
+                  }
+                } else {
+                  temp = `${temp}: "no example value"`;
+                }
+              }
             }
             if ( i < keys.length - 1 ) {
               temp = temp + ',';
