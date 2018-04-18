@@ -81,8 +81,8 @@ export class SocketEndpointComponent extends EndpointComponent {
     this.endpointData['requestMessages'][selectedRequest].value = event;
 
     if (this.sharedVarsService.sharedVars[this.endpointData.operationId + '_ws_message_' + selectedRequest]) {
-      this.sharedVarsService.sharedVars[this.endpointData.operationId + '_ws_message_' + selectedRequest].next(event);
       this.localStorageService.setStorageVar(this.endpointData.operationId + '_ws_message_' + selectedRequest, event);
+      this.sharedVarsService.sharedVars[this.endpointData.operationId + '_ws_message_' + selectedRequest].next(event);
     }
   }
   openSocketConnection() {

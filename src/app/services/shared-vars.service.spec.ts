@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { SharedVarsService } from './shared-vars.service';
 import { Observable } from 'rxjs/Observable';
 import { LocalStorageService } from './local-storage.service';
-import { APPENDPOINT } from '../models/MOCK_DATA';
+import { APPENDPOINT, WS_SPEC_MOCK } from '../models/MOCK_DATA';
 
 const storage = {};
 const LocalStorageServiceStub = {
@@ -33,5 +33,10 @@ describe('SharedVarsService', () => {
     service.initSharedVars([JSON.parse(JSON.stringify(APPENDPOINT))]);
     expect(service.sharedVars['account_id']).toBeDefined();
     expect(service.sharedVars['API_Keys_create_api_key1_body']).toBeTruthy();
+  }));
+
+  it('should init ws shared vars', inject([SharedVarsService], (service: SharedVarsService) => {
+    service.initSharedVars([JSON.parse(JSON.stringify(WS_SPEC_MOCK.socketEndpoints[0]))]);
+    expect(service.sharedVars['test_ws_message_0']).toBeTruthy();
   }));
 });

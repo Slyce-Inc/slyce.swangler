@@ -260,8 +260,14 @@ describe('EndpointComponent', () => {
     component.sharedVarsService.sharedVars['API_Keys_create_api_key1_body'] = new Subject();
     component.populateBody('test');
 
-    expect(component.parameterFields['body'].value).toEqual('test');
-    expect(component.localStorageService.getStorageVar('API_Keys_create_api_key1_body')).toEqual('test');
+
+    component.sharedVarsService.sharedVars['API_Keys_create_api_key1_body']
+      .subscribe((e) => {
+        if (e) {
+          expect(component.parameterFields['body'].value).toEqual('test');
+          expect(component.localStorageService.getStorageVar('API_Keys_create_api_key1_body')).toEqual('test');
+        }
+      });
   });
 
   it('should set body textarea value if localStorage value exists', () => {
