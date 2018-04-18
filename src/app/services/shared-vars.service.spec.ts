@@ -32,5 +32,6 @@ describe('SharedVarsService', () => {
   it('should init shared vars', inject([SharedVarsService], (service: SharedVarsService) => {
     service.initSharedVars([JSON.parse(JSON.stringify(APPENDPOINT))]);
     expect(service.sharedVars['account_id']).toBeDefined();
+    expect(service.sharedVars['API_Keys_create_api_key1_body']).toBeTruthy();
   }));
 });
