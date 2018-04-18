@@ -1,7 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { LocalStorageService } from './local-storage.service';
-import { SwaggerService } from './swagger.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
@@ -32,5 +30,8 @@ export class SharedVarsService implements OnInit {
       }
     });
     this.sharedVars = res;
+  }
+  setSharedVars(key: string, value) {
+    this.localStorageService.setStorageVar(key, value);
   }
 }

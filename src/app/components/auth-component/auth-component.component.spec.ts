@@ -11,6 +11,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { SecurityDefinition } from '../../models/auth/security-definition';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import {ConfigService} from '../../services/config-service/config.service';
 
 const securityDefinition = SecurityDefinition.MOCK_DATA;
 
@@ -23,6 +24,9 @@ const LocalStorageServiceStub = {
     return Observable.of(securityDefinition);
   })(),
   setStorageVar: (varName, varVal) => {
+    storage[varName] = varVal;
+  },
+  setStorageSecurityDef: (varName, varVal) => {
     storage[varName] = varVal;
   }
 };

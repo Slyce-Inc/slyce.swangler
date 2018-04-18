@@ -4,6 +4,7 @@ import { LocalStorageService } from './local-storage.service';
 import { SwaggerService } from './swagger.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import {ConfigService} from './config-service/config.service';
 
 const apiData = {
   'spec': {
@@ -29,6 +30,13 @@ SwaggerServiceStub = {
   }
 };
 
+let ConfigServiceStub: Partial<ConfigService>;
+ConfigServiceStub = {
+  config: {
+    app_name: 'Swangler_Like_Strangler_Test'
+  }
+};
+
 
 describe('LocalStorageService', () => {
   let service;
@@ -37,11 +45,13 @@ describe('LocalStorageService', () => {
     TestBed.configureTestingModule({
       providers: [
         LocalStorageService,
-        { provide: SwaggerService, useValue: SwaggerServiceStub }
+        { provide: SwaggerService, useValue: SwaggerServiceStub },
+        { provide: ConfigService, useValue: ConfigServiceStub }
       ]
     });
     service = TestBed.get(LocalStorageService);
     // spyOn(service.swaggerService, 'getApiData').and.returnValue(Observable.of(apiData));
+    window.localStorage.clear();
   });
 
   beforeEach(() => {
@@ -81,10 +91,8 @@ describe('LocalStorageService', () => {
   }));
 
   it('should set localStorage value', () => {
-    service.setStorageVar('testName', 'testValue');
-
-    expect(window.localStorage.setItem).toHaveBeenCalled();
-    expect(window.localStorage.getItem('testName')).toEqual('testValue');
+    service.setStorageSecurityDef('testName', 'testValue');
+    expect(window.localStorage[ConfigServiceStub.config.app_name + '_' + 'testName']).toEqual('testValue');
     expect(service.tempSecurityDefinitions['testName']).toEqual('testValue');
     service.storedSecurityDefinitions.subscribe(data => {
       expect(data).toEqual({'testName': 'testValue'});
@@ -97,8 +105,8 @@ describe('LocalStorageService', () => {
   });
 
   it('should get security definitions from storage', fakeAsync(() => {
-    service.setStorageVar('test1', 'testValue1');
-    service.setStorageVar('test2', 'testValue2');
+    service.setStorageSecurityDef('test1', 'testValue1');
+    service.setStorageSecurityDef('test2', 'testValue2');
 
     const test = service.getSecurityDefinitions();
     tick();

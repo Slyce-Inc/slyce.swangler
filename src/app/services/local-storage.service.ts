@@ -3,6 +3,7 @@ import { SwaggerService } from './swagger.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import {ConfigService} from './config-service/config.service';
 
 @Injectable()
 export class LocalStorageService {
@@ -16,7 +17,8 @@ export class LocalStorageService {
   storedSecurityDefinitions: Observable<Array<Object>>;
 
   constructor(
-    public swaggerService: SwaggerService
+    public swaggerService: SwaggerService,
+    public configService: ConfigService
   ) {
     this.storedSecurityDefinitionsSubject = new BehaviorSubject(undefined);
     this.storedSecurityDefinitions = this.storedSecurityDefinitionsSubject.asObservable();
@@ -56,13 +58,27 @@ export class LocalStorageService {
       });
   }
 
-  setStorageVar(varName, varValue) {
-    window.localStorage.setItem(varName, varValue);
+  /**
+   * Save to local storage for security definitions
+   * @param varName
+   * @param varValue
+   */
+  setStorageSecurityDef(varName, varValue) {
+    window.localStorage[this.configService.config.app_name + '_' + varName] = varValue;
     this.tempSecurityDefinitions[varName] = varValue;
     this.storedSecurityDefinitionsSubject.next(this.tempSecurityDefinitions);
   }
 
+  /**
+   * Save to storage variables for anything else that doesn't need special operations being done.
+   * @param varName
+   * @param varValue
+   */
+  setStorageVar(varName, varValue) {
+    window.localStorage[this.configService.config.app_name + '_' + varName] = varValue;
+  }
+
   getStorageVar(varName) {
-    return window.localStorage.getItem(varName);
+    return window.localStorage[this.configService.config.app_name + '_' + varName];
   }
 }
