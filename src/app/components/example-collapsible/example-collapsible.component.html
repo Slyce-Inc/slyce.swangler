@@ -14,7 +14,7 @@
       <div *ngIf="this.type?.toLowerCase() == 'sample'" class="sample-snippet rounded">
         <pre class="sample-body" (click)="this.clickedSample.emit(this.generatedSample.json)">
           <!-- <code [innerHTML] = 'this.generatedSample?.highlight' class="hljs json" id="sample79815"></code> -->
-          <div class="btn btn-sm btn-primary copy-to-clipboard" (click)='copyRawResponse(this.generatedSample?.json)'>Copy Raw</div>
+          <div class="btn btn-sm btn-primary copy-to-clipboard" (click)='copyRawResponse(this.generatedSample?.json, $event)'>Copy Raw</div>
           <code appJsonFormat [json]="this.generatedSample?.json"></code>
         </pre>
       </div>

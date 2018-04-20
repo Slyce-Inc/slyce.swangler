@@ -9,10 +9,10 @@ export class ClipboardService {
   ) { }
 
 
-  fallbackCopyTextToClipboard(text) {
+  fallbackCopyTextToClipboard(text, element) {
     const textArea = document.createElement('textarea');
     textArea.value = text;
-    document.body.appendChild(textArea);
+    element.appendChild(textArea);
     textArea.focus();
     textArea.select();
 
@@ -25,16 +25,16 @@ export class ClipboardService {
       this.notify.error('Error', 'Failed to copy');
     }
 
-    document.body.removeChild(textArea);
+    element.removeChild(textArea);
   }
 
-  writeToClipboard(json) {
+  writeToClipboard(json, element) {
     if (typeof json !== 'string') {
-      json = JSON.stringify(json, null, 2);
+      json = JSON.stringify(json, null, 4);
     }
 
     if (!navigator['clipboard']) {
-      this.fallbackCopyTextToClipboard(json);
+      this.fallbackCopyTextToClipboard(json, element);
       return;
     }
     navigator['clipboard'].writeText(json).then(function() {

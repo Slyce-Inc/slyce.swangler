@@ -145,7 +145,8 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  copyRawResponse(json) {
-    this.clipboardService.writeToClipboard(json);
+  copyRawResponse(json, event) {
+    // event element needed in order to append a hidden textarea to it and avoid page jumping
+    this.clipboardService.writeToClipboard(json, event.srcElement);
   }
 }
