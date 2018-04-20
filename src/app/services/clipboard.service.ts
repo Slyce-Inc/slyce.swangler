@@ -29,7 +29,10 @@ export class ClipboardService {
   }
 
   writeToClipboard(json) {
-    json = JSON.stringify(json, null, 2);
+    if (typeof json !== 'string') {
+      json = JSON.stringify(json, null, 2);
+    }
+
     if (!navigator['clipboard']) {
       this.fallbackCopyTextToClipboard(json);
       return;

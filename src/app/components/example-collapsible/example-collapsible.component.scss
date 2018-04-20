@@ -66,3 +66,20 @@ pre {
   margin: 0 15px;
 }
 
+.sample-body{
+  position: relative;
+
+  .copy-to-clipboard{
+    position: absolute;
+    right: 0;
+    top: 0;
+    line-height: initial;
+    opacity: .3;
+    transition: all .3s;
+
+    &:hover{
+      opacity: 1;
+    }
+  }
+}
+

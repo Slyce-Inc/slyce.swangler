@@ -5,6 +5,7 @@ import {
 } from '../../models/endpoint/endpoint.model';
 import * as hl from '../../../../node_modules/highlight.js/';
 import {SwaggerService} from '../../services/swagger.service';
+import { ClipboardService } from '../../services/clipboard.service';
 
 
 
@@ -27,7 +28,10 @@ export class ExampleCollapsibleComponent implements OnInit {
   public collapsed = true;
   public Object = Object;
   public generatedSample = null;
-  constructor(public swaggerService: SwaggerService) {
+  constructor(
+    public swaggerService: SwaggerService,
+    public clipboardService: ClipboardService
+  ) {
   }
 
   ngOnInit() {
@@ -141,6 +145,10 @@ export class ExampleCollapsibleComponent implements OnInit {
         }
         temp = temp + '}';
         return (temp);
+  }
+
+  copyRawResponse(json) {
+    this.clipboardService.writeToClipboard(json);
   }
 }
 

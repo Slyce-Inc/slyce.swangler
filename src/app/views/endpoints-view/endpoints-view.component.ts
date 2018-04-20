@@ -145,9 +145,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  copyRawResponse(event, json) {
-    event.preventDefault();
-
+  copyRawResponse(json) {
     this.clipboardService.writeToClipboard(json);
   }
 }
