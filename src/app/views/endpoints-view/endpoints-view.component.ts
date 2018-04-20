@@ -9,6 +9,7 @@ import * as hl from '../../../../node_modules/highlight.js/';
 import { NotificationsService } from 'angular2-notifications';
 import {ConfigService} from '../../services/config-service/config.service';
 import { SharedVarsService } from '../../services/shared-vars.service';
+import { ClipboardService } from '../../services/clipboard.service';
 
 @Component({
   selector: 'app-endpoints-view',
@@ -39,7 +40,8 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     private localDataService: LocalStorageService,
     public notify: NotificationsService,
     public configService: ConfigService,
-    public sharedVarsService: SharedVarsService
+    public sharedVarsService: SharedVarsService,
+    public clipboardService: ClipboardService
   ) {}
 
   ngOnInit() {
@@ -141,5 +143,11 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     if (obj) {
       return (hl.highlight('json', JSON.stringify(obj, null, 4)).value);
     }
+  }
+
+  copyRawResponse(event, json) {
+    event.preventDefault();
+
+    this.clipboardService.writeToClipboard(json);
   }
 }

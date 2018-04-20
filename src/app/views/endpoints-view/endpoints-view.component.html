@@ -72,6 +72,7 @@
             <small class="text-uppercase">Response Body</small>
             <div class="mt-2 mb-3 response_body rounded">
               <!-- <pre class="json"><code [innerHTML]="this['result'].responseBody" class="rounded hljs"></code></pre> -->
+              <a href="/" class="btn btn-sm btn-primary copy-to-clipboard" (click)='copyRawResponse($event, result.responseBodyJson)'> Copy Raw </a>
               <pre class="json">
                 <code class="rounded hljs" appJsonFormat [json]="this['result'].responseBodyJson"></code>
               </pre>
