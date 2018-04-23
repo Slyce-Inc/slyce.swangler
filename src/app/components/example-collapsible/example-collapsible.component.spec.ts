@@ -10,10 +10,17 @@ import { By } from '@angular/platform-browser';
 import {REQUEST_SCHEMA, RESPONSE_SCHEMA} from '../../models/MOCK_DATA';
 import { Input, Directive } from '@angular/core';
 import '../../../assets/js/helpers.js';
+import { ClipboardService } from '../../services/clipboard.service';
 
 const SwaggerServiceStub: Partial<SwaggerService> = {
   getApiData: () => {
     return Observable.of(null);
+  }
+};
+
+const ClipboardServiceStub: Partial<ClipboardService> = {
+  writeToClipboard: (json, element) => {
+    return json;
   }
 };
 
@@ -33,7 +40,8 @@ describe('ExampleCollapsibleComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ExampleCollapsibleComponent, ParamConsoleComponent, MockBsModalDirective ],
       providers: [
-        { provide: SwaggerService, useValue: SwaggerServiceStub }
+        { provide: SwaggerService, useValue: SwaggerServiceStub },
+        { provide: ClipboardService, useValue: ClipboardServiceStub }
       ]
     })
     .compileComponents();
@@ -161,5 +169,19 @@ describe('ExampleCollapsibleComponent', () => {
     fixture.detectChanges();
     const paramConsole = fixture.debugElement.query(By.css('app-param-console '));
     expect(paramConsole).toBeFalsy();
+  });
+
+  it('should simulate copy to clipboard', () => {
+    spyOn(component.clipboardService, 'writeToClipboard');
+
+    component.type = 'sample';
+    component.generatedSample = {};
+    component.generatedSample.json = 'test';
+    fixture.detectChanges();
+    const copyButton = fixture.debugElement.query(By.css('.copy-to-clipboard')).nativeElement;
+
+    copyButton.click();
+
+    expect(component.clipboardService.writeToClipboard).toHaveBeenCalled();
   });
 });
