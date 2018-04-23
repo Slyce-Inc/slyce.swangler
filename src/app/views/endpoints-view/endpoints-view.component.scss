@@ -14,6 +14,20 @@
 
 .response_body {
   background-color: #3f474e;
+  position: relative;
+
+  .copy-to-clipboard{
+    position: absolute;
+    right: 0;
+    top: 0;
+    line-height: initial;
+    opacity: .3;
+    transition: all 0.3s;
+
+    &:hover{
+      opacity: 1;
+    }
+  }
 }
 
 tab{

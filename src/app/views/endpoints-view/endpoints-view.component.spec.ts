@@ -15,6 +15,13 @@ import {APPENDPOINT, REQUEST_INITIATOR} from '../../models/MOCK_DATA';
 import { TabsModule } from 'ngx-bootstrap';
 import {ConfigService} from '../../services/config-service/config.service';
 import { SharedVarsService } from '../../services/shared-vars.service';
+import { ClipboardService } from '../../services/clipboard.service';
+
+const ClipboardServiceStub: Partial<ClipboardService> = {
+  writeToClipboard: (json, element) => {
+    return json;
+  }
+};
 
 const ConfigServiceStub: Partial<ConfigService> = {
   initConfigService: () => {
@@ -161,6 +168,7 @@ describe('EndpointsViewComponent', () => {
         { provide: SwaggerService, useValue: SwaggerServiceStub },
         { provide: ConfigService, useValue: ConfigServiceStub },
         { provide: SharedVarsService, useValue: sharedVarsServiceStub },
+        { provide: ClipboardService, useValue: ClipboardServiceStub }
       ]
     })
     .compileComponents();
@@ -349,5 +357,15 @@ describe('EndpointsViewComponent', () => {
       expect(responseHeaders.innerText.replace(/(\r\n\t|\n|\r\t|\s\s\s\s)/gm, ''))
         .toEqual('["content-type: application/json"]');
     });
+  });
+
+  it('should simulate copy to clipboard', () => {
+    spyOn(component.clipboardService, 'writeToClipboard');
+
+    const copyButton = fixture.debugElement.query(By.css('.copy-to-clipboard')).nativeElement;
+
+    copyButton.click();
+
+    expect(component.clipboardService.writeToClipboard).toHaveBeenCalled();
   });
 });

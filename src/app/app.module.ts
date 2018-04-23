@@ -31,6 +31,7 @@ import {ConfigService} from './services/config-service/config.service';
 import { SharedVarsService } from './services/shared-vars.service';
 import { RestEndpointComponent } from './components/endpoint/rest-endpoint/rest-endpoint.component';
 import {SocketEndpointComponent} from './components/endpoint/socket-endpoint/socket-endpoint.component';
+import { ClipboardService } from './services/clipboard.service';
 @NgModule({
   declarations: [
     ContactComponent,
@@ -73,6 +74,7 @@ import {SocketEndpointComponent} from './components/endpoint/socket-endpoint/soc
     EndpointsSharedService,
     ImageBytesService,
     SocketService,
+    ClipboardService,
   ],
   bootstrap: [AppComponent]
 })

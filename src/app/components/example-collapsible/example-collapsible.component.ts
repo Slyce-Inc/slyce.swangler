@@ -5,6 +5,7 @@ import {
 } from '../../models/endpoint/endpoint.model';
 import * as hl from '../../../../node_modules/highlight.js/';
 import {SwaggerService} from '../../services/swagger.service';
+import { ClipboardService } from '../../services/clipboard.service';
 
 
 
@@ -27,7 +28,10 @@ export class ExampleCollapsibleComponent implements OnInit {
   public collapsed = true;
   public Object = Object;
   public generatedSample = null;
-  constructor(public swaggerService: SwaggerService) {
+  constructor(
+    public swaggerService: SwaggerService,
+    public clipboardService: ClipboardService
+  ) {
   }
 
   ngOnInit() {
@@ -144,6 +148,11 @@ export class ExampleCollapsibleComponent implements OnInit {
         }
         temp = temp + '}';
         return (temp);
+  }
+
+  copyRawResponse(json, event) {
+    // event element needed in order to append a hidden textarea to its source element and avoid page jumping
+    this.clipboardService.writeToClipboard(json, event.srcElement);
   }
 }
 
