@@ -34,6 +34,9 @@ let ConfigServiceStub: Partial<ConfigService>;
 ConfigServiceStub = {
   config: {
     app_name: 'Swangler_Like_Strangler_Test'
+  },
+  getConfig: () => {
+    return Promise.resolve(this.config);
   }
 };
 
