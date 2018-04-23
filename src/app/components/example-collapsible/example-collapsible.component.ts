@@ -81,6 +81,9 @@ export class ExampleCollapsibleComponent implements OnInit {
         if ( schema.items.type.toLowerCase() === 'object' || schema.items.type.toLowerCase() === 'array') {
           temp = temp + '\n';
           temp = temp + this.generateSample(schema.items);
+        } else if ( schema.items.example ) {
+          const example = schema.items.example ? schema.items.example.toString().escapeSpecialChars() : schema.items.example ;
+          temp = temp + `"${example}"`;
         } else {
           const type = schema.items.type ? schema.items.type.toString().escapeSpecialChars() : schema.items.type ;
           temp = temp + `"${type}"`;

@@ -7,7 +7,7 @@ import { SwaggerService } from '../../services/swagger.service';
 import { ParamConsoleComponent } from '../param-console/param-console.component';
 import {Schema} from '../../models/endpoint/endpoint.model';
 import { By } from '@angular/platform-browser';
-import {REQUEST_SCHEMA, RESPONSE_SCHEMA} from '../../models/MOCK_DATA';
+import {REQUEST_SCHEMA, RESPONSE_SCHEMA, SCHEMA_ARRAY_EXAMPLE} from '../../models/MOCK_DATA';
 import { Input, Directive } from '@angular/core';
 import '../../../assets/js/helpers.js';
 import { ClipboardService } from '../../services/clipboard.service';
@@ -170,7 +170,6 @@ describe('ExampleCollapsibleComponent', () => {
     const paramConsole = fixture.debugElement.query(By.css('app-param-console '));
     expect(paramConsole).toBeFalsy();
   });
-
   it('should simulate copy to clipboard', () => {
     spyOn(component.clipboardService, 'writeToClipboard');
 
@@ -183,5 +182,11 @@ describe('ExampleCollapsibleComponent', () => {
     copyButton.click();
 
     expect(component.clipboardService.writeToClipboard).toHaveBeenCalled();
+  });
+  it('should set array example when generating example body', () => {
+    const sample = component.generateSample(SCHEMA_ARRAY_EXAMPLE);
+    expect(sample).toBe('{ \n' +
+      '"dataset_type": "dataset","name": "DemoDataset","image_url_keys" : ["imageURL"],"searchable_keys" : ["productName"]' +
+      ',"facetable_keys" : ["productGender"],"copy_from": "none"}');
   });
 });
