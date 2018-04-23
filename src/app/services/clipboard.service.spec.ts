@@ -26,21 +26,22 @@ describe('ClipboardService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('should use fallbackCopyTextToClipboard', inject([ClipboardService], (service: ClipboardService) => {
+  it('should use fallbackCopyTextToClipboard if no browser support', inject([ClipboardService], (service: ClipboardService) => {
     spyOn(service, 'fallbackCopyTextToClipboard');
     const elem = document.createElement('div');
     service.writeToClipboard({test: 'test'}, elem);
 
-    expect(service.fallbackCopyTextToClipboard).toHaveBeenCalled();
+
+    if (!navigator['clipboard']) {
+      expect(service.fallbackCopyTextToClipboard).toHaveBeenCalled();
+    }
   }));
 
   it('should sumulate copy to clipboard', inject([ClipboardService], (service: ClipboardService) => {
     spyOn(service.notify, 'success');
-    spyOn(JSON, 'stringify');
     const elem = document.createElement('div');
     service.writeToClipboard({test: 'test'}, elem);
 
-    expect(service.notify.success).toHaveBeenCalled();
     expect(service.notify.success).toHaveBeenCalled();
   }));
 
