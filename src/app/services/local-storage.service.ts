@@ -1,20 +1,32 @@
-import { Injectable } from '@angular/core';
-import { SwaggerService } from './swagger.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import {
+  Injectable,
+  OnInit
+} from '@angular/core';
+import {
+  SwaggerService
+} from './swagger.service';
+import {
+  BehaviorSubject
+} from 'rxjs/BehaviorSubject';
+import {
+  Observable
+} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import {ConfigService} from './config-service/config.service';
+import {
+  ConfigService
+} from './config-service/config.service';
 
 @Injectable()
 export class LocalStorageService {
-  private storedSecurityDefinitionsSubject: BehaviorSubject<any>;
+  private storedSecurityDefinitionsSubject: BehaviorSubject <any> ;
   private tempSecurityDefinitions: Object = {};
+  public ready = new BehaviorSubject(false);
 
   // Security Definitions obj from swagger spec
-  securityDefinitions: Observable<Object>;
+  securityDefinitions: Observable <Object> ;
 
   // Security Definitions stored in localStorage with values
-  storedSecurityDefinitions: Observable<Array<Object>>;
+  storedSecurityDefinitions: Observable <Array<Object>> ;
 
   constructor(
     public swaggerService: SwaggerService,
@@ -32,6 +44,11 @@ export class LocalStorageService {
         if (data) {
           this.getSecurityDefinitionsValuesFromStorage(data);
         }
+      });
+
+    this.configService.getConfig()
+      .then(() => {
+        this.ready.next(true);
       });
   }
 
@@ -51,7 +68,7 @@ export class LocalStorageService {
 
   getSecurityDefinitions() {
     this.securityDefinitions = this.swaggerService.getApiData()
-      .map( data => {
+      .map(data => {
         if (data) {
           return data.spec.securityDefinitions;
         }

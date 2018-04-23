@@ -8,13 +8,11 @@ import { LocalStorageService } from './services/local-storage.service';
 import { FormsModule } from '@angular/forms';
 import {BsDatepickerModule, ModalModule, TabsModule} from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
-import {SampleViewComponent} from './views/sample/sample.controller';
 import {AppRoutingModule} from './app-routing.module';
 import { CollapsableNavComponent } from './components/collapsable-nav/collapsable-nav.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { ParamConsoleComponent } from './components/param-console/param-console.component';
 import { SidebarNavComponent } from './components/sidebar-nav/sidebar-nav.component';
-import {MainViewComponent} from './views/main/main.component';
 import { ExampleCollapsibleComponent } from './components/example-collapsible/example-collapsible.component';
 import {ExampleSideBarComponent} from './components/example-side-bar/example-side-bar.component';
 import {EndpointsViewComponent} from './views/endpoints-view/endpoints-view.component';
@@ -31,11 +29,11 @@ import {ConfigService} from './services/config-service/config.service';
 import { SharedVarsService } from './services/shared-vars.service';
 import { RestEndpointComponent } from './components/endpoint/rest-endpoint/rest-endpoint.component';
 import {SocketEndpointComponent} from './components/endpoint/socket-endpoint/socket-endpoint.component';
+import { LoginViewComponent } from './views/login-view/login-view.component';
 @NgModule({
   declarations: [
     ContactComponent,
     AuthComponent,
-    SampleViewComponent,
     AppComponent,
     CollapsableNavComponent,
     SidebarNavComponent,
@@ -44,12 +42,12 @@ import {SocketEndpointComponent} from './components/endpoint/socket-endpoint/soc
     SidebarNavComponent,
     CollapsableNavComponent,
     ExampleSideBarComponent,
-    MainViewComponent,
     EndpointsViewComponent,
     SocketEndpointComponent,
     GetIndexPipe,
     JsonFormatDirective,
-    RestEndpointComponent
+    RestEndpointComponent,
+    LoginViewComponent
   ],
   imports: [
     AltInputModule,
@@ -66,8 +64,8 @@ import {SocketEndpointComponent} from './components/endpoint/socket-endpoint/soc
     TabsModule.forRoot()
   ],
   providers: [
-    SharedVarsService,
     ConfigService,
+    SharedVarsService,
     SwaggerService,
     LocalStorageService,
     EndpointsSharedService,

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SampleViewComponent } from './views/sample/sample.controller';
-import { MainViewComponent } from './views/main/main.component';
 import { AppComponent } from './app.component';
 import { EndpointsViewComponent } from './views/endpoints-view/endpoints-view.component';
+import { LoginViewComponent } from './views/login-view/login-view.component';
 
 
 const routes: Routes = [
-  { path: '', component: EndpointsViewComponent },
+  { path: '', component: LoginViewComponent },
+  { path: 'login', component: LoginViewComponent },
   { path: ':endpointTag', component: EndpointsViewComponent, },
   { path: ':endpointTag/:endpointId', component: EndpointsViewComponent, },
   { path: '**', component: EndpointsViewComponent }
