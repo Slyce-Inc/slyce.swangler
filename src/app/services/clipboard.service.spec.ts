@@ -38,21 +38,35 @@ describe('ClipboardService', () => {
   }));
 
   it('should sumulate copy to clipboard', inject([ClipboardService], (service: ClipboardService) => {
-    spyOn(service.notify, 'success');
+    const errorSpy = spyOn(service.notify, 'error');
+    const successSpy = spyOn(service.notify, 'success');
     const elem = document.createElement('div');
     service.writeToClipboard({test: 'test'}, elem);
 
-    expect(service.notify.success).toHaveBeenCalled();
+    if (!navigator['clipboard']) {
+      expect(successSpy).toHaveBeenCalled();
+    } else {
+      setTimeout(() => {
+        expect(errorSpy).toHaveBeenCalled();
+      }, 100);
+    }
   }));
 
   it('should accept JSON and Objects', inject([ClipboardService], (service: ClipboardService) => {
-    spyOn(service.notify, 'success');
-    spyOn(JSON, 'stringify');
+    const errorSpy = spyOn(service.notify, 'error');
+    const successSpy = spyOn(service.notify, 'success');
+    const jsonSpy = spyOn(JSON, 'stringify');
     const elem = document.createElement('div');
     service.writeToClipboard({test: 'test'}, elem);
     service.writeToClipboard('{test: "test"}', elem);
 
-    expect(service.notify.success).toHaveBeenCalled();
-    expect(JSON.stringify).toHaveBeenCalled();
+    if (!navigator['clipboard']) {
+      expect(successSpy).toHaveBeenCalled();
+    } else {
+      setTimeout(() => {
+        expect(errorSpy).toHaveBeenCalled();
+        expect(jsonSpy).toHaveBeenCalled();
+      }, 100);
+    }
   }));
 });
