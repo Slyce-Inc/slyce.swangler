@@ -36,9 +36,22 @@ describe('ClipboardService', () => {
 
   it('should sumulate copy to clipboard', inject([ClipboardService], (service: ClipboardService) => {
     spyOn(service.notify, 'success');
+    spyOn(JSON, 'stringify');
     const elem = document.createElement('div');
     service.writeToClipboard({test: 'test'}, elem);
 
     expect(service.notify.success).toHaveBeenCalled();
+    expect(service.notify.success).toHaveBeenCalled();
+  }));
+
+  it('should accept JSON and Objects', inject([ClipboardService], (service: ClipboardService) => {
+    spyOn(service.notify, 'success');
+    spyOn(JSON, 'stringify');
+    const elem = document.createElement('div');
+    service.writeToClipboard({test: 'test'}, elem);
+    service.writeToClipboard('{test: "test"}', elem);
+
+    expect(service.notify.success).toHaveBeenCalled();
+    expect(JSON.stringify).toHaveBeenCalled();
   }));
 });
