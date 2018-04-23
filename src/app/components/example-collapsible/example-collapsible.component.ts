@@ -51,10 +51,8 @@ export class ExampleCollapsibleComponent implements OnInit {
     }
   }
   public setSampleFromSchema(schema) {
-    console.log(schema);
     if (!this.generatedSample) {
       let temp = this.generateSample(schema);
-      console.log(temp);
       temp = JSON.stringify(JSON.parse(temp), null, 4);
       this.generatedSample = {};
       this.generatedSample['highlight'] = hl.highlight('json', temp).value;
