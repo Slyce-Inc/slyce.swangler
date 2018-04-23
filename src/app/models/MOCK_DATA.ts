@@ -1,3 +1,60 @@
+export const SCHEMA_ARRAY_EXAMPLE = {
+  'type': 'object',
+  'required': [
+    'dataset_type',
+    'name'
+  ],
+  'properties': {
+    'dataset_type': {
+      'type': 'string',
+      'description': 'The type of the dataset.',
+      'required': true,
+      'example': 'dataset'
+    },
+    'name': {
+      'type': 'string',
+      'description': 'The name of the dataset.',
+      'required': true,
+      'example': 'DemoDataset'
+    },
+    'image_url_keys': {
+      'type': 'array',
+      'items': {
+        'type': 'string',
+        'example': 'imageURL'
+      },
+      'description': 'The keys of the fields containing image_urls for the dataset.',
+      'required': null
+    },
+    'searchable_keys': {
+      'type': 'array',
+      'items': {
+        'type': 'string',
+        'example': 'productName'
+      },
+      'description': 'The keys of the fields containing searchable data for the dataset.',
+      'required': null
+    },
+    'facetable_keys': {
+      'type': 'array',
+      'items': {
+        'type': 'string',
+        'example': 'productGender'
+      },
+      'description': 'The keys of the fields containing facetable data for the dataset.',
+      'required': null
+    },
+    'copy_from': {
+      'type': 'string',
+      'description': 'The name of another dataset from which settings and items should be copied (if necessary).',
+      'required': false,
+      'example': 'none'
+    }
+  },
+  'name': 'body',
+  '$$ref': '#/definitions/NewDatasetDoc'
+};
+
 export const SCHEMA = {
     'type': 'object',
     'properties': {

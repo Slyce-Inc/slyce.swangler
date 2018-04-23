@@ -51,8 +51,10 @@ export class ExampleCollapsibleComponent implements OnInit {
     }
   }
   public setSampleFromSchema(schema) {
+    console.log(schema);
     if (!this.generatedSample) {
       let temp = this.generateSample(schema);
+      console.log(temp);
       temp = JSON.stringify(JSON.parse(temp), null, 4);
       this.generatedSample = {};
       this.generatedSample['highlight'] = hl.highlight('json', temp).value;
@@ -77,6 +79,9 @@ export class ExampleCollapsibleComponent implements OnInit {
         if ( schema.items.type.toLowerCase() === 'object' || schema.items.type.toLowerCase() === 'array') {
           temp = temp + '\n';
           temp = temp + this.generateSample(schema.items);
+        } else if ( schema.items.example ) {
+          const example = schema.items.example ? schema.items.example.toString().escapeSpecialChars() : schema.items.example ;
+          temp = temp + `"${example}"`;
         } else {
           const type = schema.items.type ? schema.items.type.toString().escapeSpecialChars() : schema.items.type ;
           temp = temp + `"${type}"`;
