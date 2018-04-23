@@ -37,9 +37,9 @@ export class ClipboardService {
       this.fallbackCopyTextToClipboard(json, element);
       return;
     }
-    navigator['clipboard'].writeText(json).then(function() {
+    navigator['clipboard'].writeText(json).then(() => {
       this.notify.success('Success', 'Copied to clipboard');
-    }, function(err) {
+    }, (err) => {
       console.warn('Async: Could not copy text: ', err);
       this.notify.error('Error', 'Failed to copy');
     });
