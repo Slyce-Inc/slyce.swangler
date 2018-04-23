@@ -1,5 +1,6 @@
-import {Parameter, AppEndPoint} from './endpoint.model';
+import {Parameter, AppEndPoint, Endpoint} from './endpoint.model';
 import { AnimationStyleMetadata } from '@angular/animations';
+import {SocketModel} from '../ws-spec.model';
 
 export class AppClickedTestRes {
   public static MOCK_DATA = {
@@ -17,9 +18,9 @@ export class AppClickedTestRes {
   public selectedResponse?: any;
   public selectedRequest?: any;
   public parameterFields?: any;
-  public endPointData?: AppEndPoint;
+  public endPointData?: Endpoint;
 
-  constructor(endPointData: AppEndPoint, selectedResponse, selectedRequest, parameterFields) {
+  constructor(endPointData: Endpoint, selectedResponse, selectedRequest, parameterFields) {
     this.selectedResponse = selectedResponse;
     this.parameterFields = parameterFields;
     this.endPointData = endPointData;

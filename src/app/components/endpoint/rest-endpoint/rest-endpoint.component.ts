@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {EndpointComponent} from '../endpoint.component';
 import {SharedVarsService} from '../../../services/shared-vars.service';
 import {NotificationsService} from 'angular2-notifications';
 import {EndpointsSharedService} from '../../../services/endpoints-shared.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
-import {Parameter} from '../../../models/endpoint/endpoint.model';
+import {AppEndPoint, Parameter} from '../../../models/endpoint/endpoint.model';
 
 @Component({
   selector: 'app-rest-endpoint',
@@ -12,6 +12,8 @@ import {Parameter} from '../../../models/endpoint/endpoint.model';
   styleUrls: ['./rest-endpoint.component.scss']
 })
 export class RestEndpointComponent extends EndpointComponent implements OnInit {
+  @Input('endpointData') endpointData: AppEndPoint;
+
   constructor(public endpointsSharedService: EndpointsSharedService,
               public notificationService: NotificationsService,
               public sharedVarsService: SharedVarsService,
