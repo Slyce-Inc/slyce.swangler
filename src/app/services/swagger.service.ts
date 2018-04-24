@@ -54,12 +54,16 @@ export class SwaggerService {
   }
 
   testEndpoint(callData: RequestInitiator): Observable<any> {
+    console.log(callData);
+    console.log(this.specHost);
     const options = this.buildEndpointOptions(callData);
     const body = this.buildBody(callData);
     if (callData.method === 'put' || callData.method === 'patch' || callData.method === 'post') {
-      return this.http[callData.method](this.specHost + this.substitutePath(callData.url, callData.path), body, options);
+      return this.http[callData.method](callData.scheme + '://' + this.specHost + this.substitutePath(callData.url, callData.path),
+        body, options);
     } else {
-      return this.http[callData.method](this.specHost + this.substitutePath(callData.url, callData.path), options);
+      return this.http[callData.method](callData.scheme + '://' + this.specHost + this.substitutePath(callData.url, callData.path),
+        options);
     }
   }
 
@@ -190,15 +194,8 @@ export class SwaggerService {
 
   setHostUrl(apiData) {
     if (apiData) {
-      let protocol;
       let host;
       let basePath;
-
-      if (apiData.spec && apiData.spec.schemes) {
-        protocol = (apiData.spec.schemes.indexOf('https') !== -1 ? 'https' : apiData.spec.schemes[0] || 'http') + '://';
-      } else {
-        protocol = window.location.protocol + '//';
-      }
       if (apiData.spec && apiData.spec.host) {
         host = apiData.spec.host;
       } else {
@@ -210,17 +207,17 @@ export class SwaggerService {
         }
       }
       basePath = apiData.spec && apiData.spec.basePath ? apiData.spec.basePath : '';
-      this.specHost = protocol + host + basePath;
+      this.specHost = host + basePath;
+      console.log(this.specHost);
     }
   }
 
   initSwagger(specUrl: string, websocketSpecUrl?: string): Promise<any> {
-    return Swagger(specUrl)
-      .then( apiData => {
+    return Swagger(specUrl).then( apiData => {
         apiData = SwaggerService.applyEndpointAccesses(apiData, null);
+        console.log(apiData);
         this.setHostUrl(apiData);
         this.setApiData(apiData);
-
         if (websocketSpecUrl) {
           return this.initWsSpec(websocketSpecUrl).then( res => {
             const sortedRestEndpoints = this.sortApiEndpointsByTags(apiData.spec.paths);

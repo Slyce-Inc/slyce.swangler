@@ -32,6 +32,7 @@ import { SharedVarsService } from './services/shared-vars.service';
 import { RestEndpointComponent } from './components/endpoint/rest-endpoint/rest-endpoint.component';
 import {SocketEndpointComponent} from './components/endpoint/socket-endpoint/socket-endpoint.component';
 import { ClipboardService } from './services/clipboard.service';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 @NgModule({
   declarations: [
     ContactComponent,
@@ -64,7 +65,8 @@ import { ClipboardService } from './services/clipboard.service';
     SimpleNotificationsModule.forRoot(),
     BrowserAnimationsModule,
     CommonModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   providers: [
     SharedVarsService,
