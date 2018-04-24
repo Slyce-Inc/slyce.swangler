@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {AppEndPoint} from '../../models/endpoint/endpoint.model';
+import {AppEndPoint, Endpoint} from '../../models/endpoint/endpoint.model';
 import {AppClickedSampleRes} from '../../models/endpoint/clicked-sample-res';
 import {AppClickedTestRes} from '../../models/endpoint/clicked-test-res';
 import {NotificationsService} from 'angular2-notifications';
@@ -9,7 +9,7 @@ import {EndpointsSharedService} from '../../services/endpoints-shared.service';
 export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() scrollToId: string;
   /* Accepts AppEndPoint object */
-  @Input('endpointData') endpointData: AppEndPoint;
+  @Input('endpointData') endpointData: Endpoint;
   /* Call back on sample toggle */
   @Output('clickedSample') clickedSample: EventEmitter<AppClickedSampleRes> = new EventEmitter();
   /* Call back on test button click */

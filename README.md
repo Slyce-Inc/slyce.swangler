@@ -61,7 +61,8 @@ Base Object that should be returned when the Web Socket Spec File is loaded.
 | Key                           | Type     | Description |
 |-------------------------------|----------|-------------|
 | socketEndpoints      				| Array(SocketModel)  | List of WebSocket Endpoints |
-| baseURL                     | string              | The base path of the link to all of the WebSocket Endpoints|
+| basePath                     | string ?              | The base path that is attached to the host link for all of the WebSocket Endpoints relative urls to use (if not available, resort to empty string)|
+| host                     | string ?             | The host of the server that is hosting the service desired (if not available, resort to host of Swangler) |
 
 **SocketModel**
 
@@ -77,7 +78,7 @@ SocketModel Object that represents the existence of each web socket endpoint
 | consumes | Array(string) | a list of what the endpoint consumes ex. 'application/json' | 
 | produces | Array(string) | a list of what the endpoint produces ex. 'appliation/json' | 
 | tags | Array(string) ? | a list of which nav side bar tag the endpoint will appear under, if none then it will appear under 'NO_TAG'|
-| protocol| Array(string) | a list of which protocol to use when calling this endpoint (either ws | wss)|
+| protocol| Array(string) ? | a list of which protocol to use when calling this endpoint (either ws | wss) (if not available, resort to ws)|
 | requestMessages | Array(Message) | a list of message bodies that the endpoint will be expecting | 
 | responseMessages | Array(Message) | a list of message bodies that the endpoitn will be responding with |
 | errorMessages | Array(Message) ?| a list of error message bodies that the endpoint will be responding with |
@@ -116,7 +117,6 @@ Parameter Object that represents each parameter in a schema
         operationId: 'test',
         summary: 'test endpoint summary',
         url: '/accounts/{account_id}',
-        protocol: [ 'ws', 'wss' ],
         name: 'message',
         description: 'test endpoint description',
         parameters: [

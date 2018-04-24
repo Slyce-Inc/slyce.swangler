@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {RequestInitiator} from '../../../models/endpoint/endpoint.model';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {AppEndPoint, RequestInitiator} from '../../../models/endpoint/endpoint.model';
 import {AppClickedTestRes} from '../../../models/endpoint/clicked-test-res';
 import {AltInputEventModel} from '../../alt-input/model/AltInputEvent.model';
 import {SharedVarsService} from '../../../services/shared-vars.service';
@@ -10,6 +10,7 @@ import {SocketObservables} from '../../../models/socketObservables/socketObserva
 import {SwaggerService} from '../../../services/swagger.service';
 import {SocketService} from '../../../services/socket/socket.service';
 import {EndpointComponent} from '../endpoint.component';
+import {SocketModel} from '../../../models/ws-spec.model';
 
 @Component({
   selector: 'app-socket-endpoint',
@@ -17,6 +18,8 @@ import {EndpointComponent} from '../endpoint.component';
   styleUrls: ['./socket-endpoint.component.scss']
 })
 export class SocketEndpointComponent extends EndpointComponent {
+  @Input('endpointData') endpointData: SocketModel;
+
   @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
 
   bodyParams = [];
@@ -39,11 +42,6 @@ export class SocketEndpointComponent extends EndpointComponent {
    * Override
    */
   public initParameterFields() {
-    for (let i = 0; i < this.endpointData['requestMessages'].length; i++) {
-      const element = this.endpointData['requestMessages'][i];
-      element.value = element.default || element.example || null;
-    }
-
     const params = this.endpointData.parameters;
     for (const p in params) {
       if (params.hasOwnProperty(p)) {
@@ -70,7 +68,7 @@ export class SocketEndpointComponent extends EndpointComponent {
         ((elem, index) => {
           this.sharedVarsService.sharedVars[elem]
             .subscribe(value => {
-              this.endpointData['requestMessages'][index].value = value;
+              this.endpointData['requestMessages'][index]['value'] = value;
             });
         })(sharedVarName, i);
       }
@@ -78,7 +76,7 @@ export class SocketEndpointComponent extends EndpointComponent {
   }
 
   applySampleBody(event, selectedRequest) {
-    this.endpointData['requestMessages'][selectedRequest].value = event;
+    this.endpointData['requestMessages'][selectedRequest]['value'] = event;
 
     if (this.sharedVarsService.sharedVars[this.endpointData.operationId + '_ws_message_' + selectedRequest]) {
       this.localStorageService.setStorageVar(this.endpointData.operationId + '_ws_message_' + selectedRequest, event);
@@ -93,29 +91,37 @@ export class SocketEndpointComponent extends EndpointComponent {
         new AppClickedTestRes(this.endpointData, this.selectedResponse, this.selectedRequestType, this.parameterFields),
         this.localStorageService
       );
-      this.swaggerService.getWsEndpoints().subscribe( data => {
-        const params = this.buildQueryParams(this.parameterFields);
-        const url = encodeURI(data.baseURL + this.swaggerService.substitutePath(this.endpointData.url, request.path) + params);
+      const params = this.buildQueryParams(this.parameterFields);
+      let protocol = null;
+      const socketEndpoint = this.endpointData as SocketModel;
+      // At this point we should allow user to select the protocol they want to use. But for now we will not.
+      if (socketEndpoint.protocol && socketEndpoint.protocol.length > 0) {
+        protocol = socketEndpoint.protocol[0];
+       } else {
+        protocol = 'ws';
+      }
+      const url = encodeURI(protocol + '://' + this.swaggerService.specSocketHost + this.swaggerService.substitutePath(
+        this.endpointData.url,
+        request.path) + params);
+      console.log(url);
+      this.connection = this.socketService.connect(url);
 
-        this.connection = this.socketService.connect(url);
-
-        this.connection.onopen.subscribe(event => {
-          this.isConnectionStarted = true;
-          // this.notify.info('Info', 'Connection open');
-        });
-        this.connection.onclose.subscribe(event => {
-          this.isConnectionStarted = false;
-          // this.socketMessages = [];
-          // this.notify.warn('Info', 'Connection close');
-        });
-        this.connection.onmessage.subscribe(event => {
-          if (event) {
-            if (event.data) {
-              const response = JSON.parse(event.data);
-              this.socketMessages.push(response);
-            }
+      this.connection.onopen.subscribe(event => {
+        this.isConnectionStarted = true;
+        // this.notify.info('Info', 'Connection open');
+      });
+      this.connection.onclose.subscribe(event => {
+        this.isConnectionStarted = false;
+        // this.socketMessages = [];
+        // this.notify.warn('Info', 'Connection close');
+      });
+      this.connection.onmessage.subscribe(event => {
+        if (event) {
+          if (event.data) {
+            const response = JSON.parse(event.data);
+            this.socketMessages.push(response);
           }
-        });
+        }
       });
     } else {
       this.connection.socket.close();
@@ -130,8 +136,8 @@ export class SocketEndpointComponent extends EndpointComponent {
     this.clickedSeeSocketMessages.emit(socketData);
   }
   sendSocketMessage() {
-    if (this.endpointData['requestMessages'][this.selectedRequestType].value) {
-      this.connection.socket.send(this.endpointData['requestMessages'][this.selectedRequestType].value);
+    if (this.endpointData['requestMessages'][this.selectedRequestType]['value']) {
+      this.connection.socket.send(this.endpointData['requestMessages'][this.selectedRequestType]['value']);
     }
   }
   processAltInput(event: AltInputEventModel, selectedRequest: string, field: string) {
