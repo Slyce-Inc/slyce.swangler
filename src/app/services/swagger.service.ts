@@ -19,6 +19,7 @@ export class SwaggerService {
   endpointsSubject: BehaviorSubject<any>;
   wsEndpointsSubject: BehaviorSubject<any>;
   specHost = '';
+  specSocketHost = '';
   endpoints = [];
 
   public static applyEndpointAccesses(apiData, endpointAccesses: EndpointAccesses) {
@@ -211,7 +212,21 @@ export class SwaggerService {
       console.log(this.specHost);
     }
   }
-
+  setSocketHost(apiData) {
+    if (apiData) {
+      let host;
+      let basePath;
+      // Set Host
+      if (apiData.host) {
+        host = apiData.host;
+      } else {
+        host = window.location.host;
+      }
+      // BasePath
+      basePath = apiData.basePath ? apiData.basePath : '';
+      this.specSocketHost = host + basePath;
+    }
+  }
   initSwagger(specUrl: string, websocketSpecUrl?: string): Promise<any> {
     return Swagger(specUrl).then( apiData => {
         apiData = SwaggerService.applyEndpointAccesses(apiData, null);
@@ -220,6 +235,8 @@ export class SwaggerService {
         this.setApiData(apiData);
         if (websocketSpecUrl) {
           return this.initWsSpec(websocketSpecUrl).then( res => {
+            this.setSocketHost(res);
+            console.log(this.specSocketHost);
             const sortedRestEndpoints = this.sortApiEndpointsByTags(apiData.spec.paths);
             const sortedCombinedEndpoints = this.appendWsEndpointToTags(sortedRestEndpoints, res);
             // this.sharedVarsService.initSharedVars(this.endpoints);

@@ -65,10 +65,10 @@ export class RequestInitiator {
   constructor(request: AppClickedTestRes, localDataService: LocalStorageService) {
     console.log(request);
     this.scheme = request.selectedScheme;
-    this.method = request.endPointData.method;
+    this.method = request.endPointData['method'];
     this.url = request.endPointData.url;
-    if ( request.endPointData.security ) {
-      request.endPointData.security.forEach( item => {
+    if ( request.endPointData['security'] ) {
+      request.endPointData['security'].forEach( item => {
         if ( item ) {
           Object.keys(item).forEach(secRequirement => {
             this.addHeader(secRequirement, localDataService.getStorageVar(secRequirement));

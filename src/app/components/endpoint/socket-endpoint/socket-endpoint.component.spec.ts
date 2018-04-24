@@ -189,7 +189,7 @@ describe('SocketEndpointComponent', () => {
   it('should send socket message', () => {
     component.openSocketConnection();
     spyOn(component.connection.socket, 'send');
-    component.endpointData['requestMessages'][0].value = 'test';
+    component.endpointData['requestMessages'][0]['value'] = 'test';
     const sent = component.sendSocketMessage();
     expect(component.connection.socket.send).toHaveBeenCalled();
   });
@@ -263,22 +263,6 @@ describe('SocketEndpointComponent', () => {
       expect(true).toBeTruthy();
     } catch (e) {
       fail('crashed on endpointData.summary == undefined');
-    }
-  });
-
-  it('should not show empty badge on null endpointData.method', () => {
-    component.endpointData.method = undefined;
-    fixture.detectChanges();
-    expect(fixture.debugElement.queryAll(By.css('#methodBadge')).length).toBeFalsy();
-  });
-
-  it('should not crash on null endpointData.method', () => {
-    component.endpointData.method = undefined;
-    try {
-      fixture.detectChanges();
-      expect(true).toBeTruthy();
-    } catch (e) {
-      fail('crashed on endpointData.method == undefined');
     }
   });
 
@@ -369,7 +353,7 @@ describe('SocketEndpointComponent', () => {
     component.sharedVarsService.sharedVars['test_ws_message_0']
       .subscribe((e) => {
         if (e) {
-          expect(component.endpointData['requestMessages'][0].value).toEqual('test');
+          expect(component.endpointData['requestMessages'][0]['value']).toEqual('test');
         }
       });
   });
@@ -380,7 +364,7 @@ describe('SocketEndpointComponent', () => {
 
     component.sharedVarsService.sharedVars['test_ws_message_0'].next('test2');
 
-    expect(component.endpointData['requestMessages'][0].value).toEqual('test2');
+    expect(component.endpointData['requestMessages'][0]['value']).toEqual('test2');
   });
 
 });
