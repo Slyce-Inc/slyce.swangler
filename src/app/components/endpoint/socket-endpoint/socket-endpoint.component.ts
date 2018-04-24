@@ -92,15 +92,7 @@ export class SocketEndpointComponent extends EndpointComponent {
         this.localStorageService
       );
       const params = this.buildQueryParams(this.parameterFields);
-      let protocol = null;
-      const socketEndpoint = this.endpointData as SocketModel;
-      // At this point we should allow user to select the protocol they want to use. But for now we will not.
-      if (socketEndpoint.protocol && socketEndpoint.protocol.length > 0) {
-        protocol = socketEndpoint.protocol[0];
-       } else {
-        protocol = 'ws';
-      }
-      const url = encodeURI(protocol + '://' + this.swaggerService.specSocketHost + this.swaggerService.substitutePath(
+      const url = encodeURI(this.selectedScheme + '://' + this.swaggerService.specSocketHost + this.swaggerService.substitutePath(
         this.endpointData.url,
         request.path) + params);
       console.log(url);
