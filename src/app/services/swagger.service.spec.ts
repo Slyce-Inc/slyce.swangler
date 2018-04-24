@@ -91,7 +91,6 @@ describe('SwaggerService', () => {
     const endpointsMockDataClone = JSON.parse(JSON.stringify(endpointsMockData));
     endpointsMockDataClone[0].test.tags = undefined;
     const res = service.sortApiEndpointsByTags(endpointsMockDataClone);
-    console.log(res);
     // tag from AppEndPoint.MOCK_DATA.tags property
     expect(Object.keys(res)[0]).toEqual('NO_TAG');
 

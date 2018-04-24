@@ -95,7 +95,6 @@ export class SocketEndpointComponent extends EndpointComponent {
       const url = encodeURI(this.selectedScheme + '://' + this.swaggerService.specSocketHost + this.swaggerService.substitutePath(
         this.endpointData.url,
         request.path) + params);
-      console.log(url);
       this.connection = this.socketService.connect(url);
 
       this.connection.onopen.subscribe(event => {

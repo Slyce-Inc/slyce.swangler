@@ -55,8 +55,6 @@ export class SwaggerService {
   }
 
   testEndpoint(callData: RequestInitiator): Observable<any> {
-    console.log(callData);
-    console.log(this.specHost);
     const options = this.buildEndpointOptions(callData);
     const body = this.buildBody(callData);
     if (callData.method === 'put' || callData.method === 'patch' || callData.method === 'post') {
@@ -230,7 +228,6 @@ export class SwaggerService {
   initSwagger(specUrl: string, websocketSpecUrl?: string): Promise<any> {
     return Swagger(specUrl).then( apiData => {
         apiData = SwaggerService.applyEndpointAccesses(apiData, null);
-        console.log(apiData);
         this.setHostUrl(apiData);
         this.setApiData(apiData);
         if (websocketSpecUrl) {

@@ -36,7 +36,6 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit() {
-    console.log(this.endpointData);
     this.initSchemes();
     this.initParameterFields();
     this.initSelectedResponse();

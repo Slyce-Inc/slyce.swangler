@@ -63,7 +63,6 @@ export class RequestInitiator {
   public method: string;
   [httpPart: string]: RequestEntry | any;
   constructor(request: AppClickedTestRes, localDataService: LocalStorageService) {
-    console.log(request);
     this.scheme = request.selectedScheme;
     this.method = request.endPointData['method'];
     this.url = request.endPointData.url;
