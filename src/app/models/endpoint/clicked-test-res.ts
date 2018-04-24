@@ -20,7 +20,7 @@ export class AppClickedTestRes {
   public selectedScheme?: string;
   public parameterFields?: any;
   public endPointData?: Endpoint;
-  constructor(endPointData: AppEndPoint, selectedResponse, selectedRequest, parameterFields, selectedScheme?: string) {
+  constructor(endPointData: Endpoint, selectedResponse, selectedRequest, parameterFields, selectedScheme?: string) {
     this.selectedResponse = selectedResponse;
     this.parameterFields = parameterFields;
     this.endPointData = endPointData;
