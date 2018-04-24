@@ -7,8 +7,8 @@ import {SharedVarsService} from '../../services/shared-vars.service';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {EndpointsSharedService} from '../../services/endpoints-shared.service';
 export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
-  public static DEFAULT_SCHEME = 'http';
-  @Input() schemes: string[];
+  public DEFAULT_SCHEME = 'http';
+  @Input() schemes: string[] = [];
   @Input() scrollToId: string;
   /* Accepts AppEndPoint object */
   @Input('endpointData') endpointData: AppEndPoint;
@@ -60,12 +60,12 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   }
   public initSchemes() {
     // Initialize selected scheme
-    if ( this.schemes.length > 0 ) {
+    if ( this.schemes && this.schemes.length > 0 ) {
       this.selectedScheme = this.schemes[0];
     } else {
       // If there are no schemes available to select form default to the default scheme
-      this.schemes.push(EndpointComponent.DEFAULT_SCHEME);
-      this.selectedScheme = EndpointComponent.DEFAULT_SCHEME;
+      this.schemes.push(this.DEFAULT_SCHEME);
+      this.selectedScheme = this.DEFAULT_SCHEME;
     }
   }
   /* Init the default parameters to the parameter fields */

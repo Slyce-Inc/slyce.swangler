@@ -36,7 +36,7 @@
             <div *ngFor="let endpoint of endpoints">
               <app-rest-endpoint [schemes]="this.apiData.spec.schemes" *ngIf="endpoint.responses" (clickedTestEndPoint)="this.clickTest($event, modal)" [endpointData]="endpoint"
                 [scrollToId]='scrollToId'></app-rest-endpoint>
-              <app-socket-endpoint *ngIf="endpoint.responseMessages" (clickedSeeSocketMessages)="this.showSocketMessages($event, modal)"
+              <app-socket-endpoint [schemes]="endpoint.protocol" *ngIf="endpoint.responseMessages" (clickedSeeSocketMessages)="this.showSocketMessages($event, modal)"
                 [endpointData]="endpoint" [scrollToId]='scrollToId'></app-socket-endpoint>
             </div>
           </div>

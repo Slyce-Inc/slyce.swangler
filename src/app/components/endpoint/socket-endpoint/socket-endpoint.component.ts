@@ -17,8 +17,9 @@ import {EndpointComponent} from '../endpoint.component';
   styleUrls: ['./socket-endpoint.component.scss']
 })
 export class SocketEndpointComponent extends EndpointComponent {
-  @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
+  public DEFAULT_SCHEME = 'ws';
 
+  @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
   bodyParams = [];
   selectedRequestType = 0;
   isConnectionStarted = false;

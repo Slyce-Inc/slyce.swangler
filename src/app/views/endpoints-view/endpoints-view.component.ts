@@ -48,6 +48,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     this.configService.initConfigService().then( config => {
       this.swaggerService.initSwagger(config.spec, config.websocket_spec)
         .then((endpoints) => {
+          console.log(endpoints);
           if (endpoints) {
             this.sharedVarsService.initSharedVars(endpoints);
           }
