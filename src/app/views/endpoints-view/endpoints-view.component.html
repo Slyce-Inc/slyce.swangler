@@ -35,9 +35,9 @@
           <div *ngIf="!this.wrongTag" class="endpoints" id="Accounts_endpoint_list">
             <div *ngFor="let endpoint of endpoints">
               <app-rest-endpoint *ngIf="endpoint.responses" (clickedTestEndPoint)="this.clickTest($event, modal)" [endpointData]="endpoint"
-                [scrollToId]='scrollToId'></app-rest-endpoint>
+                [scrollToId]='scrollToId'[hideRestrictedEndpoints]="hideRestrictedEndpoints"></app-rest-endpoint>
               <app-socket-endpoint *ngIf="endpoint.responseMessages" (clickedSeeSocketMessages)="this.showSocketMessages($event, modal)"
-                [endpointData]="endpoint" [scrollToId]='scrollToId'></app-socket-endpoint>
+                [endpointData]="endpoint" [scrollToId]='scrollToId' [hideRestrictedEndpoints]="hideRestrictedEndpoints"></app-socket-endpoint>
             </div>
           </div>
         </div>
