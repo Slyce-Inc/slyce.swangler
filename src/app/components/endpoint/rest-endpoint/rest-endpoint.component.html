@@ -6,12 +6,20 @@
           <h4>
             {{this.endpointData?.summary}}
           </h4>
-
-
           <div class="d-lg-flex break-all align-items-center">
             <div class="mr-auto">
               <h5>
                 <span *ngIf="this.endpointData.method" id='methodBadge' class="http_method badge badge-primary">{{this.endpointData.method}}</span>
+                <div class="btn-group" dropdown>
+                  <button id="button-basic" dropdownToggle type="button" class="http_method badge badge-primary"
+                          aria-controls="dropdown-basic">
+                    <span class="caret"></span> {{this.selectedScheme}} <span>:</span>
+                  </button>
+                  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                      role="menu">
+                    <li (click)="this.clickedScheme(s)" *ngFor="let s of schemes" role="menuitem">{{s}}</li>
+                  </ul>
+                </div>
                 <span *ngIf="this.endpointData.url" id='url' class="path text-muted">{{this.endpointData.url}}</span>
               </h5>
             </div>

@@ -91,7 +91,6 @@ describe('SwaggerService', () => {
     const endpointsMockDataClone = JSON.parse(JSON.stringify(endpointsMockData));
     endpointsMockDataClone[0].test.tags = undefined;
     const res = service.sortApiEndpointsByTags(endpointsMockDataClone);
-    console.log(res);
     // tag from AppEndPoint.MOCK_DATA.tags property
     expect(Object.keys(res)[0]).toEqual('NO_TAG');
 
@@ -101,28 +100,28 @@ describe('SwaggerService', () => {
 
   it('should set host URL', () => {
     service.setHostUrl({ 'url': 'http://forge.local/openapi/spec.json', 'spec': { 'host': null, schemes: ['http'] } });
-    expect(service.specHost).toEqual('http://forge.local');
+    expect(service.specHost).toEqual('forge.local');
 
     service.setHostUrl({ 'url': 'http://forge.local/openapi/spec.json', 'spec': { 'host': 'test.com', schemes: ['https'] } });
-    expect(service.specHost).toEqual('https://test.com');
+    expect(service.specHost).toEqual('test.com');
 
     service.setHostUrl({ 'url': 'http://forge.local/openapi/spec.json', 'spec': { 'host': 'test.com', schemes: [] } });
-    expect(service.specHost).toEqual('http://test.com');
+    expect(service.specHost).toEqual('test.com');
 
     service.setHostUrl({ 'url': 'http://forge.local/openapi/spec.json' });
-    expect(service.specHost).toEqual('http://forge.local');
+    expect(service.specHost).toEqual('forge.local');
 
     service.setHostUrl({ 'url': 'http://forge.local/openapi/spec.json', 'spec': { 'host': 'test.com', schemes: [], basePath: '/v2' } });
-    expect(service.specHost).toEqual('http://test.com/v2');
+    expect(service.specHost).toEqual('test.com/v2');
 
     service.setHostUrl({ 'url': '../openapi/spec.json', 'spec': { 'host': null, schemes: ['http'], basePath: '/v2' } });
-    expect(service.specHost).toEqual('http://' + window.location.host + '/v2');
+    expect(service.specHost).toEqual (window.location.host + '/v2');
 
     service.setHostUrl({ 'url': '../openapi/spec.json', 'spec': { 'host': null, schemes: ['https'], basePath: '/v2' } });
-    expect(service.specHost).toEqual('https://' + window.location.host + '/v2');
+    expect(service.specHost).toEqual(window.location.host + '/v2');
 
     service.setHostUrl({ 'url': '../openapi/spec.json', 'spec': { 'host': null, schemes: ['http']} });
-    expect(service.specHost).toEqual('http://' + window.location.host);
+    expect(service.specHost).toEqual( window.location.host);
   });
 
   it('should call initSwaggerconso', () => {

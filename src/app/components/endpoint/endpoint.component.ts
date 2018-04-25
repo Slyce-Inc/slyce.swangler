@@ -7,6 +7,8 @@ import {SharedVarsService} from '../../services/shared-vars.service';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {EndpointsSharedService} from '../../services/endpoints-shared.service';
 export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
+  public DEFAULT_SCHEME = 'http';
+  @Input() schemes: string[] = [];
   @Input() scrollToId: string;
   /* Accepts AppEndPoint object */
   @Input('endpointData') endpointData: Endpoint;
@@ -18,6 +20,8 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   /* Selected wanted response format from endpoint */
   public selectedResponse;
   public selectedRequest;
+  /*Schemes like https or wss or ws and such*/
+  public selectedScheme;
   /* Inputed values from user for each parameter otherwise go default */
   public parameterFields = {};
   public Object = Object;
@@ -32,6 +36,7 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit() {
+    this.initSchemes();
     this.initParameterFields();
     this.initSelectedResponse();
     this.initSelectedRequest();
@@ -52,7 +57,16 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
       this.scrollToElem();
     }
   }
-
+  public initSchemes() {
+    // Initialize selected scheme
+    if ( this.schemes && this.schemes.length > 0 ) {
+      this.selectedScheme = this.schemes[0];
+    } else {
+      // If there are no schemes available to select form default to the default scheme
+      this.schemes.push(this.DEFAULT_SCHEME);
+      this.selectedScheme = this.DEFAULT_SCHEME;
+    }
+  }
   /* Init the default parameters to the parameter fields */
   public initParameterFields() {
     const params = this.endpointData.parameters;
@@ -131,9 +145,13 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
     this.selectedRequest = this.endpointData.consumes ? this.endpointData.consumes[0] : null;
   }
   public clickTestEndPointButton() {
-    return ( new AppClickedTestRes(this.endpointData, this.selectedResponse, this.selectedRequest, this.parameterFields));
+    return ( new AppClickedTestRes(this.endpointData, this.selectedResponse, this.selectedRequest, this.parameterFields,
+      this.selectedScheme));
   }
   public clickedToggleExamples() {
     this.endpointsSharedService.endpointsExamplesToggle();
+  }
+  public clickedScheme(scheme) {
+    this.selectedScheme = scheme;
   }
 }

@@ -31,3 +31,15 @@ textarea{
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.66rem;
 }
+
+.dropdown-menu{
+  width:100%;
+  text-align:center;
+}
+
+.dropdown-menu li{
+  &:hover{
+    color: darken($color: #868e96, $amount: 10%);
+    background-color: darken($color: white, $amount: 10%);
+  }
+}

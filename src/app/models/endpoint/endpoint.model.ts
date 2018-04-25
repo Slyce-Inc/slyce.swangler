@@ -57,11 +57,13 @@ export class Property {
   public required?: any [] | boolean;
 }
 export class RequestInitiator {
+  public scheme: string;
   public url: string;
   public headers: RequestEntry = {};
   public method: string;
   [httpPart: string]: RequestEntry | any;
   constructor(request: AppClickedTestRes, localDataService: LocalStorageService) {
+    this.scheme = request.selectedScheme;
     this.method = request.endPointData['method'];
     this.url = request.endPointData.url;
     if ( request.endPointData['security'] ) {
