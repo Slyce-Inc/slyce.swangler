@@ -24,7 +24,9 @@
     ScrollPosStyler.init();
 
     $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
+      setTimeout(() => {
+        $('[data-toggle="tooltip"]').tooltip();
+      }, 1000);
     });
   </script>
 </body>
