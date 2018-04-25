@@ -1,4 +1,4 @@
-<div class="endpoint" [id]='endpointData.operationId' [ngClass]="{'disabled': endpointData['restricted']}" *ngIf="!hideRestrictedEndpoints && endpointData['restricted'] !== false">
+<div class="endpoint" [id]='endpointData.operationId' [ngClass]="{'disabled': endpointData['restricted'], 'd-none': hideRestrictedEndpoints && endpointData['restricted']}">
   <div class="operations">
     <div class="get operation">
       <div class="row">
