@@ -6,10 +6,9 @@
 
     <div class="security-definitions" *ngIf="this.securityDefinitions != null">
       <input *ngFor="let sdName of Object.keys(this.securityDefinitions);" [(ngModel)]="inputFields[sdName]" type="text" class="form-control form-control-sm security-definition-input" aria-describedby="auth" placeholder="{{sdName}}">
-      <div class="input-group-append">
+      <div class="input-group-append justify-content-between">
         <button (click)="this.clickApplyButton()" id="applyButton1257235" type="button" class="btn btn-sm btn-secondary apply-security-definitions">Apply</button>
-
-        <ngx-toggle size="sm" onText="Hide" offText="Show" [(value)]="showFilteredEndpoints" (valueChange)="toggleFilteredEndpointsClick(showFilteredEndpoints)"></ngx-toggle>
+        <ngx-toggle data-toggle="tooltip" data-placement="bottom" title="Toggle restricted endpoints display" name="toggle" size="sm" onText="Show" offText="Hide" [(value)]="showFilteredEndpoints" (valueChange)="toggleFilteredEndpointsClick(showFilteredEndpoints)"></ngx-toggle>
       </div>
     </div>
 
