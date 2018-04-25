@@ -299,4 +299,18 @@ describe('EndpointComponent', () => {
     component.initSelectedRequest();
     expect(component.selectedRequest).toEqual('multipart/form-data');
   });
+  it('should init scheme when there is no schemes available, should default to the default', function() {
+    component.endpointData = JSON.parse(JSON.stringify(APPENDPOINT));
+    fixture.detectChanges();
+    expect(component.schemes.length === 1).toBeTruthy();
+    expect(component.schemes[0]).toEqual(component.DEFAULT_SCHEME);
+  });
+  it('should init scheme when there are schemes available', function() {
+    component.endpointData = JSON.parse(JSON.stringify(APPENDPOINT));
+    component.schemes = ['http', 'https'];
+    fixture.detectChanges();
+    expect(component.schemes.length === 2).toBeTruthy();
+    expect(component.schemes[0]).toEqual(component.schemes[0]);
+    expect(component.schemes[1]).toEqual(component.schemes[1]);
+  });
 });

@@ -18,10 +18,10 @@ import {SocketModel} from '../../../models/ws-spec.model';
   styleUrls: ['./socket-endpoint.component.scss']
 })
 export class SocketEndpointComponent extends EndpointComponent {
+  public DEFAULT_SCHEME = 'ws';
   @Input('endpointData') endpointData: SocketModel;
 
   @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
-
   bodyParams = [];
   selectedRequestType = 0;
   isConnectionStarted = false;
@@ -92,18 +92,9 @@ export class SocketEndpointComponent extends EndpointComponent {
         this.localStorageService
       );
       const params = this.buildQueryParams(this.parameterFields);
-      let protocol = null;
-      const socketEndpoint = this.endpointData as SocketModel;
-      // At this point we should allow user to select the protocol they want to use. But for now we will not.
-      if (socketEndpoint.protocol && socketEndpoint.protocol.length > 0) {
-        protocol = socketEndpoint.protocol[0];
-       } else {
-        protocol = 'ws';
-      }
-      const url = encodeURI(protocol + '://' + this.swaggerService.specSocketHost + this.swaggerService.substitutePath(
+      const url = encodeURI(this.selectedScheme + '://' + this.swaggerService.specSocketHost + this.swaggerService.substitutePath(
         this.endpointData.url,
         request.path) + params);
-      console.log(url);
       this.connection = this.socketService.connect(url);
 
       this.connection.onopen.subscribe(event => {
