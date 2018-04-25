@@ -10,6 +10,7 @@ export class Endpoint {
   public consumes: string[];
   public produces: string[];
   public tags: string[];
+  public type?: string; /*websocket or rest*/
 }
 export class AppEndPoint extends Endpoint {
   public method: string;

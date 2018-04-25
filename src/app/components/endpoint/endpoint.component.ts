@@ -63,6 +63,7 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
       this.selectedScheme = this.schemes[0];
     } else {
       // If there are no schemes available to select form default to the default scheme
+      this.schemes = [];
       this.schemes.push(this.DEFAULT_SCHEME);
       this.selectedScheme = this.DEFAULT_SCHEME;
     }

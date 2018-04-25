@@ -258,6 +258,7 @@ export class SwaggerService {
   appendWsEndpointToTags(restEndpoints, wsEndpoints) {
     if (wsEndpoints && wsEndpoints.socketEndpoints) {
       wsEndpoints.socketEndpoints.forEach(endpoint => {
+        endpoint.type = 'websocket';
         this.endpoints.push(endpoint);
         if (endpoint && endpoint.tags && endpoint.tags.length > 0) {
           endpoint.tags.forEach(tag => {
