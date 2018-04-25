@@ -14,6 +14,7 @@ export class AccountService {
   url: '/api_keys/mine';
   acl;
   endpointsWithRestrictions = new Subject();
+  defaultSpecScheme = 'https';
 
   constructor(
     private http: HttpClient,
@@ -24,6 +25,12 @@ export class AccountService {
     this.swaggerService.endpointsSubject.subscribe(endpoints => {
       if (endpoints) {
         this.getApiKeys(endpoints);
+      }
+    });
+
+    this.swaggerService.getApiData().subscribe(swaggerData => {
+      if (swaggerData) {
+        this.defaultSpecScheme = swaggerData.spec.schemes[0] || 'https';
       }
     });
   }
@@ -37,7 +44,7 @@ export class AccountService {
       return;
     }
 
-    const request = new AppClickedTestRes(apiKeysEndpoint, null, null, null);
+    const request = new AppClickedTestRes(apiKeysEndpoint, null, null, null, this.defaultSpecScheme);
 
     const requestInitiator: RequestInitiator = new RequestInitiator(request, this.localDataService);
     this.swaggerService.testEndpoint(requestInitiator).subscribe( res => {
