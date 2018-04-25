@@ -74,6 +74,7 @@ export class SocketEndpointComponent extends EndpointComponent {
         })(sharedVarName, i);
       }
     });
+    console.log(this.parameterFields);
   }
 
   applySampleBody(event, selectedRequest) {
@@ -176,16 +177,26 @@ export class SocketEndpointComponent extends EndpointComponent {
       this.notificationService.alert(`${this.selectedResponse} is not supported`);
     }
   }
-  buildQueryParams(params) {
+  buildQueryParams(p) {
     let result = '?';
+    const params = (JSON).parse(JSON.stringify(p));
+    if (this.endpointData && this.endpointData.securityParameters) {
+      this.endpointData.securityParameters.forEach(s => {
+        if (s.in.toLowerCase() === 'query') {
+          params[s.name] = s;
+          params[s.name].value = this.localStorageService.getStorageVar(s.name);
+        }
+      });
+    }
     for (const key in params) {
       if (params.hasOwnProperty(key)) {
         const element = params[key];
-        if ( element.in.toLocaleLowerCase() === 'query' ) {
+        if ( element.in && element.in.toLowerCase() === 'query' ) {
           result += element.name + '=' + element.value + '&';
         }
       }
     }
+    console.log(result);
     return result;
   }
 }
