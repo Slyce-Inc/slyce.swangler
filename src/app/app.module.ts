@@ -32,6 +32,10 @@ import { SharedVarsService } from './services/shared-vars.service';
 import { RestEndpointComponent } from './components/endpoint/rest-endpoint/rest-endpoint.component';
 import {SocketEndpointComponent} from './components/endpoint/socket-endpoint/socket-endpoint.component';
 import { ClipboardService } from './services/clipboard.service';
+import { AccountService } from './services/account/account.service';
+import {NgxToggleModule} from 'ngx-toggle';
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     ContactComponent,
@@ -53,6 +57,8 @@ import { ClipboardService } from './services/clipboard.service';
     RestEndpointComponent
   ],
   imports: [
+    ReactiveFormsModule,
+    NgxToggleModule,
     AltInputModule,
     BrowserModule,
     CollapseModule.forRoot(),
@@ -75,6 +81,7 @@ import { ClipboardService } from './services/clipboard.service';
     ImageBytesService,
     SocketService,
     ClipboardService,
+    AccountService,
   ],
   bootstrap: [AppComponent]
 })

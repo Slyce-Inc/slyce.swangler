@@ -11,6 +11,9 @@ export class CollapsableNavComponent implements OnInit, AfterContentInit, OnChan
   @Input() tag: string;
   @Input() sectionToExpand: string = null;
   @Input() endpoints: Array<CollapsableNavEndpointsModel>;
+  @Input() hideRestrictedEndpoints: boolean;
+
+  hideSideTag: boolean;
 
   Object = null;
   isCollapsed = true;
@@ -44,7 +47,16 @@ export class CollapsableNavComponent implements OnInit, AfterContentInit, OnChan
         this.isCollapsed = false;
       }
     }
+
+    if (changes.hideRestrictedEndpoints) {
+      if (changes.hideRestrictedEndpoints.currentValue === true && this.allEndpointsRestricted()) {
+        this.hideSideTag = true;
+      } else if (this.hideSideTag === true) {
+        this.hideSideTag = false;
+      }
+    }
   }
+
   getNavLinkName(endpointObj) {
     if (endpointObj.summary) {
       return(endpointObj.summary);
@@ -56,4 +68,14 @@ export class CollapsableNavComponent implements OnInit, AfterContentInit, OnChan
       return('No Name');
     }
   }
+
+  allEndpointsRestricted() {
+    const restricted = [];
+    this.endpoints.forEach((endpoint, i) => {
+      restricted.push(endpoint.restricted);
+    });
+    return restricted.indexOf(true) !== -1;
+  }
+
 }
+

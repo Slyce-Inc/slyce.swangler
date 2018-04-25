@@ -10,6 +10,7 @@ import { NotificationsService } from 'angular2-notifications';
 import {ConfigService} from '../../services/config-service/config.service';
 import { SharedVarsService } from '../../services/shared-vars.service';
 import { ClipboardService } from '../../services/clipboard.service';
+import { AccountService } from '../../services/account/account.service';
 
 @Component({
   selector: 'app-endpoints-view',
@@ -25,6 +26,8 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   queryParamSubscription: Subscription;
   sortedApiData: Observable < any > = this.swaggerService.getEndpointsSortedByTags();
   apiData;
+  hideRestrictedEndpoints: boolean;
+
   public result = {
     header: null,
     method: null,
@@ -34,6 +37,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     responseCode: null,
     websocket: null
   };
+
   constructor(
     private route: ActivatedRoute,
     public swaggerService: SwaggerService,
@@ -41,8 +45,11 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     public notify: NotificationsService,
     public configService: ConfigService,
     public sharedVarsService: SharedVarsService,
-    public clipboardService: ClipboardService
-  ) {}
+    public clipboardService: ClipboardService,
+    public accountService: AccountService
+  ) {
+
+  }
 
   ngOnInit() {
     this.configService.initConfigService().then( config => {
@@ -148,5 +155,9 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   copyRawResponse(json, event) {
     // event element needed in order to append a hidden textarea to it and avoid page jumping
     this.clipboardService.writeToClipboard(json, event.srcElement);
+  }
+
+  onToggleFilteredEndpoints(event) {
+    this.hideRestrictedEndpoints = event;
   }
 }

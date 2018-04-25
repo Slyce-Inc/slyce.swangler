@@ -13,6 +13,8 @@ export class AuthComponent implements OnInit {
   Object = null;
   public APPLIED_AUTH_MSG = 'Authentication Applied';
   public inputFields = {};
+  showFilteredEndpoints = false;
+  @Output() toggleFilteredEndpoints = new EventEmitter();
 
   // Contains the name of the security definition as the key
   @Input('securityDefinitions') securityDefinitions: SecurityDefinition;
@@ -47,6 +49,10 @@ export class AuthComponent implements OnInit {
       }
     }
     this.notify.success('Success', this.APPLIED_AUTH_MSG);
+  }
+
+  toggleFilteredEndpointsClick(value) {
+    this.toggleFilteredEndpoints.emit(value);
   }
 }
 

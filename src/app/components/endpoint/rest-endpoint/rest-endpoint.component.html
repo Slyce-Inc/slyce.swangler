@@ -1,4 +1,4 @@
-<div class="endpoint" [id]='endpointData.operationId'>
+<div class="endpoint" [id]='endpointData.operationId' [ngClass]="{'disabled': endpointData.restricted}">
   <div class="operations">
     <div class="get operation">
       <div class="row">
@@ -105,7 +105,7 @@
           <div>
 
             <div class="sandbox_header mb-5" data-content="">
-              <button (click)="this.tryEndpointRequest(endpointForm)" id="testEndpointBut799" type="button" class="btn btn-primary">Test EndPoint</button>
+              <button (click)="this.tryEndpointRequest(endpointForm)" id="testEndpointBut799" type="button" class="btn btn-primary" [disabled]="endpointData['restricted']">Test EndPoint</button>
             </div>
 
             <div class="response-content-type card card-body pb-3 bg-light mb-3">

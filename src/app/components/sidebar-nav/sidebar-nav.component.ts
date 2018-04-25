@@ -10,6 +10,7 @@ export class SidebarNavComponent implements OnInit, OnChanges {
 
   @Input() tags: SidebarNavModel[];
   @Input() sectionToExpand: string = null;
+  @Input() hideRestrictedEndpoints: boolean;
 
   arrayOfTags: Array<any> = [];
 

@@ -301,4 +301,8 @@ export class SwaggerService {
   getWsEndpoints() {
     return this.wsEndpointsSubject.asObservable();
   }
+
+  updateSortedEndpoints(endpoints) {
+    this.endpoints = endpoints;
+  }
 }
