@@ -7,6 +7,8 @@ import { DebugElement, SimpleChanges, SimpleChange, Component } from '@angular/c
 import { By } from '@angular/platform-browser';
 import { Routes, Router } from '@angular/router';
 import {CollapsableNavEndpointsModel} from '../../models/sidebar/collapsable-nav.model';
+import { EndpointsSharedService } from '../../services/endpoints-shared.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-dummy-component',
@@ -49,6 +51,12 @@ const routes: Routes = [
   { path: '**', component: DummyComponent }
 ];
 
+const EndpointsSharedServiceStub: Partial<EndpointsSharedService> = {
+  onRestrictedEndpointsVisibilityChange: function() {
+    return Observable.of(true);
+  }
+};
+
 describe('CollapsableNavComponent', () => {
   let component: CollapsableNavComponent;
   let fixture: ComponentFixture<CollapsableNavComponent>;
@@ -61,17 +69,25 @@ describe('CollapsableNavComponent', () => {
       declarations: [ CollapsableNavComponent, DummyComponent ],
       imports: [
         CollapseModule.forRoot(),
-        RouterTestingModule.withRoutes(routes)
+        RouterTestingModule.withRoutes(routes),
       ],
+      providers: [
+        { provide: EndpointsSharedService, useValue: EndpointsSharedServiceStub },
+      ]
     });
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CollapsableNavComponent);
     component = fixture.componentInstance;
+    component.endpoints = new Array<CollapsableNavEndpointsModel>();
+    component.endpoints.push(MOCK_ENDPOINT_NO_SUMMARY);
+
     fixture.detectChanges();
     router = TestBed.get(Router);
     location = TestBed.get(Location);
+
+
   });
 
   it('should create', () => {

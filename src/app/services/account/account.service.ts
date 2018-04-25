@@ -33,6 +33,10 @@ export class AccountService {
       return endpoint.operationId === 'api_keys_mine';
     })[0];
 
+    if (!apiKeysEndpoint) {
+      return;
+    }
+
     const request = new AppClickedTestRes(apiKeysEndpoint, null, null, null);
 
     const requestInitiator: RequestInitiator = new RequestInitiator(request, this.localDataService);
