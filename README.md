@@ -62,7 +62,7 @@ Base Object that should be returned when the Web Socket Spec File is loaded.
 | Key                           | Type     | Description |
 |-------------------------------|----------|-------------|
 | socketEndpoints      				| Array(SocketModel)  | List of WebSocket Endpoints |
-| basePath                     | string ?              | The base path that is attached to the host link for all of the WebSocket Endpoints relative urls to use (if not available, resort to empty string)(google.com/<basePath>/<endpoint url>)|
+| basePath                     | string ?              | The base path that is attached to the host link for all of the WebSocket Endpoints relative urls to use (ex: "/ws") (if not available, resort to empty string)(google.com/<basePath>/<endpoint url>)|
 | host                     | string ?             | The host of the server that is hosting the service desired (if not available, resort to the host of Swangler) |
 
 **SocketModel**
