@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {SecurityDefinition} from '../../models/auth/security-definition';
 import {NotificationsService} from 'angular2-notifications';
+import { EndpointsSharedService } from '../../services/endpoints-shared.service';
 
 @Component({
   selector: 'app-auth-component',
@@ -21,7 +22,8 @@ export class AuthComponent implements OnInit {
 
   constructor (
     public localStorageService: LocalStorageService,
-    public notify: NotificationsService
+    public notify: NotificationsService,
+    public endpointsSharedService: EndpointsSharedService,
   ) {
   }
 
@@ -53,6 +55,7 @@ export class AuthComponent implements OnInit {
 
   toggleFilteredEndpointsClick(value) {
     this.toggleFilteredEndpoints.emit(value);
+    this.endpointsSharedService.endpointsRestrictedToggle(value);
   }
 }
 

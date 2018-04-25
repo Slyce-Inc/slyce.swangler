@@ -17,7 +17,7 @@
         <div id="sticky_nav" class="pt-2 pb-2">
           <div class="row" data-navigator="">
 
-            <app-sidebar-nav [tags]='sortedApiData | async' [sectionToExpand]='endpointTag' [hideRestrictedEndpoints]="hideRestrictedEndpoints"></app-sidebar-nav>
+            <app-sidebar-nav [tags]='sortedApiData | async' [sectionToExpand]='endpointTag'></app-sidebar-nav>
 
           </div>
         </div>
@@ -35,9 +35,9 @@
           <div *ngIf="!this.wrongTag" class="endpoints" id="Accounts_endpoint_list">
             <div *ngFor="let endpoint of endpoints">
               <app-rest-endpoint *ngIf="endpoint.responses" (clickedTestEndPoint)="this.clickTest($event, modal)" [endpointData]="endpoint"
-                [scrollToId]='scrollToId'[hideRestrictedEndpoints]="hideRestrictedEndpoints"></app-rest-endpoint>
+                [scrollToId]='scrollToId'></app-rest-endpoint>
               <app-socket-endpoint *ngIf="endpoint.responseMessages" (clickedSeeSocketMessages)="this.showSocketMessages($event, modal)"
-                [endpointData]="endpoint" [scrollToId]='scrollToId' [hideRestrictedEndpoints]="hideRestrictedEndpoints"></app-socket-endpoint>
+                [endpointData]="endpoint" [scrollToId]='scrollToId'></app-socket-endpoint>
             </div>
           </div>
         </div>

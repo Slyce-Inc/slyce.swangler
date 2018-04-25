@@ -15,7 +15,7 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   /* Call back on test button click */
   @Output('clickedTestEndPoint') clickedTestEndPoint: EventEmitter<AppClickedTestRes> = new EventEmitter<any>();
   @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
-  @Input() hideRestrictedEndpoints: boolean;
+  hideRestrictedEndpoints: boolean;
 
   /* Selected wanted response format from endpoint */
   public selectedResponse;
@@ -37,6 +37,8 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
     this.initParameterFields();
     this.initSelectedResponse();
     this.initSelectedRequest();
+
+    this.endpointsSharedService.onRestrictedEndpointsVisibilityChange().subscribe((value: boolean) => this.hideRestrictedEndpoints = value);
   }
 
   ngAfterViewInit() {
