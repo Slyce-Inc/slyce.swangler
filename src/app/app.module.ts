@@ -35,6 +35,7 @@ import { ClipboardService } from './services/clipboard.service';
 import { AccountService } from './services/account/account.service';
 import {NgxToggleModule} from 'ngx-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     SimpleNotificationsModule.forRoot(),
     BrowserAnimationsModule,
     CommonModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   providers: [
     SharedVarsService,

@@ -23,7 +23,6 @@ export class SampleViewComponent {
     });
   }
   public clickTest(test) {
-    console.log(test);
   }
 
 }

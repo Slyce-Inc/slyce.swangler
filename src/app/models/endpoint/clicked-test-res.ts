@@ -17,14 +17,15 @@ export class AppClickedTestRes {
 
   public selectedResponse?: any;
   public selectedRequest?: any;
+  public selectedScheme?: string;
   public parameterFields?: any;
   public endPointData?: Endpoint;
-
-  constructor(endPointData: Endpoint, selectedResponse, selectedRequest, parameterFields) {
+  constructor(endPointData: Endpoint, selectedResponse, selectedRequest, parameterFields, selectedScheme?: string) {
     this.selectedResponse = selectedResponse;
     this.parameterFields = parameterFields;
     this.endPointData = endPointData;
     this.selectedRequest = selectedRequest;
+    this.selectedScheme = selectedScheme;
   }
 }
 

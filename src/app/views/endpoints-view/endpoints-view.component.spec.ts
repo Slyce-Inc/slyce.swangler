@@ -117,6 +117,7 @@ class MockBsModalDirective {}
   selector: 'app-socket-endpoint'
 })
 class MockSocketEndpointComponent {
+  @Input() schemes;
   @Input() endpointData;
   @Input() scrollToId;
   @Output() clickedTestEndPoint: EventEmitter<any> = new EventEmitter();
@@ -152,6 +153,7 @@ class MockContactComponent {
   selector: 'app-rest-endpoint'
 })
 class MockRestEndpointComponent {
+  @Input() schemes;
   @Input() endpointData;
   @Input() scrollToId;
   @Output() clickedTestEndPoint: EventEmitter<any> = new EventEmitter();
