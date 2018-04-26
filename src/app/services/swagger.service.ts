@@ -53,9 +53,7 @@ export class SwaggerService {
 
   constructor(
     private http: HttpClient,
-    public notify: NotificationsService,
-    // public sharedVarsService: SharedVarsService
-    public configServive: ConfigService
+    public notify: NotificationsService
   ) {
     this.apiDataSubject = new BehaviorSubject(null);
     this.endpointsSubject = new BehaviorSubject(null);
@@ -215,7 +213,6 @@ export class SwaggerService {
       }
       basePath = apiData.spec && apiData.spec.basePath ? apiData.spec.basePath : '';
       this.specHost = host + basePath;
-      console.log(this.specHost);
     }
   }
   setSocketHost(apiData, webSocketSpecUrl?) {
@@ -233,7 +230,6 @@ export class SwaggerService {
       // BasePath
       basePath = apiData.basePath ? apiData.basePath : '';
       this.specSocketHost = host + basePath;
-      console.log(this.specSocketHost);
     }
   }
   initSwagger(specUrl: string, websocketSpecUrl?: string): Promise<any> {
