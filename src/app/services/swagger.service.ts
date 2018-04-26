@@ -11,6 +11,7 @@ import {EndpointAccesses} from '../models/endpointAccess/endpoint-access.model';
 
 import { WS_SPEC_MOCK } from '../models/MOCK_DATA';
 import { SharedVarsService } from './shared-vars.service';
+import {ConfigService} from './config-service/config.service';
 
 @Injectable()
 export class SwaggerService {
@@ -21,6 +22,12 @@ export class SwaggerService {
   specHost = '';
   specSocketHost = '';
   endpoints = [];
+
+  public static getHostLocation(href) {
+    const l = document.createElement('a');
+    l.href = href;
+    return l.hostname;
+  }
 
   public static applyEndpointAccesses(apiData, endpointAccesses: EndpointAccesses) {
     if (!endpointAccesses) {
@@ -48,6 +55,7 @@ export class SwaggerService {
     private http: HttpClient,
     public notify: NotificationsService,
     // public sharedVarsService: SharedVarsService
+    public configServive: ConfigService
   ) {
     this.apiDataSubject = new BehaviorSubject(null);
     this.endpointsSubject = new BehaviorSubject(null);
@@ -210,19 +218,22 @@ export class SwaggerService {
       console.log(this.specHost);
     }
   }
-  setSocketHost(apiData) {
+  setSocketHost(apiData, webSocketSpecUrl?) {
     if (apiData) {
       let host;
       let basePath;
       // Set Host
       if (apiData.host) {
         host = apiData.host;
+      } else if (webSocketSpecUrl) {
+        host = SwaggerService.getHostLocation(webSocketSpecUrl);
       } else {
         host = window.location.host;
       }
       // BasePath
       basePath = apiData.basePath ? apiData.basePath : '';
       this.specSocketHost = host + basePath;
+      console.log(this.specSocketHost);
     }
   }
   initSwagger(specUrl: string, websocketSpecUrl?: string): Promise<any> {
@@ -232,7 +243,7 @@ export class SwaggerService {
         this.setApiData(apiData);
         if (websocketSpecUrl) {
           return this.initWsSpec(websocketSpecUrl).then( res => {
-            this.setSocketHost(res);
+            this.setSocketHost(res, websocketSpecUrl);
             console.log(this.specSocketHost);
             const sortedRestEndpoints = this.sortApiEndpointsByTags(apiData.spec.paths);
             const sortedCombinedEndpoints = this.appendWsEndpointToTags(sortedRestEndpoints, res);
@@ -258,6 +269,7 @@ export class SwaggerService {
   appendWsEndpointToTags(restEndpoints, wsEndpoints) {
     if (wsEndpoints && wsEndpoints.socketEndpoints) {
       wsEndpoints.socketEndpoints.forEach(endpoint => {
+        endpoint.type = 'websocket';
         this.endpoints.push(endpoint);
         if (endpoint && endpoint.tags && endpoint.tags.length > 0) {
           endpoint.tags.forEach(tag => {
