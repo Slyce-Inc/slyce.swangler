@@ -11,6 +11,7 @@ import {Access, EndpointAccesses} from '../models/endpointAccess/endpoint-access
 import {ApiData} from '../models/apidata.model';
 import {APPENDPOINT, REQUEST_INITIATOR, REQUEST_INITIATOR_OBJ} from '../models/MOCK_DATA';
 import {AppClickedTestRes} from '../models/endpoint/clicked-test-res';
+import {ConfigService} from './config-service/config.service';
 
 const endpointsMockData = [{ 'test': JSON.parse(JSON.stringify(APPENDPOINT)) }];
 
@@ -19,7 +20,6 @@ const LocalStorageServiceStub: Partial<LocalStorageService> = {
     return 'test';
   }
 };
-
 
 const requestMockData = REQUEST_INITIATOR;
 
@@ -274,7 +274,7 @@ describe('SwaggerService', () => {
     test.headers['Content-Type'] = 'multipart/form-data';
     const result: FormData = service.buildBody(test);
     /*for (const pair of result.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
+      "
     }*/
     expect(result).toBeTruthy();
   });

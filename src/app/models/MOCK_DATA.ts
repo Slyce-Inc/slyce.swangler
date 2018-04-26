@@ -553,6 +553,7 @@ export const APPENDPOINT = {
   export const  WS_SPEC_MOCK = {
     socketEndpoints: [
       {
+        type: 'websocket',
         operationId: 'test',
         summary: 'test endpoint summary',
         url: '/accounts/{account_id}/spaces/{space_id}/workflows/{workflow_id}',

@@ -42,7 +42,6 @@ export class SocketEndpointComponent extends EndpointComponent {
    * Override
    */
   public initParameterFields() {
-    console.log(this.endpointData);
     const params = this.endpointData.parameters;
     for (const p in params) {
       if (params.hasOwnProperty(p)) {
@@ -74,7 +73,6 @@ export class SocketEndpointComponent extends EndpointComponent {
         })(sharedVarName, i);
       }
     });
-    console.log(this.parameterFields);
   }
 
   applySampleBody(event, selectedRequest) {
@@ -193,7 +191,6 @@ export class SocketEndpointComponent extends EndpointComponent {
         }
       }
     }
-    console.log(result);
     return result;
   }
 }
