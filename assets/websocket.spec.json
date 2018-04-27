@@ -3,7 +3,7 @@
     {
       "operationId": "execute_workflow",
       "summary": "test endpoint summary",
-      "url": "/ws/accounts/{account_id}/spaces/{space_id}/workflows/{workflow_id}",
+      "url": "/accounts/{account_id}/spaces/{space_id}/workflows/{workflow_id}",
       "protocol": [ "ws", "wss" ],
       "name": "message",
       "parameters": [
@@ -227,7 +227,7 @@
                 "properties": {
                   "key": {
                     "type": "string",
-                    "example": "shit"
+                    "example": "Responding message"
                   }
                 }
               },
@@ -259,5 +259,5 @@
       ]
     }
   ],
-  "baseURL": "ws://localhost"
+  "basePath": "/ws"
 }
