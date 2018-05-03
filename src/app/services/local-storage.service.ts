@@ -4,10 +4,12 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {ConfigService} from './config-service/config.service';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class LocalStorageService {
   private storedSecurityDefinitionsSubject: BehaviorSubject<any>;
+  private updateSecurityDefinitionsSubject = new Subject();
   private tempSecurityDefinitions: Object = {};
 
   // Security Definitions obj from swagger spec
@@ -67,6 +69,21 @@ export class LocalStorageService {
     window.localStorage[this.configService.config.app_name + '_' + varName] = varValue;
     this.tempSecurityDefinitions[varName] = varValue;
     this.storedSecurityDefinitionsSubject.next(this.tempSecurityDefinitions);
+  }
+
+  updateSecurityDef(inputFields) {
+    for (const i in inputFields) {
+      if (inputFields.hasOwnProperty(i)) {
+        this.setStorageSecurityDef(i, inputFields[i]);
+      }
+    }
+    this.updateSecurityDefinitionsSubject.next(true);
+  }
+
+  onSecurityDefinitionsChange() {
+    console.log('test');
+
+    return this.updateSecurityDefinitionsSubject.asObservable();
   }
 
   /**

@@ -15,6 +15,7 @@ export class AccountService {
   acl;
   endpointsWithRestrictions = new Subject();
   defaultSpecScheme = 'https';
+  endpoints;
 
   constructor(
     private http: HttpClient,
@@ -24,7 +25,14 @@ export class AccountService {
   ) {
     this.swaggerService.endpointsSubject.subscribe(endpoints => {
       if (endpoints) {
+        this.endpoints = endpoints;
         this.getApiKeys(endpoints);
+      }
+    });
+
+    this.localDataService.onSecurityDefinitionsChange().subscribe(() => {
+      if (this.endpoints) {
+        this.getApiKeys(this.endpoints);
       }
     });
 

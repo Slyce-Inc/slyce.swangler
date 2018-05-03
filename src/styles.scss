@@ -30,6 +30,13 @@
   display: block;
 }
 
+textarea{
+  position: relative;
+  z-index: 99;
+  resize: both;
+}
+
+
 textarea {
   white-space: nowrap;
   min-height: 200px;
