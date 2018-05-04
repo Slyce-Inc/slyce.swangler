@@ -76,7 +76,17 @@ export class ExampleCollapsibleComponent implements OnInit {
 
   generateSampleFromArray(schema) {
     let temp = '[';
-    if (schema.items) {
+    if (schema.example && schema.example.length > 0) {
+      temp = temp + schema.example.map( e => {
+        if (typeof e === 'string') {
+          return `"${e.escapeSpecialChars()}"`;
+        } else if ( typeof e === 'object') {
+          return JSON.stringify(e);
+        } else {
+          return e;
+        }
+      }).join(',');
+    } else if (schema.items && schema.items.length > 0) {
       if ( schema.items.type ) {
         if ( schema.items.type.toLowerCase() === 'object' || schema.items.type.toLowerCase() === 'array') {
           temp = temp + '\n';
@@ -89,7 +99,7 @@ export class ExampleCollapsibleComponent implements OnInit {
           temp = temp + `"${type}"`;
         }
       }
-   }
+    }
     temp = temp + ']';
     return (temp);
   }
