@@ -11,6 +11,19 @@
       </span>
       <span class="propType" *ngIf="this.schema.properties[p].type" title="{{this.schema.properties[p].type}}">
         {{this.schema.properties[p].type}}
+        <span *ngIf="this.schema.properties[p].type == 'array'">
+          <span *ngIf="this.schema.properties[p]?.items?.$$ref">
+            /[{{this.schema.properties[p].items.$$ref.split('/').pop()}}]
+          </span>
+          <span *ngIf="!this.schema.properties[p].items.$$ref && this.schema.properties[p].items.type">
+            /[{{this.schema.properties[p].items.type}}]
+          </span>
+        </span>
+        <span *ngIf="this.schema.properties[p].type == 'object'">
+          <span *ngIf="this.schema.properties[p].$$ref">
+            /[{{this.schema.properties[p].$$ref.split('/').pop()}}]
+          </span>
+        </span>
       </span>
       <span class="propOptKey text-muted">
         {{this.getFieldRequirementText(this.schema.properties[p]?.required)}}
@@ -29,4 +42,5 @@
 
 <div *ngFor="let p of (this.schema.properties ? this.Object.keys(this.schema.properties) : [])">
   <app-param-console [title]="p" *ngIf="this.schema.properties[p].type == 'object'" [schema]="this.schema.properties[p]"></app-param-console>
+  <app-param-console [title]="p" *ngIf="this.schema.properties[p].type == 'array' && this.schema.properties[p].items && this.schema.properties[p].items.type == 'object'" [schema]="this.schema.properties[p].items"></app-param-console>
 </div>
