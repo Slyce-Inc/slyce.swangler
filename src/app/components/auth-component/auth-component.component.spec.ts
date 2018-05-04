@@ -13,6 +13,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import {ConfigService} from '../../services/config-service/config.service';
 import { EndpointsSharedService } from '../../services/endpoints-shared.service';
+import { Subject } from 'rxjs/Subject';
 
 const securityDefinition = SecurityDefinition.MOCK_DATA;
 
@@ -28,6 +29,7 @@ class MockNgxToggleComponent {
 
 const storage = {};
 const LocalStorageServiceStub = {
+  updateSecurityDefinitionsSubject: new Subject(),
   getStorageVar: (varName) => {
     return storage ? storage[varName] : null;
   },
@@ -39,6 +41,14 @@ const LocalStorageServiceStub = {
   },
   setStorageSecurityDef: (varName, varVal) => {
     storage[varName] = varVal;
+  },
+  updateSecurityDef(inputFields) {
+    for (const i in inputFields) {
+      if (inputFields.hasOwnProperty(i)) {
+        this.setStorageSecurityDef(i, inputFields[i]);
+      }
+    }
+    this.updateSecurityDefinitionsSubject.next(true);
   }
 };
 

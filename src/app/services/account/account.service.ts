@@ -21,7 +21,7 @@ export class AccountService {
 
   constructor(
     private http: HttpClient,
-    private swaggerService: SwaggerService,
+    public swaggerService: SwaggerService,
     private localDataService: LocalStorageService,
     private notify: NotificationsService,
     private endpointsSharedService: EndpointsSharedService
@@ -47,6 +47,8 @@ export class AccountService {
   }
 
   getApiKeys(endpoints) {
+    if (!endpoints.public) { return; }
+
     const apiKeysEndpoint = endpoints.public.filter((endpoint) => {
       return endpoint.operationId === 'api_keys_mine';
     })[0];
@@ -83,7 +85,7 @@ export class AccountService {
               }
             });
           } else {
-            endpoint.restricted = false;
+            endpoint.restricted = true;
           }
         });
       }
