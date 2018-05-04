@@ -70,7 +70,6 @@ export class AccountService {
   }
 
   filterEndpointsByPermissions(endpoints, acl) {
-
     for (const key in endpoints) {
       if (endpoints.hasOwnProperty(key)) {
         const tag = endpoints[key];
@@ -83,6 +82,8 @@ export class AccountService {
                 endpoint.restricted = false;
               }
             });
+          } else {
+            endpoint.restricted = false;
           }
         });
       }

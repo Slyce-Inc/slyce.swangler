@@ -91,9 +91,9 @@ export class CollapsableNavComponent implements OnInit, AfterContentInit, OnChan
   allEndpointsRestricted() {
     const restricted = [];
     this.endpoints.forEach((endpoint, i) => {
-      restricted.push(endpoint.restricted);
+      restricted.push(endpoint.restricted || false);
     });
-    return restricted.indexOf(true) !== -1;
-  }
 
+    return restricted.indexOf(false) === -1;
+  }
 }
