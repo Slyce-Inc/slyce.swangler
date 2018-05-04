@@ -27,7 +27,7 @@ function test(schema, typeMsg: string) {
           .nativeElement.textContent.trim()).toEqual(propertyName);
       });
     });
-    it('propType should be displayed as type of entry from properties', () => {
+    fit('propType should be displayed as type of entry from properties', () => {
       const properties = component.schema.properties;
       Object.keys(properties).forEach(propertyName => {
         expect(fixture.debugElement.query(By.css('#' + propertyName + ' .propType'))

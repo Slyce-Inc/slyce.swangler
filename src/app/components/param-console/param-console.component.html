@@ -9,8 +9,8 @@
       <span class="propName propOpt">
         {{p}}
       </span>
-      <span class="propType" *ngIf="this.schema.properties[p].type" title="{{this.schema.properties[p].type}}">
-        {{this.schema.properties[p].type}}
+      <span *ngIf="this.schema.properties[p].type" title="{{this.schema.properties[p].type}}">
+        <span class="propType">{{this.schema.properties[p].type}}</span>
         <span *ngIf="this.schema.properties[p].type == 'array'">
           <span *ngIf="this.schema.properties[p]?.items?.$$ref">
             /[{{this.schema.properties[p].items.$$ref.split('/').pop()}}]
