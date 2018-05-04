@@ -17,7 +17,7 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   /* Call back on test button click */
   @Output('clickedTestEndPoint') clickedTestEndPoint: EventEmitter<AppClickedTestRes> = new EventEmitter<any>();
   @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
-  hideRestrictedEndpoints: boolean;
+  hideRestrictedEndpoints =  this.endpointsSharedService.isRestrictedHidden || false;
 
   /* Selected wanted response format from endpoint */
   public selectedResponse;

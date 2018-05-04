@@ -14,7 +14,7 @@ export class AuthComponent implements OnInit {
   Object = null;
   public APPLIED_AUTH_MSG = 'Authentication Applied';
   public inputFields = {};
-  showFilteredEndpoints = false;
+  showFilteredEndpoints = this.endpointsSharedService.isRestrictedHidden || false;
   @Output() toggleFilteredEndpoints = new EventEmitter();
 
   // Contains the name of the security definition as the key
