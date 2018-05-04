@@ -81,8 +81,6 @@ export class LocalStorageService {
   }
 
   onSecurityDefinitionsChange() {
-    console.log('test');
-
     return this.updateSecurityDefinitionsSubject.asObservable();
   }
 

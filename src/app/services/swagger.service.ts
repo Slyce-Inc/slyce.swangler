@@ -207,7 +207,6 @@ export class SwaggerService {
       }
       basePath = apiData.spec && apiData.spec.basePath ? apiData.spec.basePath : '';
       this.specHost = host + basePath;
-      console.log(this.specHost);
     }
   }
   setSocketHost(apiData) {
@@ -233,7 +232,6 @@ export class SwaggerService {
         if (websocketSpecUrl) {
           return this.initWsSpec(websocketSpecUrl).then( res => {
             this.setSocketHost(res);
-            console.log(this.specSocketHost);
             const sortedRestEndpoints = this.sortApiEndpointsByTags(apiData.spec.paths);
             const sortedCombinedEndpoints = this.appendWsEndpointToTags(sortedRestEndpoints, res);
             // this.sharedVarsService.initSharedVars(this.endpoints);
