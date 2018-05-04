@@ -41,6 +41,7 @@ export class CollapsableNavComponent implements OnInit, AfterContentInit, OnChan
 
     this.endpointsSharedService.onRestrictedEndpointsVisibilityChange().subscribe((value: boolean) => {
       this.hideRestrictedEndpoints = value;
+
       if (value && this.allEndpointsRestricted()) {
         this.hideSideTag = true;
         this.endpointsSharedService.addHiddenTag(this.tag);

@@ -5,6 +5,7 @@ import {NotificationsService} from 'angular2-notifications';
 import {EndpointsSharedService} from '../../../services/endpoints-shared.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
 import {AppEndPoint, Parameter} from '../../../models/endpoint/endpoint.model';
+import { AccountService } from '../../../services/account/account.service';
 
 @Component({
   selector: 'app-rest-endpoint',

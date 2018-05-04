@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class EndpointsSharedService {
 
   isExamplesHidden = false;
+  isRestrictedHidden = false;
   isRestrictedHiddenSubject = new Subject();
   hiddenTags: String[] = [];
   hiddenTagsSubject = new Subject();
@@ -20,10 +21,15 @@ export class EndpointsSharedService {
 
   endpointsRestrictedToggle(value: boolean) {
     this.isRestrictedHiddenSubject.next(value);
+    this.isRestrictedHidden = value;
 
     if (value === false) {
       this.clearHiddenTags();
     }
+  }
+
+  triggerEndpointsRestrictedUpdate() {
+    this.isRestrictedHiddenSubject.next(this.isRestrictedHidden);
   }
 
   onRestrictedEndpointsVisibilityChange() {

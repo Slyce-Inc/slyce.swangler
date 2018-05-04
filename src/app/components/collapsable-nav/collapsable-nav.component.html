@@ -10,7 +10,7 @@
   <nav class="collapsable-nav-body nav flex-column sub_menu"
     *ngIf="!isCollapsed"
     class="card card-block card-header">
-    <div *ngFor="let endpoint of endpoints; let i = index" [ngClass]="{'d-none': endpoint.restricted && hideRestrictedEndpoints}">
+    <div *ngFor="let endpoint of endpoints; let i = index" [ngClass]="{'d-none': endpoint.restricted && hideRestrictedEndpoints, 'bg-danger': endpoint.restricted}">
       <a [id]="'navLink' + i" class="nav-link no-tag-link" [routerLink]="'/' + tag"  [queryParams]="{enpt: endpoint.operationId}">{{this.getNavLinkName(endpoint)}}</a>
     </div>
   </nav>

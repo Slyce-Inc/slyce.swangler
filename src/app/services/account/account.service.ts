@@ -8,6 +8,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { IfObservable } from 'rxjs/observable/IfObservable';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { EndpointsSharedService } from '../endpoints-shared.service';
 
 @Injectable()
 export class AccountService {
@@ -16,12 +17,14 @@ export class AccountService {
   endpointsWithRestrictions = new Subject();
   defaultSpecScheme = 'https';
   endpoints;
+  apiKeysSubject = new Subject();
 
   constructor(
     private http: HttpClient,
     private swaggerService: SwaggerService,
     private localDataService: LocalStorageService,
-    private notify: NotificationsService
+    private notify: NotificationsService,
+    private endpointsSharedService: EndpointsSharedService
   ) {
     this.swaggerService.endpointsSubject.subscribe(endpoints => {
       if (endpoints) {
@@ -59,6 +62,7 @@ export class AccountService {
       this.acl = res.body.acl;
 
       this.filterEndpointsByPermissions(endpoints, this.acl);
+      this.endpointsSharedService.triggerEndpointsRestrictedUpdate();
     }, error => {
       this.notify.error('Error', 'Cannot load API Keys');
       throw new Error(error);
@@ -92,6 +96,8 @@ export class AccountService {
     return this.endpointsWithRestrictions.asObservable();
   }
 
-
+  onApiKeysUpdate() {
+    return this.apiKeysSubject.asObservable();
+  }
 
 }
