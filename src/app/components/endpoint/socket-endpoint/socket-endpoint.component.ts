@@ -11,6 +11,7 @@ import {SwaggerService} from '../../../services/swagger.service';
 import {SocketService} from '../../../services/socket/socket.service';
 import {EndpointComponent} from '../endpoint.component';
 import {SocketModel} from '../../../models/ws-spec.model';
+import { AccountService } from '../../../services/account/account.service';
 
 @Component({
   selector: 'app-socket-endpoint',
@@ -34,7 +35,9 @@ export class SocketEndpointComponent extends EndpointComponent {
     public endpointsSharedService: EndpointsSharedService,
     public notificationService: NotificationsService,
     public sharedVarsService: SharedVarsService,
-    public localStorageService: LocalStorageService, public swaggerService: SwaggerService, public socketService: SocketService) {
+    public localStorageService: LocalStorageService,
+    public swaggerService: SwaggerService,
+    public socketService: SocketService) {
     super(endpointsSharedService, notificationService, sharedVarsService, localStorageService);
   }
 

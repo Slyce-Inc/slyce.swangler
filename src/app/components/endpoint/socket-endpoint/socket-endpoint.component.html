@@ -1,4 +1,4 @@
-<div class="endpoint" [id]='endpointData.operationId'>
+<div class="endpoint" [id]='endpointData.operationId' [ngClass]="{'disabled': endpointData['restricted'], 'd-none': hideRestrictedEndpoints && endpointData['restricted']}">
   <div class="operations">
     <div class="get operation">
       <div class="row">
@@ -143,9 +143,9 @@
           <div>
 
             <div class="sandbox_header mb-5" data-content="">
-              <button type="button" class="btn" (click)="this.openSocketConnection()" [ngClass]="{'btn-primary': !this.isConnectionStarted, 'btn-danger': this.isConnectionStarted }">{{this.isConnectionStarted ? 'Close Connection' : 'Start Connecion'}}</button>
-              <button (click)="this.sendSocketMessage()" type="button" class="btn btn-primary" [disabled]="!this.isConnectionStarted">Send Message</button>
-              <button (click)="this.showMessagesClicked()" type="button" class="btn btn-warning" [disabled]="this.socketMessages.length === 0">
+              <button type="button" class="btn" (click)="this.openSocketConnection()" [ngClass]="{'btn-primary': !this.isConnectionStarted, 'btn-danger': this.isConnectionStarted }" [disabled]="endpointData['restricted']">{{this.isConnectionStarted ? 'Close Connection' : 'Start Connecion'}}</button>
+              <button (click)="this.sendSocketMessage()" type="button" class="btn btn-primary" [disabled]="!this.isConnectionStarted || endpointData['restricted']">Send Message</button>
+              <button (click)="this.showMessagesClicked()" type="button" class="btn btn-warning" [disabled]="this.socketMessages.length === 0 || endpointData['restricted']">
                 See Messages
                 <span class="badge badge-success">{{this.socketMessages.length}}</span>
               </button>
@@ -167,10 +167,10 @@
 
         </div>
 
-        <div class="samples" [ngClass]="endpointsSharedService.isExamplesHidden ? 'col-lg-3 col-xl-3 d-none' : 'col-lg-6 col-xl-6'">
+        <div class="samples" [ngClass]="endpointsSharedService.isExamplesHidden ? 'col-lg-3 col-xl-3' : 'col-lg-6 col-xl-6'">
 
           <!-- can accept [selectedRequest]="this.selectedRequestType" -->
-          <app-example-side-bar [showRequestMessageOfIndex] = "this.selectedRequestType" [endpoint]="this.endpointData" (clickedBodySample)="applySampleBody($event, this.selectedRequestType)" ></app-example-side-bar>
+          <app-example-side-bar *ngIf="!endpointsSharedService.isExamplesHidden" [showRequestMessageOfIndex] = "this.selectedRequestType" [endpoint]="this.endpointData" (clickedBodySample)="applySampleBody($event, this.selectedRequestType)" ></app-example-side-bar>
         </div>
       </div>
     </div>

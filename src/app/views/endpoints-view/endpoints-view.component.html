@@ -7,7 +7,7 @@
         <div class="row">
           <div class="col-12">
 
-            <app-auth-component [securityDefinitions]='apiData?.spec.securityDefinitions'></app-auth-component>
+            <app-auth-component [securityDefinitions]='apiData?.spec.securityDefinitions' (toggleFilteredEndpoints)="onToggleFilteredEndpoints($event)"></app-auth-component>
 
           </div>
         </div>

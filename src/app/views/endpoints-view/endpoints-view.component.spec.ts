@@ -16,6 +16,21 @@ import { TabsModule } from 'ngx-bootstrap';
 import {ConfigService} from '../../services/config-service/config.service';
 import { SharedVarsService } from '../../services/shared-vars.service';
 import { ClipboardService } from '../../services/clipboard.service';
+import { AccountService } from '../../services/account/account.service';
+import { EndpointsSharedService } from '../../services/endpoints-shared.service';
+import { Router } from '@angular/router';
+
+const AccountServiceStub: Partial<AccountService> = {};
+const EndpointsSharedServiceStub: Partial<EndpointsSharedService> = {
+  onHiddenTagsChange: function() {
+    return Observable.of(['test']);
+  }
+};
+const RouterStub: Partial<Router> = {
+  navigate: function() {
+    return Promise.resolve(true);
+  }
+};
 
 const ClipboardServiceStub: Partial<ClipboardService> = {
   writeToClipboard: (json, element) => {
@@ -170,7 +185,10 @@ describe('EndpointsViewComponent', () => {
         { provide: SwaggerService, useValue: SwaggerServiceStub },
         { provide: ConfigService, useValue: ConfigServiceStub },
         { provide: SharedVarsService, useValue: sharedVarsServiceStub },
-        { provide: ClipboardService, useValue: ClipboardServiceStub }
+        { provide: ClipboardService, useValue: ClipboardServiceStub },
+        { provide: AccountService, useValue: AccountServiceStub },
+        { provide: EndpointsSharedService, useValue: EndpointsSharedServiceStub },
+        { provide: Router, useValue: RouterStub },
       ]
     })
     .compileComponents();

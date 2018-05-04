@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {SecurityDefinition} from '../../models/auth/security-definition';
 import {NotificationsService} from 'angular2-notifications';
+import { EndpointsSharedService } from '../../services/endpoints-shared.service';
 
 @Component({
   selector: 'app-auth-component',
@@ -13,13 +14,16 @@ export class AuthComponent implements OnInit {
   Object = null;
   public APPLIED_AUTH_MSG = 'Authentication Applied';
   public inputFields = {};
+  showFilteredEndpoints = this.endpointsSharedService.isRestrictedHidden || false;
+  @Output() toggleFilteredEndpoints = new EventEmitter();
 
   // Contains the name of the security definition as the key
   @Input('securityDefinitions') securityDefinitions: SecurityDefinition;
 
   constructor (
     public localStorageService: LocalStorageService,
-    public notify: NotificationsService
+    public notify: NotificationsService,
+    public endpointsSharedService: EndpointsSharedService,
   ) {
   }
 
@@ -41,12 +45,13 @@ export class AuthComponent implements OnInit {
   }
 
   public clickApplyButton() {
-    for (const i in this.inputFields) {
-      if (this.inputFields.hasOwnProperty(i)) {
-        this.localStorageService.setStorageSecurityDef(i, this.inputFields[i]);
-      }
-    }
+    this.localStorageService.updateSecurityDef(this.inputFields);
     this.notify.success('Success', this.APPLIED_AUTH_MSG);
+  }
+
+  toggleFilteredEndpointsClick(value) {
+    this.toggleFilteredEndpoints.emit(value);
+    this.endpointsSharedService.endpointsRestrictedToggle(value);
   }
 }
 
