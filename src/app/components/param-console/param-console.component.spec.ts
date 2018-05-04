@@ -27,10 +27,10 @@ function test(schema, typeMsg: string) {
           .nativeElement.textContent.trim()).toEqual(propertyName);
       });
     });
-    fit('propType should be displayed as type of entry from properties', () => {
+    it('propType should be displayed as type of entry from properties', () => {
       const properties = component.schema.properties;
       Object.keys(properties).forEach(propertyName => {
-        expect(fixture.debugElement.query(By.css('#' + propertyName + ' .propType'))
+        expect(fixture.debugElement.query(By.css('#' + propertyName + ' #propType'))
           .nativeElement.textContent.trim()).toEqual(properties[propertyName].type);
       });
     });
