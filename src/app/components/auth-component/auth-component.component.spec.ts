@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Directive, Input, Output, Component, EventEmitter } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { AuthComponent } from './auth-component.controller';
@@ -12,11 +12,24 @@ import { SecurityDefinition } from '../../models/auth/security-definition';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import {ConfigService} from '../../services/config-service/config.service';
+import { EndpointsSharedService } from '../../services/endpoints-shared.service';
+import { Subject } from 'rxjs/Subject';
 
 const securityDefinition = SecurityDefinition.MOCK_DATA;
 
+
+@Component({
+  // tslint:disable-next-line
+  selector: 'ngx-toggle',
+  template: ''
+})
+class MockNgxToggleComponent {
+  @Input() value: any;
+}
+
 const storage = {};
 const LocalStorageServiceStub = {
+  updateSecurityDefinitionsSubject: new Subject(),
   getStorageVar: (varName) => {
     return storage ? storage[varName] : null;
   },
@@ -28,8 +41,18 @@ const LocalStorageServiceStub = {
   },
   setStorageSecurityDef: (varName, varVal) => {
     storage[varName] = varVal;
+  },
+  updateSecurityDef(inputFields) {
+    for (const i in inputFields) {
+      if (inputFields.hasOwnProperty(i)) {
+        this.setStorageSecurityDef(i, inputFields[i]);
+      }
+    }
+    this.updateSecurityDefinitionsSubject.next(true);
   }
 };
+
+const EndpointsSharedServiceStub: Partial<EndpointsSharedService> = {};
 
 describe('AuthComponent', () => {
   let component: AuthComponent;
@@ -37,12 +60,13 @@ describe('AuthComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AuthComponent ],
+      declarations: [ AuthComponent, MockNgxToggleComponent ],
       imports: [
         FormsModule
       ],
       providers: [
         { provide: LocalStorageService, useValue: LocalStorageServiceStub },
+        { provide: EndpointsSharedService, useValue: EndpointsSharedServiceStub },
         NotificationsService
       ]
     }).compileComponents();

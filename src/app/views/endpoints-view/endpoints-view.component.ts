@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Route} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {SwaggerService} from '../../services/swagger.service';
 import {Observable} from 'rxjs/Observable';
@@ -10,6 +10,10 @@ import { NotificationsService } from 'angular2-notifications';
 import {ConfigService} from '../../services/config-service/config.service';
 import { SharedVarsService } from '../../services/shared-vars.service';
 import { ClipboardService } from '../../services/clipboard.service';
+import { AccountService } from '../../services/account/account.service';
+import { EndpointsSharedService } from '../../services/endpoints-shared.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-endpoints-view',
@@ -25,6 +29,8 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   queryParamSubscription: Subscription;
   sortedApiData: Observable < any > = this.swaggerService.getEndpointsSortedByTags();
   apiData;
+  hideRestrictedEndpoints: boolean;
+
   public result = {
     header: null,
     method: null,
@@ -34,6 +40,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     responseCode: null,
     websocket: null
   };
+
   constructor(
     private route: ActivatedRoute,
     public swaggerService: SwaggerService,
@@ -41,8 +48,13 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     public notify: NotificationsService,
     public configService: ConfigService,
     public sharedVarsService: SharedVarsService,
-    public clipboardService: ClipboardService
-  ) {}
+    public clipboardService: ClipboardService,
+    public accountService: AccountService,
+    public endpointsSharedService: EndpointsSharedService,
+    public router: Router
+  ) {
+
+  }
 
   ngOnInit() {
     this.configService.initConfigService().then( config => {
@@ -56,6 +68,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
       this.notify.error(error.message);
       throw error;
     });
+
     this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
       if (queryParams.enpt) {
         this.scrollToId = queryParams.enpt;
@@ -64,11 +77,36 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
 
     this.paramSubscription = this.route.params.subscribe(params => {
       this.endpointTag = params['endpointTag'];
+
       this.updateEndpoints();
     });
     this.swaggerService.getApiData().subscribe(data => {
       this.apiData = data;
     });
+
+    this.endpointsSharedService.onHiddenTagsChange().subscribe((hiddenTags: String[]) => {
+      if (hiddenTags.indexOf(this.endpointTag) !== -1) {
+        const availableTag = this.findNextAllowedTag();
+        this.router.navigate([availableTag]);
+      }
+    });
+  }
+
+  findNextAllowedTag() {
+    const endpoints = this.swaggerService.endpoints;
+
+    for (const key in endpoints) {
+      if (endpoints.hasOwnProperty(key)) {
+        const tag = endpoints[key];
+        const restrictedEndpoints = [];
+        tag.forEach(endpoint => {
+          if (endpoint.restricted) { restrictedEndpoints.push(true); }
+        });
+        if (tag.length > restrictedEndpoints.length) {
+          return tag[0].tags[0];
+        }
+      }
+    }
   }
 
   updateEndpoints() {
@@ -85,7 +123,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
         } else {
           this.endpoints = data[Object.keys(data)[0]];
         }
-
       }
     });
   }
@@ -148,5 +185,9 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   copyRawResponse(json, event) {
     // event element needed in order to append a hidden textarea to it and avoid page jumping
     this.clipboardService.writeToClipboard(json, event.srcElement);
+  }
+
+  onToggleFilteredEndpoints(event) {
+    this.hideRestrictedEndpoints = event;
   }
 }

@@ -1,5 +1,19 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges, AfterViewInit, AfterContentChecked, AfterContentInit } from '@angular/core';
-import { CollapsableNavEndpointsModel } from '../../models/sidebar/collapsable-nav.model';
+import {
+  Component,
+  OnInit,
+  Input,
+  SimpleChanges,
+  OnChanges,
+  AfterViewInit,
+  AfterContentChecked,
+  AfterContentInit,
+  Output,
+  EventEmitter
+} from '@angular/core';
+import {
+  CollapsableNavEndpointsModel
+} from '../../models/sidebar/collapsable-nav.model';
+import { EndpointsSharedService } from '../../services/endpoints-shared.service';
 
 @Component({
   selector: 'app-collapsable-nav',
@@ -10,15 +24,31 @@ export class CollapsableNavComponent implements OnInit, AfterContentInit, OnChan
 
   @Input() tag: string;
   @Input() sectionToExpand: string = null;
-  @Input() endpoints: Array<CollapsableNavEndpointsModel>;
+  @Input() endpoints: Array <CollapsableNavEndpointsModel> ;
+  hideRestrictedEndpoints: boolean;
+
+  hideSideTag: boolean;
 
   Object = null;
   isCollapsed = true;
 
-  constructor() { }
+  constructor(
+    public endpointsSharedService: EndpointsSharedService
+  ) {}
 
   ngOnInit() {
     this.Object = Object;
+
+    this.endpointsSharedService.onRestrictedEndpointsVisibilityChange().subscribe((value: boolean) => {
+      this.hideRestrictedEndpoints = value;
+
+      if (value && this.allEndpointsRestricted()) {
+        this.hideSideTag = true;
+        this.endpointsSharedService.addHiddenTag(this.tag);
+      } else if (this.hideSideTag === true) {
+        this.hideSideTag = false;
+      }
+    });
   }
 
   toggleExpand(event) {
@@ -28,7 +58,7 @@ export class CollapsableNavComponent implements OnInit, AfterContentInit, OnChan
   }
 
   ngAfterContentInit() {
-    if ( this.tag === this.sectionToExpand ) {
+    if (this.tag === this.sectionToExpand) {
       this.isCollapsed = false;
 
     } else {
@@ -45,15 +75,25 @@ export class CollapsableNavComponent implements OnInit, AfterContentInit, OnChan
       }
     }
   }
+
   getNavLinkName(endpointObj) {
     if (endpointObj.summary) {
-      return(endpointObj.summary);
+      return (endpointObj.summary);
     } else if (endpointObj.operationId) {
       return (endpointObj.operationId);
     } else if (endpointObj.url) {
-      return(endpointObj.url);
+      return (endpointObj.url);
     } else {
-      return('No Name');
+      return ('No Name');
     }
+  }
+
+  allEndpointsRestricted() {
+    const restricted = [];
+    this.endpoints.forEach((endpoint, i) => {
+      restricted.push(endpoint.restricted || false);
+    });
+
+    return restricted.indexOf(false) === -1;
   }
 }

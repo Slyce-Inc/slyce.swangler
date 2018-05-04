@@ -240,7 +240,6 @@ export class SwaggerService {
         if (websocketSpecUrl) {
           return this.initWsSpec(websocketSpecUrl).then( res => {
             this.setSocketHost(res, websocketSpecUrl);
-            console.log(this.specSocketHost);
             const sortedRestEndpoints = this.sortApiEndpointsByTags(apiData.spec.paths);
             const sortedCombinedEndpoints = this.appendWsEndpointToTags(sortedRestEndpoints, res);
             // this.sharedVarsService.initSharedVars(this.endpoints);
@@ -302,5 +301,9 @@ export class SwaggerService {
 
   getWsEndpoints() {
     return this.wsEndpointsSubject.asObservable();
+  }
+
+  updateSortedEndpoints(endpoints) {
+    this.endpoints = endpoints;
   }
 }

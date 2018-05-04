@@ -17,6 +17,8 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   /* Call back on test button click */
   @Output('clickedTestEndPoint') clickedTestEndPoint: EventEmitter<AppClickedTestRes> = new EventEmitter<any>();
   @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
+  hideRestrictedEndpoints =  this.endpointsSharedService.isRestrictedHidden || false;
+
   /* Selected wanted response format from endpoint */
   public selectedResponse;
   public selectedRequest;
@@ -40,6 +42,8 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
     this.initParameterFields();
     this.initSelectedResponse();
     this.initSelectedRequest();
+
+    this.endpointsSharedService.onRestrictedEndpointsVisibilityChange().subscribe((value: boolean) => this.hideRestrictedEndpoints = value);
   }
 
   ngAfterViewInit() {
@@ -49,11 +53,11 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if ( changes.scrollToId.currentValue ) {
+    if ( changes.scrollToId && changes.scrollToId.currentValue ) {
       if ( this.endpointData.operationId === changes.scrollToId.currentValue ) {
         this.scrollToElem(changes.scrollToId.currentValue);
       }
-    } else if ( changes.scrollToId.currentValue === null ) {
+    } else if ( changes.scrollToId && changes.scrollToId.currentValue === null ) {
       this.scrollToElem();
     }
   }

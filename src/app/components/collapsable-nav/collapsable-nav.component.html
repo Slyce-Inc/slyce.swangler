@@ -1,5 +1,4 @@
-
-<nav class="nav flex-column parent_menu" [ngClass]="{'expanded' : !isCollapsed}">
+<nav class="nav flex-column parent_menu" [ngClass]="{'expanded' : !isCollapsed, 'd-none': hideSideTag}">
   <nav class="collapsable-nav-header" routerLinkActive="active" (click)="this.toggleExpand($event)">
       <div class="nav-link">
         <a class="text-capitalize navigate-to-tag" [routerLink]="'/' + tag" >{{ tag }}</a>
@@ -11,8 +10,8 @@
   <nav class="collapsable-nav-body nav flex-column sub_menu"
     *ngIf="!isCollapsed"
     class="card card-block card-header">
-    <div *ngFor="let endpoint of endpoints; let i = index">
-      <a [id]="'navLink' + i" class="nav-link no-tag-link" [routerLink]="'/' + tag"  [queryParams]="{enpt: endpoint.operationId}">{{this.getNavLinkName(endpoint)}}</a>
+    <div *ngFor="let endpoint of endpoints; let i = index" [ngClass]="{'d-none': endpoint.restricted && hideRestrictedEndpoints}">
+      <a [id]="'navLink' + i" class="nav-link no-tag-link" [ngClass]="{'text-danger': endpoint.restricted}" [routerLink]="'/' + tag"  [queryParams]="{enpt: endpoint.operationId}">{{this.getNavLinkName(endpoint)}}</a>
     </div>
   </nav>
 </nav>
