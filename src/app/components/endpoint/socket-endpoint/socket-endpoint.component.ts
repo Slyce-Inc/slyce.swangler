@@ -89,12 +89,18 @@ export class SocketEndpointComponent extends EndpointComponent {
   openSocketConnection() {
     if ( !this.isConnectionStarted ) {
       this.socketMessages = [];
-
+      const parameterFieldsLocal = (JSON).parse(JSON.stringify(this.parameterFields));
+      if (this.endpointData && this.endpointData.securityParameters) {
+        this.endpointData.securityParameters.forEach(s => {
+            parameterFieldsLocal[s.name] = s;
+            parameterFieldsLocal[s.name].value = this.localStorageService.getStorageVar(s.name);
+        });
+      }
       const request = new RequestInitiator(
-        new AppClickedTestRes(this.endpointData, this.selectedResponse, this.selectedRequestType, this.parameterFields),
+        new AppClickedTestRes(this.endpointData, this.selectedResponse, this.selectedRequestType, parameterFieldsLocal),
         this.localStorageService
       );
-      const params = this.buildQueryParams(this.parameterFields);
+      const params = this.buildQueryParams(parameterFieldsLocal);
       const url = encodeURI(this.selectedScheme + '://' + this.swaggerService.specSocketHost + this.swaggerService.substitutePath(
         this.endpointData.url,
         request.path) + params);
@@ -183,7 +189,7 @@ export class SocketEndpointComponent extends EndpointComponent {
     for (const key in params) {
       if (params.hasOwnProperty(key)) {
         const element = params[key];
-        if ( element.in.toLocaleLowerCase() === 'query' ) {
+        if ( element.in && element.in.toLowerCase() === 'query' ) {
           result += element.name + '=' + element.value + '&';
         }
       }

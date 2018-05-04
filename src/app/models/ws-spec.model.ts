@@ -1,4 +1,5 @@
 import {Endpoint, Schema} from './endpoint/endpoint.model';
+import {SecurityDefinition, SecurityEntity} from './auth/security-definition';
 
 
 
@@ -12,6 +13,7 @@ export class SocketModel extends Endpoint {
   requestMessages: Array<Message>;
   responseMessages: Array<Message>;
   errorMessages: Array<any>; // TBD
+  securityParameters: Array <SecurityEntity>;
 }
 
 export class Message {

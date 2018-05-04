@@ -67,6 +67,7 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
       this.selectedScheme = this.schemes[0];
     } else {
       // If there are no schemes available to select form default to the default scheme
+      this.schemes = [];
       this.schemes.push(this.DEFAULT_SCHEME);
       this.selectedScheme = this.DEFAULT_SCHEME;
     }
@@ -103,7 +104,6 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
   public saveToLocalStorage(event) {
     const name = event.srcElement.getAttribute('data-name');
     if (this.sharedVarsService.sharedVars[name]) {
-      console.log(event);
       this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
       this.localStorageService.setStorageVar(name, event.srcElement.value);
     }
