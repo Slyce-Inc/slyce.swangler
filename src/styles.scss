@@ -48,3 +48,16 @@ textarea {
     max-width: 1000px;
   }
 }
+
+.wiggle {
+  animation: wiggleAnimation 0.2s;
+  animation-iteration-count: 2;
+}
+
+@keyframes wiggleAnimation {
+  0% { transform: translate(5px, 0px) rotate(0deg); }
+  25% { transform: translate(0px, 0px) rotate(0deg); }
+  50% { transform: translate(-5px, 0px) rotate(0deg); }
+  75% { transform: translate(0px, 0px) rotate(0deg); }
+  100% { transform: translate(5px, 0px) rotate(0deg); }
+}
