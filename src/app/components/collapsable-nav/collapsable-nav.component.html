@@ -11,7 +11,7 @@
     *ngIf="!isCollapsed"
     class="card card-block card-header">
     <div *ngFor="let endpoint of endpoints; let i = index" [ngClass]="{'d-none': endpoint.restricted && hideRestrictedEndpoints}">
-      <a [id]="'navLink' + i" class="nav-link no-tag-link" [ngClass]="{'text-danger': endpoint.restricted}" [routerLink]="'/' + tag"  [queryParams]="{enpt: endpoint.operationId}">{{this.getNavLinkName(endpoint)}}</a>
+      <a (click)="this.navClicked.emit(endpoint.operationId)" [id]="'navLink' + i" class="nav-link no-tag-link" [ngClass]="{'text-danger': endpoint.restricted}" [routerLink]="'/' + tag"  [queryParams]="{enpt: endpoint.operationId}">{{this.getNavLinkName(endpoint)}}</a>
     </div>
   </nav>
 </nav>
