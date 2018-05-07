@@ -78,7 +78,7 @@ export class SwaggerService {
       if (callData['formData']) {
         for (const property in callData['formData']) {
           if (callData['formData'].hasOwnProperty(property)) {
-            formData.append(property, callData['formData'][property],  callData['formData'][property].filename);
+            formData.append(property, callData['formData'][property]);
           }
         }
       }
