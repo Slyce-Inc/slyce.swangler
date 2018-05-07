@@ -6,7 +6,7 @@ import {NotificationsService} from 'angular2-notifications';
 import {SharedVarsService} from '../../services/shared-vars.service';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {EndpointsSharedService} from '../../services/endpoints-shared.service';
-export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
+export class EndpointComponent implements OnInit {
   public DEFAULT_SCHEME = 'http';
   @Input() schemes: string[] = [];
   @Input() scrollToId: string;
@@ -44,22 +44,6 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
     this.initSelectedRequest();
 
     this.endpointsSharedService.onRestrictedEndpointsVisibilityChange().subscribe((value: boolean) => this.hideRestrictedEndpoints = value);
-  }
-
-  ngAfterViewInit() {
-    if ( this.endpointData.operationId === this.scrollToId ) {
-      this.scrollToElem(this.scrollToId);
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if ( changes.scrollToId && changes.scrollToId.currentValue ) {
-      if ( this.endpointData.operationId === changes.scrollToId.currentValue ) {
-        this.scrollToElem(changes.scrollToId.currentValue);
-      }
-    } else if ( changes.scrollToId && changes.scrollToId.currentValue === null ) {
-      this.scrollToElem();
-    }
   }
   public initSchemes() {
     // Initialize selected scheme
@@ -106,16 +90,6 @@ export class EndpointComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.sharedVarsService.sharedVars[name]) {
       this.sharedVarsService.sharedVars[name].next(event.srcElement.value);
       this.localStorageService.setStorageVar(name, event.srcElement.value);
-    }
-  }
-  public scrollToElem(id?: string) {
-    if ( id ) {
-      const elem = document.getElementById(id);
-      if (elem) {
-        window.scrollTo(0, elem.offsetTop + 40);
-      }
-    } else {
-      window.scrollTo(0, 0 + 40);
     }
   }
   public tryEndpointRequest(endpointForm) {

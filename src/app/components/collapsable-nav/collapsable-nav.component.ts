@@ -25,6 +25,7 @@ export class CollapsableNavComponent implements OnInit, AfterContentInit, OnChan
   @Input() tag: string;
   @Input() sectionToExpand: string = null;
   @Input() endpoints: Array <CollapsableNavEndpointsModel> ;
+  @Output() navClicked: EventEmitter<any> = new EventEmitter<any>();
   hideRestrictedEndpoints: boolean;
 
   hideSideTag: boolean;

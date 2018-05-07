@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output} from '@angular/core';
 import { SidebarNavModel } from '../../models/sidebar/sidebar-nav.model';
 
 @Component({
@@ -10,6 +10,7 @@ export class SidebarNavComponent implements OnInit, OnChanges {
 
   @Input() tags: SidebarNavModel[];
   @Input() sectionToExpand: string = null;
+  @Output() navClicked: EventEmitter<any> = new EventEmitter<any>();
 
   arrayOfTags: Array<any> = [];
 
