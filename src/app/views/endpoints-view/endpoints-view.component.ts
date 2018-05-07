@@ -76,7 +76,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
           }, 33
         );
       }
-    })
+    });
     this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
       if (queryParams.enpt) {
         this.scrollToElem(queryParams.enpt);
