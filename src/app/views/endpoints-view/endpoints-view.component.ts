@@ -76,7 +76,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
           }, 33
         );
       }
-    });
+    })
     this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
       if (queryParams.enpt) {
         this.scrollToElem(queryParams.enpt);
@@ -199,6 +199,11 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
 
   onToggleFilteredEndpoints(event) {
     this.hideRestrictedEndpoints = event;
+  }
+  handleClickedNavLink(e) {
+    if (e) {
+      this.scrollToElem(e);
+    }
   }
   public scrollToElem(id?: string) {
     if ( id ) {

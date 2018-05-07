@@ -18,7 +18,7 @@
         <div id="sticky_nav" class="pt-2 pb-2">
           <div class="row" data-navigator="">
 
-            <app-sidebar-nav [tags]='sortedApiData | async' [sectionToExpand]='endpointTag'></app-sidebar-nav>
+            <app-sidebar-nav (navClicked)="this.handleClickedNavLink($event)" [tags]='sortedApiData | async' [sectionToExpand]='endpointTag'></app-sidebar-nav>
 
           </div>
         </div>
