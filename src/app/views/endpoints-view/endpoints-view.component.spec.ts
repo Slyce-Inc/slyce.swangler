@@ -19,6 +19,7 @@ import { ClipboardService } from '../../services/clipboard.service';
 import { AccountService } from '../../services/account/account.service';
 import { EndpointsSharedService } from '../../services/endpoints-shared.service';
 import { Router } from '@angular/router';
+import {Event} from '@angular/router/src/events';
 
 const AccountServiceStub: Partial<AccountService> = {};
 const EndpointsSharedServiceStub: Partial<EndpointsSharedService> = {
@@ -29,7 +30,8 @@ const EndpointsSharedServiceStub: Partial<EndpointsSharedService> = {
 const RouterStub: Partial<Router> = {
   navigate: function() {
     return Promise.resolve(true);
-  }
+  },
+  events: Observable.of(['test'])
 };
 
 const ClipboardServiceStub: Partial<ClipboardService> = {
