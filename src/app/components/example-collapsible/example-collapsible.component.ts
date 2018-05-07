@@ -76,20 +76,46 @@ export class ExampleCollapsibleComponent implements OnInit {
 
   generateSampleFromArray(schema) {
     let temp = '[';
-    if (schema.items) {
+    if (schema.example != null && ((schema.example.constructor === Array && schema.example.length > 0) ||
+        !(schema.example.constructor === Array))) {
+        let example = null;
+        if (schema.example.constructor !== Array) {
+          example = [schema.example];
+        } else {
+          example = schema.example;
+        }
+        temp = temp + example.map( e => {
+        if (typeof e === 'string') {
+          return `"${e.escapeSpecialChars()}"`;
+        } else if ( typeof e === 'object') {
+          return JSON.stringify(e);
+        } else {
+          return e;
+        }
+      }).join(',');
+    } else if (schema.items) {
       if ( schema.items.type ) {
         if ( schema.items.type.toLowerCase() === 'object' || schema.items.type.toLowerCase() === 'array') {
           temp = temp + '\n';
           temp = temp + this.generateSample(schema.items);
-        } else if ( schema.items.example ) {
-          const example = schema.items.example ? schema.items.example.toString().escapeSpecialChars() : schema.items.example ;
-          temp = temp + `"${example}"`;
+        } else if ( schema.items.example != null && ((schema.items.example.constructor === Array && schema.items.example.length > 0) ||
+            !(schema.items.example.constructor === Array))) {
+          const example = schema.items.example;
+          let resExample = null;
+          if (typeof example === 'string') {
+            resExample =  `"${example.escapeSpecialChars()}"`;
+          } else if ( typeof example === 'object') {
+            resExample =  JSON.stringify(example);
+          } else {
+            resExample =  example;
+          }
+          temp = temp + `${resExample}`;
         } else {
           const type = schema.items.type ? schema.items.type.toString().escapeSpecialChars() : schema.items.type ;
           temp = temp + `"${type}"`;
         }
       }
-   }
+    }
     temp = temp + ']';
     return (temp);
   }
