@@ -19,19 +19,17 @@ import { ClipboardService } from '../../services/clipboard.service';
 import { AccountService } from '../../services/account/account.service';
 import { EndpointsSharedService } from '../../services/endpoints-shared.service';
 import { Router } from '@angular/router';
-import {Event} from '@angular/router/src/events';
-
 const AccountServiceStub: Partial<AccountService> = {};
 const EndpointsSharedServiceStub: Partial<EndpointsSharedService> = {
   onHiddenTagsChange: function() {
     return Observable.of(['test']);
   }
 };
-const RouterStub: Partial<Router> = {
+const RouterStub = {
   navigate: function() {
     return Promise.resolve(true);
   },
-  events: Observable.of(['test'])
+  events: Observable.of([])
 };
 
 const ClipboardServiceStub: Partial<ClipboardService> = {
