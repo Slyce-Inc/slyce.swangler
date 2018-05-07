@@ -204,7 +204,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
         window.scrollTo(0, elem.offsetTop + 40);
       }
     } else {
-      window.scrollTo(0, 0 + 40);
+      window.scrollTo(0, 40);
     }
   }
 }
