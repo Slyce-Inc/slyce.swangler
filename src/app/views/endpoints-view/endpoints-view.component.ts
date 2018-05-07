@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
-import {ActivatedRoute, Route} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Route} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {SwaggerService} from '../../services/swagger.service';
 import {Observable} from 'rxjs/Observable';
@@ -69,9 +69,19 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
       throw error;
     });
 
+    this.router.events.subscribe(res => {
+      if (res.constructor === NavigationEnd) {
+        setTimeout(() => {
+            this.scrollToElem(this.route.snapshot.queryParams['enpt']);
+          }, 33
+        );
+      }
+    });
     this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
       if (queryParams.enpt) {
-        this.scrollToId = queryParams.enpt;
+        this.scrollToElem(queryParams.enpt);
+      } else {
+        this.scrollToElem();
       }
     });
 
@@ -189,5 +199,20 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
 
   onToggleFilteredEndpoints(event) {
     this.hideRestrictedEndpoints = event;
+  }
+  handleClickedNavLink(e) {
+    if (e) {
+      this.scrollToElem(e);
+    }
+  }
+  public scrollToElem(id?: string) {
+    if ( id ) {
+      const elem = document.getElementById(id);
+      if (elem) {
+        window.scrollTo(0, elem.offsetTop + 40);
+      }
+    } else {
+      window.scrollTo(0, 40);
+    }
   }
 }
