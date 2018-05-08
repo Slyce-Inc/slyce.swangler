@@ -107,7 +107,6 @@ export class EndpointComponent implements OnInit {
       }
     }
     if (endpointForm.invalid) {
-      console.log(invalidFields);
       this.notificationService.error('Error', invalidFields.join(', ') + ' required!');
     } else {
       this.clickedTestEndPoint.emit(this.clickTestEndPointButton());
