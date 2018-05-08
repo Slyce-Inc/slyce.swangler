@@ -54,3 +54,16 @@ tab{
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;;
   }
 }
+
+@media (max-width: 992px) {
+  #swagger_sidebar {
+    position: fixed;
+    max-height: 100vh;
+    overflow: scroll;
+    top: 0;
+  }
+
+  #resources_container{
+    margin-left: 25%;
+  }
+}

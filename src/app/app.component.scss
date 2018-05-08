@@ -2,3 +2,9 @@
   width: 30px;
   height: 30px;
 }
+
+@media (max-width: 992px) {
+  #main-nav {
+    margin-left: 25%;
+  }
+}
