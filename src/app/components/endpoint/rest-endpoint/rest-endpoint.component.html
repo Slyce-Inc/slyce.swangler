@@ -67,7 +67,7 @@
 
                           <ng-template #recursiveList let-properties let-path = path>
                               <div id="altInputs" *ngFor="let propKey of this.Object.keys(properties)">
-                                <app-alt-input [header]="propKey" [type]="properties[propKey].type" [format]="properties[propKey].format" (event)="this.processAltInput($event, propKey, (path? path + '.' : '') + propKey)"></app-alt-input>
+                                <app-alt-input [header]="propKey" [type]="properties[propKey].type" [format]="properties[propKey].format" (event)="this.processAltInput($event, (path? path + '.' : '') + propKey)"></app-alt-input>
                                 <div *ngIf="properties[propKey].properties">
                                   <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: properties[propKey].properties, path: (path? path + '.' : '') + propKey }"></ng-container>
                                 </div>

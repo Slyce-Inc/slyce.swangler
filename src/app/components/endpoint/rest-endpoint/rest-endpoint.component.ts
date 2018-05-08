@@ -41,7 +41,7 @@ export class RestEndpointComponent extends EndpointComponent implements OnInit {
     }
   }
 
-  processAltInput(event: AltInputEventModel, field: string, path?: any) {
+  processAltInput(event: AltInputEventModel, path?: any) {
     if ( event.eventType === AltInputEventModel.EVENT_TYPES.DATA) {
       if (!this.altInputs[path]) {
         this.altInputs[path] = {};

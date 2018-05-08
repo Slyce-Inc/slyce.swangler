@@ -47,6 +47,7 @@ export class EndpointComponent implements OnInit {
     this.initSelectedRequest();
 
     this.endpointsSharedService.onRestrictedEndpointsVisibilityChange().subscribe((value: boolean) => this.hideRestrictedEndpoints = value);
+    console.log(this.endpointData);
   }
   public initSchemes() {
     // Initialize selected scheme

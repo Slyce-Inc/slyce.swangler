@@ -111,11 +111,22 @@
                                 <small class="text-muted">{{parm?.description}}</small>
                               </div>
                             </div>
-                            <div data-toggle="tooltip" title="Alternative input that can be applied to request body..." class="alt-input" *ngIf="parm.schema && parm.schema.properties">
+                            <!--<div data-toggle="tooltip" title="Alternative input that can be applied to request body..." class="alt-input" *ngIf="parm.schema && parm.schema.properties">
                               <div id="altInputs" *ngFor="let propKey of this.Object.keys(parm.schema.properties)">
                                 <app-alt-input [header]="propKey" [type]="parm.schema.properties[propKey].type" [format]="parm.schema.properties[propKey].format" (event)="this.processAltInput($event,this.selectedRequestType, propKey)"></app-alt-input>
                               </div>
                             </div>
+-->
+                            <ng-template #recursiveList let-properties let-path = path>
+                              <div id="altInputs" *ngFor="let propKey of this.Object.keys(properties)">
+                                <app-alt-input [header]="propKey" [type]="properties[propKey].type" [format]="properties[propKey].format" (event)="this.processAltInput($event, (path? path + '.' : '') + propKey, this.selectedRequestType)"></app-alt-input>
+                                <div *ngIf="properties[propKey].properties">
+                                  <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: properties[propKey].properties, path: (path? path + '.' : '') + propKey }"></ng-container>
+                                </div>
+                              </div>
+                            </ng-template>
+
+                            <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: parm.schema.properties, path: null }"></ng-container>
                             <!--<div *ngIf="this.parm?.schema && this.Object.keys(this.parm?.schema).length !== 0" class="parameter-content-type">
                               <div>
                                 <div class="media mt-2">
