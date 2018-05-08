@@ -41,21 +41,21 @@ export class RestEndpointComponent extends EndpointComponent implements OnInit {
     }
   }
 
-  processAltInput(event: AltInputEventModel, selectedRequest: string, field: string) {
+  processAltInput(event: AltInputEventModel, field: string, path?: any) {
     if ( event.eventType === AltInputEventModel.EVENT_TYPES.DATA) {
-      if (!this.altInputs[selectedRequest]) {
-        this.altInputs[selectedRequest] = {};
+      if (!this.altInputs[path]) {
+        this.altInputs[path] = {};
       }
-      this.altInputs[selectedRequest][field] = event.data;
+      this.altInputs[path] = event.data;
     } else if ( event.eventType === AltInputEventModel.EVENT_TYPES.APPLY) {
       // STUB FUNCTION TO APPLY THE FIELD INTO THE BODY
-      this.substituteToBody(selectedRequest, field, AltInputEventModel.EVENT_TYPES.APPLY);
+      this.substituteToBody(path, AltInputEventModel.EVENT_TYPES.APPLY);
     } else if ( event.eventType === AltInputEventModel.EVENT_TYPES.DELETE) {
-      delete this.altInputs[selectedRequest][field];
-      this.substituteToBody(selectedRequest, field, AltInputEventModel.EVENT_TYPES.DELETE);
+      delete this.altInputs[path];
+      this.substituteToBody(path, AltInputEventModel.EVENT_TYPES.DELETE);
     }
   }
-  substituteToBody(selectedRequest: string, field?: string, eventType?: string) {
+  substituteToBody(path: string, eventType?: string) {
     if ( this.selectedResponse === 'application/json') {
       // substitution for application json
       let target = null;
@@ -65,24 +65,40 @@ export class RestEndpointComponent extends EndpointComponent implements OnInit {
         }
       });
       if (target) {
+        const pathArray = path.split('.');
+        const lastPathItem = pathArray[pathArray.length - 1];
         if (!target.value) {
           // generate the json with the alt information inside
-          target.value = JSON.stringify(this.altInputs[selectedRequest], null , 4);
+          target.value = {};
+          pathArray.reduce((prevVal, nextVal) => {
+            if (lastPathItem === nextVal) {
+              return prevVal[nextVal] = this.altInputs[path];
+            } else {
+              return prevVal[nextVal] = {};
+            }
+          }, target.value);
+          target.value = JSON.stringify(target.value, null , 4);
         } else {
           try {
             let obj = (JSON).parse(target.value);
-            if (field) {
+            if (path) {
               // apply to just that field
-              obj[field] = this.altInputs[selectedRequest][field];
+              // I got to go to this path.....
+              pathArray.reduce((prevVal, curVal) => {
+                if (curVal === lastPathItem) {
+                  prevVal[curVal] = this.altInputs[path];
+                }
+                return prevVal[curVal];
+              }, obj);
             } else {
               // apply to all
-              obj = Object.assign(obj, this.altInputs[selectedRequest]);
+              obj = Object.assign(obj, this.altInputs[path]);
             }
             target.value = JSON.stringify(obj, null , 4);
             if (eventType === AltInputEventModel.EVENT_TYPES.DELETE) {
-              this.notificationService.warn(`Deleted substitution on ${field}`);
+              this.notificationService.warn(`Deleted substitution on ${path}`);
             } else if (eventType === AltInputEventModel.EVENT_TYPES.APPLY) {
-              this.notificationService.success(`Applied substitution on ${field}`);
+              this.notificationService.success(`Applied substitution on ${path}`);
             }
           } catch ( e ) {
             this.notificationService.error(`Unable to apply to incorrectly formatted JSON`);
