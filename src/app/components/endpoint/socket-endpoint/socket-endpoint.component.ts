@@ -30,7 +30,6 @@ export class SocketEndpointComponent extends EndpointComponent {
   socketMessages = [];
   public JSON = JSON;
   public document = document;
-  public altInputs = {};
   constructor(
     public endpointsSharedService: EndpointsSharedService,
     public notificationService: NotificationsService,
@@ -140,6 +139,19 @@ export class SocketEndpointComponent extends EndpointComponent {
       this.connection.socket.send(this.endpointData['requestMessages'][this.selectedRequestType]['value']);
     }
   }
+  buildQueryParams(params) {
+    let result = '?';
+    for (const key in params) {
+      if (params.hasOwnProperty(key)) {
+        const element = params[key];
+        if ( element.in && element.in.toLowerCase() === 'query' ) {
+          result += element.name + '=' + element.value + '&';
+        }
+      }
+    }
+    return result;
+  }
+
   processAltInput(event: AltInputEventModel, selectedRequest: string, field: string) {
     if ( event.eventType === AltInputEventModel.EVENT_TYPES.DATA) {
       if (!this.altInputs[selectedRequest]) {
@@ -183,17 +195,5 @@ export class SocketEndpointComponent extends EndpointComponent {
     } else {
       this.notificationService.alert(`${this.selectedResponse} is not supported`);
     }
-  }
-  buildQueryParams(params) {
-    let result = '?';
-    for (const key in params) {
-      if (params.hasOwnProperty(key)) {
-        const element = params[key];
-        if ( element.in && element.in.toLowerCase() === 'query' ) {
-          result += element.name + '=' + element.value + '&';
-        }
-      }
-    }
-    return result;
   }
 }
