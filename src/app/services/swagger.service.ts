@@ -101,7 +101,11 @@ export class SwaggerService {
         if (callData.headers.hasOwnProperty(headerName)) {
           const headerValue = callData.headers[headerName];
           if (headerValue) {
-            if (headerName !== 'Content-Type' && headerValue !== 'multipart/form-data') {
+            if (headerName === 'Content-Type') {
+              if ( headerValue !== 'multipart/form-data' ) {
+                options['headers'] = options['headers'].append(headerName, headerValue);
+              }
+            } else {
               options['headers'] = options['headers'].append(headerName, headerValue);
             }
           }
