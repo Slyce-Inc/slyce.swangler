@@ -28,6 +28,7 @@ export class EndpointComponent implements OnInit {
   public parameterFields = {};
   public Object = Object;
   isExamplesHidden;
+  public invalidInputClass = {};
 
   constructor(
     public endpointsSharedService: EndpointsSharedService,
@@ -99,13 +100,15 @@ export class EndpointComponent implements OnInit {
         const element = endpointForm.controls[key];
         if (element.invalid) {
           invalidFields.push(key);
+          this.invalidInputClass[key] = true;
+        } else {
+          this.invalidInputClass[key] = false;
         }
       }
     }
     if (endpointForm.invalid) {
       this.notificationService.error('Error', invalidFields.join(', ') + ' required!');
     }
-
     this.clickedTestEndPoint.emit(this.clickTestEndPointButton());
   }
   public populateBody(event) {
