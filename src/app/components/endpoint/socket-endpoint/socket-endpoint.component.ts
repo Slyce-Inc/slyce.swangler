@@ -30,7 +30,6 @@ export class SocketEndpointComponent extends EndpointComponent {
   socketMessages = [];
   public JSON = JSON;
   public document = document;
-  public altInputs = {};
   constructor(
     public endpointsSharedService: EndpointsSharedService,
     public notificationService: NotificationsService,
@@ -140,50 +139,6 @@ export class SocketEndpointComponent extends EndpointComponent {
       this.connection.socket.send(this.endpointData['requestMessages'][this.selectedRequestType]['value']);
     }
   }
-  processAltInput(event: AltInputEventModel, selectedRequest: string, field: string) {
-    if ( event.eventType === AltInputEventModel.EVENT_TYPES.DATA) {
-      if (!this.altInputs[selectedRequest]) {
-        this.altInputs[selectedRequest] = {};
-      }
-      this.altInputs[selectedRequest][field] = event.data;
-    } else if ( event.eventType === AltInputEventModel.EVENT_TYPES.APPLY) {
-      // STUB FUNCTION TO APPLY THE FIELD INTO THE BODY
-      this.substituteToBody(selectedRequest, field, AltInputEventModel.EVENT_TYPES.APPLY);
-    } else if ( event.eventType === AltInputEventModel.EVENT_TYPES.DELETE) {
-      delete this.altInputs[selectedRequest][field];
-      this.substituteToBody(selectedRequest, field, AltInputEventModel.EVENT_TYPES.DELETE);
-    }
-  }
-  substituteToBody(selectedRequest: string, field?: string, eventType?: string) {
-    if ( this.selectedResponse === 'application/json') {
-      // substitution for application json
-      if (!this.endpointData['requestMessages'][selectedRequest].value) {
-        // generate the json with the alt information inside
-        this.endpointData['requestMessages'][selectedRequest].value = JSON.stringify(this.altInputs[selectedRequest], null , 4);
-      } else {
-        try {
-          let obj = (JSON).parse(this.endpointData['requestMessages'][selectedRequest].value);
-          if (field) {
-            // apply to just that field
-            obj[field] = this.altInputs[selectedRequest][field];
-          } else {
-            // apply to all
-            obj = Object.assign(obj, this.altInputs[selectedRequest]);
-          }
-          this.endpointData['requestMessages'][selectedRequest].value = JSON.stringify(obj, null , 4);
-          if (eventType === AltInputEventModel.EVENT_TYPES.DELETE) {
-            this.notificationService.warn(`Deleted substitution on ${field}`);
-          } else if (eventType === AltInputEventModel.EVENT_TYPES.APPLY) {
-            this.notificationService.success(`Applied substitution on ${field}`);
-          }
-        } catch ( e ) {
-          this.notificationService.error(`Unable to apply to incorrectly formatted JSON`);
-        }
-      }
-    } else {
-      this.notificationService.alert(`${this.selectedResponse} is not supported`);
-    }
-  }
   buildQueryParams(params) {
     let result = '?';
     for (const key in params) {
@@ -195,5 +150,70 @@ export class SocketEndpointComponent extends EndpointComponent {
       }
     }
     return result;
+  }
+
+  processAltInput(event: AltInputEventModel, path: string, selectedRequest: string) {
+    console.log(path);
+    if ( event.eventType === AltInputEventModel.EVENT_TYPES.DATA) {
+      if (!this.altInputs[selectedRequest]) {
+        this.altInputs[selectedRequest] = {};
+      }
+      this.altInputs[selectedRequest][path] = event.data;
+    } else if ( event.eventType === AltInputEventModel.EVENT_TYPES.APPLY) {
+      // STUB FUNCTION TO APPLY THE FIELD INTO THE BODY
+      this.substituteToBody(selectedRequest, path, AltInputEventModel.EVENT_TYPES.APPLY);
+    } else if ( event.eventType === AltInputEventModel.EVENT_TYPES.DELETE) {
+      delete this.altInputs[selectedRequest][path];
+      this.substituteToBody(selectedRequest, path, AltInputEventModel.EVENT_TYPES.DELETE);
+    }
+  }
+  substituteToBody(selectedRequest: string, path?: string, eventType?: string) {
+    if ( this.selectedResponse === 'application/json') {
+      // substitution for application json
+      const target = this.endpointData['requestMessages'][selectedRequest];
+      if (target) {
+        const pathArray = path.split('.');
+        const lastPathItem = pathArray[pathArray.length - 1];
+        if (!target.value) {
+          // generate the json with the alt information inside
+          target.value = {};
+          pathArray.reduce((prevVal, nextVal) => {
+            if (lastPathItem === nextVal) {
+              return prevVal[nextVal] = this.altInputs[selectedRequest][path];
+            } else {
+              return prevVal[nextVal] = {};
+            }
+          }, target.value);
+          target.value = JSON.stringify(target.value, null , 4);
+        } else {
+          try {
+            let obj = (JSON).parse(target.value);
+            if (path) {
+              // apply to just that field
+              // I got to go to this path.....
+              pathArray.reduce((prevVal, curVal) => {
+                if (curVal === lastPathItem) {
+                  prevVal[curVal] = this.altInputs[selectedRequest][path];
+                }
+                return prevVal[curVal];
+              }, obj);
+            } else {
+              // apply to all
+              obj = Object.assign(obj, this.altInputs[selectedRequest][path]);
+            }
+            target.value = JSON.stringify(obj, null , 4);
+            if (eventType === AltInputEventModel.EVENT_TYPES.DELETE) {
+              this.notificationService.warn(`Deleted substitution on ${path}`);
+            } else if (eventType === AltInputEventModel.EVENT_TYPES.APPLY) {
+              this.notificationService.success(`Applied substitution on ${path}`);
+            }
+          } catch ( e ) {
+            this.notificationService.error(`Unable to apply to incorrectly formatted JSON`);
+          }
+        }
+      }
+    } else {
+      this.notificationService.alert(`${this.selectedResponse} is not supported`);
+    }
   }
 }

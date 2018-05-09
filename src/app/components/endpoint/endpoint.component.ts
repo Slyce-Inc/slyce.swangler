@@ -6,6 +6,7 @@ import {NotificationsService} from 'angular2-notifications';
 import {SharedVarsService} from '../../services/shared-vars.service';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {EndpointsSharedService} from '../../services/endpoints-shared.service';
+import {AltInputEventModel} from '../alt-input/model/AltInputEvent.model';
 export class EndpointComponent implements OnInit {
   public DEFAULT_SCHEME = 'http';
   @Input() schemes: string[] = [];
@@ -18,6 +19,7 @@ export class EndpointComponent implements OnInit {
   @Output('clickedTestEndPoint') clickedTestEndPoint: EventEmitter<AppClickedTestRes> = new EventEmitter<any>();
   @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
   hideRestrictedEndpoints =  this.endpointsSharedService.isRestrictedHidden || false;
+  public altInputs = {};
 
   /* Selected wanted response format from endpoint */
   public selectedResponse;
@@ -45,6 +47,7 @@ export class EndpointComponent implements OnInit {
     this.initSelectedRequest();
 
     this.endpointsSharedService.onRestrictedEndpointsVisibilityChange().subscribe((value: boolean) => this.hideRestrictedEndpoints = value);
+    console.log(this.endpointData);
   }
   public initSchemes() {
     // Initialize selected scheme

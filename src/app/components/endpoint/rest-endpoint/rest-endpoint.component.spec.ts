@@ -12,6 +12,7 @@ import {NotificationsService} from 'angular2-notifications';
 import {APPENDPOINT} from '../../../models/MOCK_DATA';
 import {By} from '@angular/platform-browser';
 import {Subject} from 'rxjs/Subject';
+import {AltInputModule} from '../../alt-input/altInput.module';
 
 
 const sharedVarsServiceStub = {
@@ -54,6 +55,7 @@ describe('EndpointComponent', () => {
       ],
       imports: [
         FormsModule,
+        AltInputModule
       ],
       providers: [
         { provide: SharedVarsService, useValue: sharedVarsServiceStub },

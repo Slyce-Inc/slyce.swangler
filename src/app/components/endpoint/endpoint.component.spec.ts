@@ -13,6 +13,7 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import {EndpointsSharedService} from '../../services/endpoints-shared.service';
 import {APPENDPOINT} from '../../models/MOCK_DATA';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {AltInputModule} from '../alt-input/altInput.module';
 
 
 const sharedVarsServiceStub = {
@@ -55,6 +56,7 @@ describe('EndpointComponent', () => {
       ],
       imports: [
         FormsModule,
+        AltInputModule
       ],
       providers: [
         { provide: SharedVarsService, useValue: sharedVarsServiceStub },
