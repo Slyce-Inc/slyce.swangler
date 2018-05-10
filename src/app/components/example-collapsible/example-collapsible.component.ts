@@ -157,7 +157,7 @@ export class ExampleCollapsibleComponent implements OnInit {
                 if ( property.type ) {
                   if ( property.type === 'boolean') {
                     temp = `${temp}: true`;
-                  } else if (property.type === 'number') {
+                  } else if (property.type === 'number' || property.type === 'integer') {
                     temp = `${temp}: 1`;
                   } else {
                     temp = `${temp}: "${property.type}"`;
