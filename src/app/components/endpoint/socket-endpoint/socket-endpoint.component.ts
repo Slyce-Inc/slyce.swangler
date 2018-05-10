@@ -178,6 +178,9 @@ export class SocketEndpointComponent extends EndpointComponent {
           // generate the json with the alt information inside
           target.value = {};
           pathArray.reduce((prevVal, nextVal) => {
+            if (prevVal[curVal] === undefined || prevVal[curVal] === null) {
+              prevVal[curVal] = {};
+            }
             if (lastPathItem === nextVal) {
               return prevVal[nextVal] = this.altInputs[selectedRequest][path];
             } else {
