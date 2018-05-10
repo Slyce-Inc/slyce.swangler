@@ -27,14 +27,6 @@ export class LocalStorageService {
 
     // get securityDefinitions from swagger spec file
     this.getSecurityDefinitions();
-
-    // get storedSecurityDefinitions from localStorage if exist
-    this.securityDefinitions
-      .subscribe(data => {
-        if (data) {
-          this.getSecurityDefinitionsValuesFromStorage(data);
-        }
-      });
   }
 
   getSecurityDefinitionsValuesFromStorage(securityDefinitionObj) {
@@ -49,6 +41,7 @@ export class LocalStorageService {
     }
     this.tempSecurityDefinitions = securityDefinitionsDict;
     this.storedSecurityDefinitionsSubject.next(securityDefinitionsDict);
+    return securityDefinitionsDict;
   }
 
   getSecurityDefinitions() {
