@@ -85,7 +85,7 @@ export class AccountService {
       this.filterEndpointsByPermissions(endpoints, []);
       this.endpointsSharedService.triggerEndpointsRestrictedUpdate();
       this.notify.warn('Warning', 'Cannot Load API Access Control List');
-      throw new Error(error);
+      throw error;
     });
   }
 
