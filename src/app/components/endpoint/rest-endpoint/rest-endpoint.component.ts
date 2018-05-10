@@ -85,6 +85,9 @@ export class RestEndpointComponent extends EndpointComponent implements OnInit {
               // apply to just that field
               // I got to go to this path.....
               pathArray.reduce((prevVal, curVal) => {
+                if (!prevVal[curVal]) {
+                  prevVal[curVal] = {};
+                }
                 if (curVal === lastPathItem) {
                   prevVal[curVal] = this.altInputs[path];
                 }
