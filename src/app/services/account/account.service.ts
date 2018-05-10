@@ -84,7 +84,7 @@ export class AccountService {
     }, error => {
       this.filterEndpointsByPermissions(endpoints, []);
       this.endpointsSharedService.triggerEndpointsRestrictedUpdate();
-      this.notify.error('Error', 'Cannot Load API Access Keys');
+      this.notify.warn('Warning', 'Cannot Load API Access Control List');
       throw new Error(error);
     });
   }
