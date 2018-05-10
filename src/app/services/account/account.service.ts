@@ -82,7 +82,9 @@ export class AccountService {
       this.filterEndpointsByPermissions(endpoints, this.acl);
       this.endpointsSharedService.triggerEndpointsRestrictedUpdate();
     }, error => {
-      this.notify.error('Error', 'Cannot load API Keys');
+      this.filterEndpointsByPermissions(endpoints, []);
+      this.endpointsSharedService.triggerEndpointsRestrictedUpdate();
+      this.notify.error('Error', 'Cannot Load API Access Keys');
       throw new Error(error);
     });
   }
