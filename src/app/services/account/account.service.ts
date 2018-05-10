@@ -1,14 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SwaggerService } from '../swagger.service';
-import { RequestInitiator } from '../../models/endpoint/endpoint.model';
-import { LocalStorageService } from '../local-storage.service';
-import { AppClickedTestRes } from '../../models/endpoint/clicked-test-res';
+import { Injectable } from '@angular/core';
 import { NotificationsService } from 'angular2-notifications';
-import { IfObservable } from 'rxjs/observable/IfObservable';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { AppClickedTestRes } from '../../models/endpoint/clicked-test-res';
+import { RequestInitiator } from '../../models/endpoint/endpoint.model';
 import { EndpointsSharedService } from '../endpoints-shared.service';
+import { LocalStorageService } from '../local-storage.service';
+import { SwaggerService } from '../swagger.service';
 
 @Injectable()
 export class AccountService {
@@ -18,6 +16,7 @@ export class AccountService {
   defaultSpecScheme = 'https';
   endpoints;
   apiKeysSubject = new Subject();
+  credentials = {};
 
   constructor(
     private http: HttpClient,
@@ -26,10 +25,25 @@ export class AccountService {
     private notify: NotificationsService,
     private endpointsSharedService: EndpointsSharedService
   ) {
+    // get storedSecurityDefinitions from localStorage if exist
+    this.localDataService.securityDefinitions
+      .subscribe(data => {
+        if (data) {
+          this.credentials = this.localDataService.getSecurityDefinitionsValuesFromStorage(data);
+        }
+      });
+
+
     this.swaggerService.endpointsSubject.subscribe(endpoints => {
       if (endpoints) {
         this.endpoints = endpoints;
-        this.getApiKeys(endpoints);
+
+        this.filterEndpointsByPermissions(this.endpoints, []);
+        this.endpointsSharedService.triggerEndpointsRestrictedUpdate();
+
+        if (Object.keys(this.credentials).length !== 0) {
+          this.getApiKeys(endpoints);
+        }
       }
     });
 
@@ -47,7 +61,9 @@ export class AccountService {
   }
 
   getApiKeys(endpoints) {
-    if (!endpoints.public) { return; }
+    if (!endpoints.public) {
+      return;
+    }
 
     const apiKeysEndpoint = endpoints.public.filter((endpoint) => {
       return endpoint.operationId === 'api_keys_mine';
@@ -60,7 +76,7 @@ export class AccountService {
     const request = new AppClickedTestRes(apiKeysEndpoint, null, null, null, this.defaultSpecScheme);
 
     const requestInitiator: RequestInitiator = new RequestInitiator(request, this.localDataService);
-    this.swaggerService.testEndpoint(requestInitiator).subscribe( res => {
+    this.swaggerService.testEndpoint(requestInitiator).subscribe(res => {
       this.acl = res.body.acl;
 
       this.filterEndpointsByPermissions(endpoints, this.acl);
@@ -85,7 +101,7 @@ export class AccountService {
               }
             });
           } else {
-            endpoint.restricted = true;
+            endpoint.restricted = false;
           }
         });
       }
