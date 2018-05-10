@@ -154,9 +154,9 @@
           <div>
 
             <div class="sandbox_header mb-5" data-content="">
-              <button type="button" class="btn" (click)="this.openSocketConnection()" [ngClass]="{'btn-primary': !this.isConnectionStarted, 'btn-danger': this.isConnectionStarted }" [disabled]="endpointData['restricted']">{{this.isConnectionStarted ? 'Close Connection' : 'Start Connecion'}}</button>
-              <button (click)="this.sendSocketMessage()" type="button" class="btn btn-primary" [disabled]="!this.isConnectionStarted || endpointData['restricted']">Send Message</button>
-              <button (click)="this.showMessagesClicked()" type="button" class="btn btn-warning" [disabled]="this.socketMessages.length === 0 || endpointData['restricted']">
+              <button type="button" class="btn" (click)="this.openSocketConnection()" [ngClass]="{'btn-primary': !this.isConnectionStarted, 'btn-danger': this.isConnectionStarted }">{{this.isConnectionStarted ? 'Close Connection' : 'Start Connecion'}}</button>
+              <button (click)="this.sendSocketMessage()" type="button" class="btn btn-primary" [disabled]="!this.isConnectionStarted">Send Message</button>
+              <button (click)="this.showMessagesClicked()" type="button" class="btn btn-warning" [disabled]="this.socketMessages.length === 0">
                 See Messages
                 <span class="badge badge-success">{{this.socketMessages.length}}</span>
               </button>
