@@ -29,7 +29,6 @@ export class SharedVarsService implements OnInit {
                   sharedVarName = param.name;
                 }
                 res[sharedVarName] = new BehaviorSubject(null);
-                console.log(sharedVarName);
                 const localStorageVal = this.localStorageService.getStorageVar(sharedVarName);
                 if ( localStorageVal ) {
                   res[sharedVarName].next(localStorageVal);

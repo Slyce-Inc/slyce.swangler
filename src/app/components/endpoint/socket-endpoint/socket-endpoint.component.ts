@@ -153,7 +153,6 @@ export class SocketEndpointComponent extends EndpointComponent {
   }
 
   processAltInput(event: AltInputEventModel, path: string, selectedRequest: string) {
-    console.log(path);
     if ( event.eventType === AltInputEventModel.EVENT_TYPES.DATA) {
       if (!this.altInputs[selectedRequest]) {
         this.altInputs[selectedRequest] = {};
