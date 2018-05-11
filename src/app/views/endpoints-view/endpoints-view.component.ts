@@ -144,11 +144,10 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
 
   clickTest(request, modal) {
     this.result['websocket'] = false;
-
     const requestInitiator: RequestInitiator = new RequestInitiator(request, this.localDataService);
+    this.clearRes();
     this.swaggerService.testEndpoint(requestInitiator).subscribe( res => {
       this.setRes(res, request);
-
       modal.show();
     }, error => {
       this.setRes(error, request);
@@ -171,7 +170,15 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     }
     this.result = res;
   }
-
+  clearRes() {
+    this.result['header'] = '';
+    this.result['method'] = '';
+    this.result['url'] = '';
+    this.result['responseBody'] = '';
+    this.result['responseBodyJson'] = '';
+    this.result['responseCode'] = '';
+    this.result['responseHeader'] = '';
+  }
   setRes(res, request) {
     this.result['header'] = request.endPointData.summary;
     this.result['method'] = request.endPointData.method;
