@@ -4,10 +4,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                     bash '''#!/bin/bash
-                             npm install
-                     '''
-                }
+                sh 'swangler'
+            }
         }
         stage('Test') {
             steps {
