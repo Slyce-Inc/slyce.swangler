@@ -2,20 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
-            steps {
-            echo 'Pulling...' + env.BRANCH_NAME
-            echo "${env}"
-            echo 'Building'
-                sh 'npm install'
-                sh 'ng set warnings.typescriptMismatch=false'
-                sh "ng build --prod --base-href /slyce/swangler/uat/${env.BRANCH_NAME}/"
-                stash includes: 'dist/**/*', name: 'dist'
-            }
-        }
+        stage('Initialization') {
+                    steps {
+                    echo 'Initializing'
+                        sh 'npm install'
+                        sh 'ng set warnings.typescriptMismatch=false'
+                    }
+                }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'Unit Testing..'
+                sh 'ng test'
+            }
+        }
+        stage('Build') {
+            steps {
+            echo 'Building'
+                sh 'npm install'
+                sh "ng build --prod --base-href /slyce/swangler/uat/${env.BRANCH_NAME}/"
+                stash includes: 'dist/**/*', name: 'dist'
             }
         }
         stage('Deploy') {
