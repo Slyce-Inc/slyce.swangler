@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'swangler'
+                sh 'npm install'
             }
         }
         stage('Test') {
