@@ -4,8 +4,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                npm install
-            }
+                     bash '''#!/bin/bash
+                             npm install
+                     '''
+                }
         }
         stage('Test') {
             steps {
