@@ -6,7 +6,7 @@ pipeline {
             steps {
             echo 'Building'
                 sh 'npm install'
-                sh ng run-script build
+                sh 'ng run-script build'
             }
         }
         stage('Test') {
