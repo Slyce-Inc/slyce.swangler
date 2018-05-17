@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
             echo 'Pulling...' + env.BRANCH_NAME
-            echo env
+            echo "${env}"
             echo 'Building'
                 sh 'npm install'
                 sh 'ng set warnings.typescriptMismatch=false'
