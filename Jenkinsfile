@@ -7,7 +7,6 @@ pipeline {
             echo 'Building'
                 sh 'npm install'
                 sh 'ng set warnings.typescriptMismatch=false'
-                sh 'npm run-script build'
             }
         }
         stage('Test') {
