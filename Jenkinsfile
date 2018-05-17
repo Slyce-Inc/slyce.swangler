@@ -12,7 +12,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Unit Testing..'
-                sh 'ng test --browsers PhantomJS --single-run true --sm=false'
+                sh 'ng test --browsers PhantomJS --single-run true --sm=false --port 8100'
             }
         }
         stage('Build') {
