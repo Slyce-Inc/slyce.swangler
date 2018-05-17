@@ -84,7 +84,7 @@ fdescribe('AccountService', () => {
 
   it('should add "restricted" property to endpoints', inject([AccountService], (service: AccountService) => {
     service.getEndpointsWithRestrictions().subscribe(endpoints => {
-      expect(endpoints['public'][0].restricted).toBeTruthy();
+      expect(endpoints['public'][0].restricted).toBeFalsy();
     });
 
     service.filterEndpointsByPermissions(taggedEndpoints, {});
