@@ -42,7 +42,11 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
   }
 };
 
-const EndpointsSharedServiceStub: Partial<EndpointsSharedService> = {};
+const EndpointsSharedServiceStub: Partial<EndpointsSharedService> = {
+  triggerEndpointsRestrictedUpdate() {
+    return true;
+  }
+};
 
 const LocalStorageServiceStub: Partial<LocalStorageService> = {
  onSecurityDefinitionsChange: function() {
@@ -50,11 +54,17 @@ const LocalStorageServiceStub: Partial<LocalStorageService> = {
   },
   getStorageVar: function(varName) {
     return 'test';
+  },
+  securityDefinitions: (function () {
+   return Observable.of(true);
+  })(),
+  getSecurityDefinitionsValuesFromStorage() {
+   return {'test_name': 'test_value'};
   }
 };
 const NotificationsServiceStub: Partial<NotificationsService> = {};
 
-describe('AccountService', () => {
+fdescribe('AccountService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [

@@ -15,7 +15,7 @@ const LocalStorageServiceStub = {
   }
 };
 
-fdescribe('SharedVarsService', () => {
+describe('SharedVarsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
