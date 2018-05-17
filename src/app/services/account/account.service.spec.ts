@@ -64,7 +64,7 @@ const LocalStorageServiceStub: Partial<LocalStorageService> = {
 };
 const NotificationsServiceStub: Partial<NotificationsService> = {};
 
-fdescribe('AccountService', () => {
+describe('AccountService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
