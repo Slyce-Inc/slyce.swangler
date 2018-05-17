@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                ng run-script build
+                npm install
             }
         }
         stage('Test') {
