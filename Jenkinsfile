@@ -13,7 +13,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                         env.TEST_PORT = (env.RESERVED_PORT as int) + (env.EXECUTOR_NUMBER as int)
+                         env.TEST_PORT = evaluate(env.RESERVED_PORT "+" env.EXECUTOR_NUMBER)
                  }
                 echo 'Unit Testing..'
                 sh "ng test --browsers PhantomJS --single-run true --sm=false --port ${env.TEST_PORT}"
