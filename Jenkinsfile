@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Initialization') {
                     steps {
-                    sh "echo $((${env.RESERVED_PORT} + ${env.EXECUTOR_NUMBER}))"
+                    sh "echo $((env.RESERVED_PORT + env.EXECUTOR_NUMBER))"
                     echo sh(returnStdout: true, script: 'env')
                     echo 'Initializing'
                         sh 'npm install'
