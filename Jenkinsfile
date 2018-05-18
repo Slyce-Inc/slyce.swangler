@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Initialization') {
                     steps {
+                    echo sh(returnStdout: true, script: 'env')
                     echo 'Initializing'
                         sh 'npm install'
                         sh 'ng set warnings.typescriptMismatch=false'
