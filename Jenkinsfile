@@ -4,6 +4,8 @@ pipeline {
     stages {
         stage('Initialization') {
                     steps {
+                    sh 'a=1'
+                    sh 'echo $a'
                     echo sh(returnStdout: true, script: 'env')
                     echo 'Initializing'
                         sh 'npm install'
