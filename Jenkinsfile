@@ -12,10 +12,11 @@ pipeline {
                 }
         stage('Test') {
             steps {
+                script {
+                         env.TEST_PORT = env.RESERVED_PORT + env.EXECUTOR_NUMBER
+                 }
                 echo 'Unit Testing..'
-                sh "port=${env.RESERVED_PORT}"
-                sh "executor=${env.EXECUTOR_NUMBER}"
-                sh 'ng test --browsers PhantomJS --single-run true --sm=false --port $((port+executor))'
+                sh "ng test --browsers PhantomJS --single-run true --sm=false --port ${env.TEST_PORT}"
             }
         }
         stage('Build') {
