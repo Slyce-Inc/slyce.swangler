@@ -4,8 +4,6 @@ pipeline {
     stages {
         stage('Initialization') {
                     steps {
-                    sh 'a=1'
-                    sh 'echo $a'
                     echo sh(returnStdout: true, script: 'env')
                     echo 'Initializing'
                         sh 'npm install'
@@ -15,7 +13,9 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Unit Testing..'
-                sh "ng test --browsers PhantomJS --single-run true --sm=false --port ${env.RESERVED_PORT}"
+                sh "port=${env.RESERVED_PORT}"
+                sh "executor=${env.EXECUTOR_NUMBER}"
+                sh 'ng test --browsers PhantomJS --single-run true --sm=false --port $((port+executor))'
             }
         }
         stage('Build') {
