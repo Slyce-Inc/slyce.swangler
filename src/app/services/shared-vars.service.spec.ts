@@ -30,13 +30,13 @@ describe('SharedVarsService', () => {
   }));
 
   it('should init shared vars', inject([SharedVarsService], (service: SharedVarsService) => {
-    service.initSharedVars([JSON.parse(JSON.stringify(APPENDPOINT))]);
+    service.initSharedVars({'API Keys': [JSON.parse(JSON.stringify(APPENDPOINT))]});
     expect(service.sharedVars['account_id']).toBeDefined();
     expect(service.sharedVars['API_Keys_create_api_key1_body']).toBeTruthy();
   }));
 
   it('should init ws shared vars', inject([SharedVarsService], (service: SharedVarsService) => {
-    service.initSharedVars([JSON.parse(JSON.stringify(WS_SPEC_MOCK.socketEndpoints[0]))]);
+    service.initSharedVars({'Test' : [JSON.parse(JSON.stringify(WS_SPEC_MOCK.socketEndpoints[0]))]});
     expect(service.sharedVars['test_ws_message_0']).toBeTruthy();
   }));
 });

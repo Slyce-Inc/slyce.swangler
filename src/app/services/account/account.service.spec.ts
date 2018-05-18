@@ -42,7 +42,11 @@ const SwaggerServiceStub: Partial<SwaggerService> = {
   }
 };
 
-const EndpointsSharedServiceStub: Partial<EndpointsSharedService> = {};
+const EndpointsSharedServiceStub: Partial<EndpointsSharedService> = {
+  triggerEndpointsRestrictedUpdate() {
+    return true;
+  }
+};
 
 const LocalStorageServiceStub: Partial<LocalStorageService> = {
  onSecurityDefinitionsChange: function() {
@@ -50,6 +54,12 @@ const LocalStorageServiceStub: Partial<LocalStorageService> = {
   },
   getStorageVar: function(varName) {
     return 'test';
+  },
+  securityDefinitions: (function () {
+   return Observable.of(true);
+  })(),
+  getSecurityDefinitionsValuesFromStorage() {
+   return {'test_name': 'test_value'};
   }
 };
 const NotificationsServiceStub: Partial<NotificationsService> = {};
@@ -74,7 +84,7 @@ describe('AccountService', () => {
 
   it('should add "restricted" property to endpoints', inject([AccountService], (service: AccountService) => {
     service.getEndpointsWithRestrictions().subscribe(endpoints => {
-      expect(endpoints['public'][0].restricted).toBeTruthy();
+      expect(endpoints['public'][0].restricted).toBeFalsy();
     });
 
     service.filterEndpointsByPermissions(taggedEndpoints, {});
