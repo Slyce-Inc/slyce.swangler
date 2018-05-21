@@ -6,6 +6,9 @@ pipeline {
                     steps {
                     echo sh(returnStdout: true, script: 'env')
                     echo 'Initializing'
+                        sh 'npm cache clean --force'
+                        sh 'rm -fr node_modules'
+                        sh 'rm -fr package.lock.json'
                         sh 'npm install'
                         sh 'ng set warnings.typescriptMismatch=false'
                     }
