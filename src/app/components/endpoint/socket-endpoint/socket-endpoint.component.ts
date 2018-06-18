@@ -20,7 +20,7 @@ import { AccountService } from '../../../services/account/account.service';
 })
 export class SocketEndpointComponent extends EndpointComponent {
   public DEFAULT_SCHEME = 'ws';
-  @Input('endpointData') endpointData: SocketModel;
+  @Input() endpointData: SocketModel;
 
   @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
   bodyParams = [];

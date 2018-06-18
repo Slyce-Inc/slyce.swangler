@@ -10,8 +10,8 @@ export class ParamConsoleComponent implements OnInit {
   public readonly OPTIONAL = '(optional)';
   public readonly REQUIRED = '(required)';
   public Object = Object;
-  @Input('schema') schema: Schema;
-  @Input('title') title = 'No Title';
+  @Input() schema: Schema;
+  @Input() title = 'No Title';
   public getFieldRequirementText(isRequired: Boolean) {
     return(isRequired ? this.REQUIRED : this.OPTIONAL);
   }
