@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, OnDestroy, TemplateRef, ViewChild, AfterContentChecked} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Route} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {SwaggerService} from '../../services/swagger.service';
@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
   templateUrl: './endpoints-view.component.html',
   styleUrls: ['./endpoints-view.component.scss']
 })
-export class EndpointsViewComponent implements OnInit, OnDestroy {
+export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentChecked {
   wrongTag = false;
   endpointTag: string;
   endpoints;
@@ -69,22 +69,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
       throw error;
     });
 
-    this.router.events.subscribe(res => {
-      if (res.constructor === NavigationEnd) {
-        setTimeout(() => {
-            this.scrollToElem(this.route.snapshot.queryParams['enpt']);
-          }, 33
-        );
-      }
-    });
-    this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
-      if (queryParams.enpt) {
-        this.scrollToElem(queryParams.enpt);
-      } else {
-        this.scrollToElem();
-      }
-    });
-
     this.paramSubscription = this.route.params.subscribe(params => {
       this.endpointTag = params['endpointTag'];
 
@@ -98,6 +82,16 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
       if (hiddenTags.indexOf(this.endpointTag) !== -1) {
         const availableTag = this.findNextAllowedTag();
         this.router.navigate([availableTag]);
+      }
+    });
+  }
+
+  ngAfterContentChecked() {
+    this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
+      if (queryParams.enpt) {
+        this.scrollToElem(queryParams.enpt);
+      } else {
+        this.scrollToElem();
       }
     });
   }
