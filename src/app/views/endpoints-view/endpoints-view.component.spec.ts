@@ -268,7 +268,7 @@ describe('EndpointsViewComponent', () => {
       expect(component.swaggerService.testEndpoint).toHaveBeenCalled();
     });
 
-    fit('should call swaggerService.testEndpoint and return error', () => {
+    it('should call swaggerService.testEndpoint and return error', () => {
       spyOn(component.swaggerService, 'testEndpoint').and.returnValue(Observable.create(e => e.error({error: 'failed'})));
       component.clickTest(REQUEST_INITIATOR, modalMock);
       expect(component.swaggerService.testEndpoint).toHaveBeenCalled();
