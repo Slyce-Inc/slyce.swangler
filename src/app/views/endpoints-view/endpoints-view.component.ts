@@ -145,8 +145,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
       modal.show();
     }, error => {
       this.setRes(error, request);
-      this.result['responseBody'] = this.highlightJSInJson(error);
-      this.result['responseBodyJson'] = error;
       modal.show();
     });
   }
