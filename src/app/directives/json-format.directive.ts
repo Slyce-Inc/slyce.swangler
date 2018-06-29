@@ -29,6 +29,12 @@ export class JsonFormatDirective implements OnChanges {
 
       const formatter = new JSONFormatter(this.json, 10, options);
       const elem = formatter.render();
+      const links = Array.from(elem.querySelectorAll('a[href]'));
+
+      links.forEach(element => {
+        element.setAttribute('target', '_blank');
+      });
+
       this.renderer.appendChild(this.el.nativeElement, elem);
     }
 
