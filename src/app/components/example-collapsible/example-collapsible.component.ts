@@ -16,13 +16,13 @@ import { ClipboardService } from '../../services/clipboard.service';
 })
 export class ExampleCollapsibleComponent implements OnInit {
   // Header of the collapsable
-  @Input('header') header;
+  @Input() header;
   // Show the Sample or the Schema
-  @Input('type') type: string; // sample or schema
+  @Input() type: string; // sample or schema
   // Schema Object
-  @Input('schema') schema: Schema;
+  @Input() schema: Schema;
   // Returns string of the schema sample
-  @Output('clickedSample') clickedSample: EventEmitter<any> = new EventEmitter();
+  @Output() clickedSample: EventEmitter<any> = new EventEmitter();
 
   // Socket Options
   public collapsed = true;

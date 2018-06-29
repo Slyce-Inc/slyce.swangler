@@ -42,8 +42,8 @@ describe('EndpointComponent', () => {
     template: '<span></span>'
   })
   class ExampleSideBarComponent {
-    @Input('endpoint') endpoint: AppEndPoint;
-    @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
+    @Input() endpoint: AppEndPoint;
+    @Output() clickedBodySample: EventEmitter<any> = new EventEmitter();
   }
   let component: RestEndpointComponent;
   let fixture: ComponentFixture<RestEndpointComponent>;

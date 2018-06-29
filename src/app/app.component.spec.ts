@@ -23,7 +23,7 @@ describe('AppComponent', () => {
     template: '<span></span>'
   })
   class AppNotificationDummyComponent {
-    @Input('options') options;
+    @Input() options;
   }
   beforeEach(async(() => {
     TestBed.configureTestingModule({

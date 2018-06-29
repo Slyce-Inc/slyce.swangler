@@ -7,10 +7,10 @@ import {AppEndPoint, Endpoint, Schema} from '../../models/endpoint/endpoint.mode
   styleUrls: ['./example-side-bar.component.scss']
 })
 export class ExampleSideBarComponent implements OnInit {
-  @Input('endpoint') endpoint: Endpoint | any;
+  @Input() endpoint: Endpoint | any;
   // If provided, show the Request message with index value, otherwise show all, if invalid index show none
-  @Input('showRequestMessageOfIndex') showRequestMessageOfIndex: number = null;
-  @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
+  @Input() showRequestMessageOfIndex: number = null;
+  @Output() clickedBodySample: EventEmitter<any> = new EventEmitter();
   public requestSchema: Schema;
   public responseSchema: Schema;
   ngOnInit() {

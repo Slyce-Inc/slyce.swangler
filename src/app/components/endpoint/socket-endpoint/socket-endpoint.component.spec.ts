@@ -96,9 +96,9 @@ describe('SocketEndpointComponent', () => {
     template: '<span></span>'
   })
   class ExampleSideBarComponent {
-    @Input('endpoint') endpoint: AppEndPoint;
+    @Input() endpoint: AppEndPoint;
     @Input() showRequestMessageOfIndex;
-    @Output('clickedBodySample') clickedBodySample: EventEmitter<any> = new EventEmitter();
+    @Output() clickedBodySample: EventEmitter<any> = new EventEmitter();
   }
   let component: SocketEndpointComponent;
   let fixture: ComponentFixture<SocketEndpointComponent>;
