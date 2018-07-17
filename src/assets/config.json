@@ -1,5 +1,5 @@
 {
-  "spec": "http://forge.local/openapi/spec.json",
-  "websocket_spec" : "http://forge.local/ws/openapi/spec.json",
+  "spec": "https://staging-api.slyce.it/openapi/spec.json",
+  "websocket_spec" : "https://staging-api.slyce.it/ws/openapi/spec.json",
   "app_name" : "Swangler_Like_Strangler"
 }
