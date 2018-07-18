@@ -42,6 +42,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
   };
 
   navigatedOnce = false;
+  endpointId = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -85,6 +86,12 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
         this.router.navigate([availableTag]);
       }
     });
+
+    this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
+      if (queryParams.enpt) {
+        this.endpointId = queryParams.enpt;
+      }
+    });
   }
 
   ngAfterContentChecked() {
@@ -92,13 +99,11 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
       return;
     }
 
-    this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
-      if (queryParams.enpt) {
-        this.scrollToElem(queryParams.enpt);
-      } else {
-        this.scrollToElem();
-      }
-    });
+    if (this.endpointId) {
+      this.scrollToElem(this.endpointId);
+    } else {
+      this.scrollToElem();
+    }
   }
 
   findNextAllowedTag() {
