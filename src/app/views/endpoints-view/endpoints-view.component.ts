@@ -217,10 +217,10 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
       const elem = document.getElementById(id);
       if (elem) {
         window.scrollTo(0, elem.offsetTop + 40);
-        this.navigatedOnce = true;
       } else {
         window.scrollTo(0, 40);
       }
-    }, 50);
+      this.navigatedOnce = true;
+    }, 200);
   }
 }
