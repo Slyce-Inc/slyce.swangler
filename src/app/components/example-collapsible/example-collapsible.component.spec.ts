@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ExampleCollapsibleComponent } from './example-collapsible.component';
-import { Observable } from 'rxjs/Observable';
+import {ExampleCollapsibleComponent} from './example-collapsible.component';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { SwaggerService } from '../../services/swagger.service';
-import { ParamConsoleComponent } from '../param-console/param-console.component';
+import {SwaggerService} from '../../services/swagger.service';
+import {ParamConsoleComponent} from '../param-console/param-console.component';
 import {Schema} from '../../models/endpoint/endpoint.model';
-import { By } from '@angular/platform-browser';
+import {By} from '@angular/platform-browser';
 import {REQUEST_SCHEMA, RESPONSE_SCHEMA, SCHEMA_ARRAY_EXAMPLE} from '../../models/MOCK_DATA';
-import { Input, Directive } from '@angular/core';
+import {Input, Directive} from '@angular/core';
 import '../../../assets/js/helpers.js';
-import { ClipboardService } from '../../services/clipboard.service';
+import {ClipboardService} from '../../services/clipboard.service';
 
 const SwaggerServiceStub: Partial<SwaggerService> = {
   getApiData: () => {
@@ -30,7 +30,7 @@ const ClipboardServiceStub: Partial<ClipboardService> = {
 })
 class MockBsModalDirective {
   @Input() json;
- }
+}
 
 describe('ExampleCollapsibleComponent', () => {
   let component: ExampleCollapsibleComponent;
@@ -38,13 +38,13 @@ describe('ExampleCollapsibleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExampleCollapsibleComponent, ParamConsoleComponent, MockBsModalDirective ],
+      declarations: [ExampleCollapsibleComponent, ParamConsoleComponent, MockBsModalDirective],
       providers: [
-        { provide: SwaggerService, useValue: SwaggerServiceStub },
-        { provide: ClipboardService, useValue: ClipboardServiceStub }
+        {provide: SwaggerService, useValue: SwaggerServiceStub},
+        {provide: ClipboardService, useValue: ClipboardServiceStub}
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -97,9 +97,9 @@ describe('ExampleCollapsibleComponent', () => {
     expect(res).toEqual('{ \n' +
       '"sampleItems" : ["string"],"items" : [\n' +
       '{ \n' +
-      '"created_at": "2018-01-04T20:13:55.373557+0000","created_by": "system","updated_at": "2018-01-04T20:13:55.373557+0000",' +
-      '"updated_by": "system","id": "test_inc","name": "Test, Inc.","is_active": true}],"page_number": 1,"page_size": 20,' +
-      '"total_pages": 1,"total_items": 1}');
+      '"created_at": "2018-01-04T20:13:55.373557+0000","created_by": "system","updated_at": "2018-01-04T20:13:55.373557' +
+      '+0000","updated_by": "system","id": "test_inc","name": "Test, Inc.","is_active": null}],"page_number": 1,"page_s' +
+      'ize": 20,"total_pages": 1,"total_items": 1}');
   });
 
   it('should generate sample from object with examples even if no property field exist for examples', () => {
@@ -114,8 +114,8 @@ describe('ExampleCollapsibleComponent', () => {
     const res = component.generateSampleFromArray(responseSchema.properties.items);
     expect(res).toEqual('[\n' +
       '{ \n' +
-      '"created_at": "2018-01-04T20:13:55.373557+0000","created_by": "system","updated_at": "2018-01-04T20:13:55.373557+0000",' +
-      '"updated_by": "system","id": "test_inc","name": "Test, Inc.","is_active": true}]');
+      '"created_at": "2018-01-04T20:13:55.373557+0000","created_by": "system","updated_at": "2018-01-04T20:13:55.37355' +
+      '7+0000","updated_by": "system","id": "test_inc","name": "Test, Inc.","is_active": null}]');
   });
 
   it('should generate sample from array if no sample for that array is provided instead provide datatype', () => {
@@ -151,7 +151,7 @@ describe('ExampleCollapsibleComponent', () => {
     fixture.detectChanges();
     const pre = fixture.debugElement.query(By.css('.sample-body')).nativeElement;
 
-    component.clickedSample.subscribe( data => {
+    component.clickedSample.subscribe(data => {
       expect(data).toEqual('test');
     });
     pre.click();
