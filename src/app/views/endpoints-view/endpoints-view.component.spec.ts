@@ -239,19 +239,6 @@ describe('EndpointsViewComponent', () => {
       expect(component.endpoints).toBeFalsy();
     }));
 
-    it('should show error message if unknown tag is passed', fakeAsync(() => {
-      spyOn(component.notify, 'error');
-      component.endpoints = null;
-      component.endpointTag = 'foo';
-      component.updateEndpoints();
-      tick();
-      fixture.detectChanges();
-      const error_header = fixture.debugElement.query(By.css('.no-endpoint-data')).nativeElement;
-      expect(component.wrongTag).toBeTruthy();
-      expect(error_header).toBeTruthy();
-      expect(component.notify.error).toHaveBeenCalled();
-    }));
-
     it('should set first available endpoint if no tag provided', fakeAsync(() => {
       component.endpointTag = null;
       component.updateEndpoints();

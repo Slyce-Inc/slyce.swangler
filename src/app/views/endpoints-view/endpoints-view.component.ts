@@ -41,6 +41,8 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
     websocket: null
   };
 
+  navigatedOnce = false;
+
   constructor(
     private route: ActivatedRoute,
     public swaggerService: SwaggerService,
@@ -53,7 +55,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
     public endpointsSharedService: EndpointsSharedService,
     public router: Router
   ) {
-
   }
 
   ngOnInit() {
@@ -87,6 +88,10 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   ngAfterContentChecked() {
+    if (this.navigatedOnce) {
+      return;
+    }
+
     this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
       if (queryParams.enpt) {
         this.scrollToElem(queryParams.enpt);
@@ -134,6 +139,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
   ngOnDestroy() {
     this.queryParamSubscription.unsubscribe();
     this.paramSubscription.unsubscribe();
+    this.navigatedOnce = false;
   }
 
   clickTest(request, modal) {
@@ -199,19 +205,22 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
   onToggleFilteredEndpoints(event) {
     this.hideRestrictedEndpoints = event;
   }
+
   handleClickedNavLink(e) {
     if (e) {
       this.scrollToElem(e);
     }
   }
+
   public scrollToElem(id?: string) {
-    if ( id ) {
+    setTimeout(() => {
       const elem = document.getElementById(id);
       if (elem) {
         window.scrollTo(0, elem.offsetTop + 40);
+        this.navigatedOnce = true;
+      } else {
+        window.scrollTo(0, 40);
       }
-    } else {
-      window.scrollTo(0, 40);
-    }
+    }, 50);
   }
 }
