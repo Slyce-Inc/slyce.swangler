@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, TemplateRef, ViewChild, AfterContentChecked} from '@angular/core';
+import {Component, OnInit, OnDestroy, TemplateRef, ViewChild, AfterViewInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Route} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {SwaggerService} from '../../services/swagger.service';
@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
   templateUrl: './endpoints-view.component.html',
   styleUrls: ['./endpoints-view.component.scss']
 })
-export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentChecked {
+export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit {
   wrongTag = false;
   endpointTag: string;
   endpoints;
@@ -41,7 +41,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
     websocket: null
   };
 
-  navigatedOnce = false;
   endpointId = null;
 
   constructor(
@@ -94,11 +93,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
     });
   }
 
-  ngAfterContentChecked() {
-    if (this.navigatedOnce) {
-      return;
-    }
-
+  ngAfterViewInit() {
     if (this.endpointId) {
       this.scrollToElem(this.endpointId);
     } else {
@@ -144,7 +139,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
   ngOnDestroy() {
     this.queryParamSubscription.unsubscribe();
     this.paramSubscription.unsubscribe();
-    this.navigatedOnce = false;
   }
 
   clickTest(request, modal) {
@@ -212,9 +206,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   handleClickedNavLink(e) {
-    if (e) {
-      this.scrollToElem(e);
-    }
+     this.scrollToElem(e);
   }
 
   public scrollToElem(id?: string) {
@@ -225,7 +217,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
       } else {
         window.scrollTo(0, 40);
       }
-      this.navigatedOnce = true;
     }, 200);
   }
 }
