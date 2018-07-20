@@ -1,7 +1,7 @@
 <nav class="nav flex-column parent_menu" [ngClass]="{'expanded' : !isCollapsed, 'd-none': hideSideTag}">
   <nav class="collapsable-nav-header" routerLinkActive="active" (click)="this.toggleExpand($event)">
       <div class="nav-link">
-        <a class="text-capitalize navigate-to-tag" [routerLink]="'/' + tag" >{{ tag }}</a>
+        <a class="text-capitalize navigate-to-tag" (click)="this.navClicked.emit(null)" [routerLink]="'/' + tag" >{{ tag }}</a>
       </div>
       <div class="toggle-collapse">
         <i class="fas fa-angle-down"></i>

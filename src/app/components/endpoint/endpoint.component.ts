@@ -12,11 +12,11 @@ export class EndpointComponent implements OnInit {
   @Input() schemes: string[] = [];
   @Input() scrollToId: string;
   /* Accepts AppEndPoint object */
-  @Input('endpointData') endpointData: Endpoint;
+  @Input() endpointData: Endpoint;
   /* Call back on sample toggle */
-  @Output('clickedSample') clickedSample: EventEmitter<AppClickedSampleRes> = new EventEmitter();
+  @Output() clickedSample: EventEmitter<AppClickedSampleRes> = new EventEmitter();
   /* Call back on test button click */
-  @Output('clickedTestEndPoint') clickedTestEndPoint: EventEmitter<AppClickedTestRes> = new EventEmitter<any>();
+  @Output() clickedTestEndPoint: EventEmitter<AppClickedTestRes> = new EventEmitter<any>();
   @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
   hideRestrictedEndpoints =  this.endpointsSharedService.isRestrictedHidden || false;
   public altInputs = {};

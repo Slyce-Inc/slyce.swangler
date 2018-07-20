@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, OnDestroy, TemplateRef, ViewChild, AfterViewInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Route} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {SwaggerService} from '../../services/swagger.service';
@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
   templateUrl: './endpoints-view.component.html',
   styleUrls: ['./endpoints-view.component.scss']
 })
-export class EndpointsViewComponent implements OnInit, OnDestroy {
+export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit {
   wrongTag = false;
   endpointTag: string;
   endpoints;
@@ -41,6 +41,8 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     websocket: null
   };
 
+  endpointId = null;
+
   constructor(
     private route: ActivatedRoute,
     public swaggerService: SwaggerService,
@@ -53,7 +55,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     public endpointsSharedService: EndpointsSharedService,
     public router: Router
   ) {
-
   }
 
   ngOnInit() {
@@ -67,22 +68,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     }, error => {
       this.notify.error(error.message);
       throw error;
-    });
-
-    this.router.events.subscribe(res => {
-      if (res.constructor === NavigationEnd) {
-        setTimeout(() => {
-            this.scrollToElem(this.route.snapshot.queryParams['enpt']);
-          }, 33
-        );
-      }
-    });
-    this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
-      if (queryParams.enpt) {
-        this.scrollToElem(queryParams.enpt);
-      } else {
-        this.scrollToElem();
-      }
     });
 
     this.paramSubscription = this.route.params.subscribe(params => {
@@ -100,6 +85,20 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
         this.router.navigate([availableTag]);
       }
     });
+
+    this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
+      if (queryParams.enpt) {
+        this.endpointId = queryParams.enpt;
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    if (this.endpointId) {
+      this.scrollToElem(this.endpointId);
+    } else {
+      this.scrollToElem();
+    }
   }
 
   findNextAllowedTag() {
@@ -151,8 +150,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
       modal.show();
     }, error => {
       this.setRes(error, request);
-      this.result['responseBody'] = this.highlightJSInJson(error.error);
-      this.result['responseBodyJson'] = error.error;
       modal.show();
     });
   }
@@ -207,19 +204,19 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   onToggleFilteredEndpoints(event) {
     this.hideRestrictedEndpoints = event;
   }
+
   handleClickedNavLink(e) {
-    if (e) {
-      this.scrollToElem(e);
-    }
+     this.scrollToElem(e);
   }
+
   public scrollToElem(id?: string) {
-    if ( id ) {
+    setTimeout(() => {
       const elem = document.getElementById(id);
       if (elem) {
         window.scrollTo(0, elem.offsetTop + 40);
+      } else {
+        window.scrollTo(0, 40);
       }
-    } else {
-      window.scrollTo(0, 40);
-    }
+    }, 200);
   }
 }

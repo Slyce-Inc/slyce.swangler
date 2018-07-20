@@ -18,7 +18,7 @@ export class AuthComponent implements OnInit {
   @Output() toggleFilteredEndpoints = new EventEmitter();
 
   // Contains the name of the security definition as the key
-  @Input('securityDefinitions') securityDefinitions: SecurityDefinition;
+  @Input() securityDefinitions: SecurityDefinition;
 
   constructor (
     public localStorageService: LocalStorageService,

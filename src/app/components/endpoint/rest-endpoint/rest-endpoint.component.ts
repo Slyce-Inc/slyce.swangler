@@ -14,7 +14,7 @@ import {AltInputEventModel} from '../../alt-input/model/AltInputEvent.model';
   styleUrls: ['./rest-endpoint.component.scss']
 })
 export class RestEndpointComponent extends EndpointComponent implements OnInit {
-  @Input('endpointData') endpointData: AppEndPoint;
+  @Input() endpointData: AppEndPoint;
 
   constructor(public endpointsSharedService: EndpointsSharedService,
               public notificationService: NotificationsService,

@@ -13,11 +13,11 @@ export class AltInputComponent implements OnInit {
   public static FORMATS = {
       BYTE: 'byte'
   };
-  @Input('type') type: string;
-  @Input('format') format: string;
-  @Input('accept') accept?: string;
-  @Input('header') header?: string;
-  @Output('event') event?: EventEmitter<AltInputEventModel> = new EventEmitter<AltInputEventModel>();
+  @Input() type: string;
+  @Input() format: string;
+  @Input() accept?: string;
+  @Input() header?: string;
+  @Output() event?: EventEmitter<AltInputEventModel> = new EventEmitter<AltInputEventModel>();
   constructor() { }
 
   ngOnInit() {

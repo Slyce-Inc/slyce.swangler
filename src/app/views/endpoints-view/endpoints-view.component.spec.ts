@@ -239,19 +239,6 @@ describe('EndpointsViewComponent', () => {
       expect(component.endpoints).toBeFalsy();
     }));
 
-    it('should show error message if unknown tag is passed', fakeAsync(() => {
-      spyOn(component.notify, 'error');
-      component.endpoints = null;
-      component.endpointTag = 'foo';
-      component.updateEndpoints();
-      tick();
-      fixture.detectChanges();
-      const error_header = fixture.debugElement.query(By.css('.no-endpoint-data')).nativeElement;
-      expect(component.wrongTag).toBeTruthy();
-      expect(error_header).toBeTruthy();
-      expect(component.notify.error).toHaveBeenCalled();
-    }));
-
     it('should set first available endpoint if no tag provided', fakeAsync(() => {
       component.endpointTag = null;
       component.updateEndpoints();
@@ -270,10 +257,9 @@ describe('EndpointsViewComponent', () => {
 
     it('should call swaggerService.testEndpoint and return error', () => {
       spyOn(component.swaggerService, 'testEndpoint').and.returnValue(Observable.create(e => e.error({error: 'failed'})));
-      spyOn(component, 'setRes').and.returnValue(true);
       component.clickTest(REQUEST_INITIATOR, modalMock);
       expect(component.swaggerService.testEndpoint).toHaveBeenCalled();
-      expect(component.result['responseBody']).toEqual('<span class="hljs-string">"failed"</span>');
+      expect(component.result['responseBodyJson']).toEqual({ error: 'failed' });
     });
 
     it('should call setRes with given params', () => {
