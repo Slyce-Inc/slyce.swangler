@@ -66,7 +66,7 @@ export class AccountService {
     }
 
     const apiKeysEndpoint = endpoints.public.filter((endpoint) => {
-      return endpoint.operationId === 'api_keys_mine';
+      return endpoint.operationId === 'get_api_keys_mine';
     })[0];
 
     if (!apiKeysEndpoint) {
