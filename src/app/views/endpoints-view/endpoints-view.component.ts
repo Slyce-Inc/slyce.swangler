@@ -181,7 +181,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit 
     this.result['method'] = request.endPointData.method;
     this.result['url'] = res.url ? decodeURIComponent(res.url) : 'No URL Present';
     this.result['responseBody'] = res.body ? this.highlightJSInJson(res.body) : this.highlightJSInJson(res);
-    this.result['responseBodyJson'] = res.body ? res.body : res;
+    this.result['responseBodyJson'] = res.body ? res.body : (res.error ? res.error : res);
     this.result['responseCode'] = res.status || 'No code Present';
     if (res.headers && res.headers.keys) {
       const keys = res.headers.keys();
