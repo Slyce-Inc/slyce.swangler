@@ -55,6 +55,7 @@ export class RestEndpointComponent extends EndpointComponent implements OnInit {
       this.substituteToBody(path, AltInputEventModel.EVENT_TYPES.DELETE);
     }
   }
+
   substituteToBody(path: string, eventType?: string) {
     if ( this.selectedResponse === 'application/json') {
       // substitution for application json

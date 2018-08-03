@@ -1,18 +1,17 @@
-import {Component, OnInit, OnDestroy, TemplateRef, ViewChild, AfterViewInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Route} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
-import {SwaggerService} from '../../services/swagger.service';
-import {Observable} from 'rxjs/Observable';
-import {RequestInitiator} from '../../models/endpoint/endpoint.model';
-import {LocalStorageService} from '../../services/local-storage.service';
-import * as hl from '../../../../node_modules/highlight.js/';
+import { AfterViewInit, Component, OnDestroy, OnInit, AfterContentChecked } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
-import {ConfigService} from '../../services/config-service/config.service';
-import { SharedVarsService } from '../../services/shared-vars.service';
-import { ClipboardService } from '../../services/clipboard.service';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import * as hl from '../../../../node_modules/highlight.js/';
+import { RequestInitiator } from '../../models/endpoint/endpoint.model';
 import { AccountService } from '../../services/account/account.service';
+import { ClipboardService } from '../../services/clipboard.service';
+import { ConfigService } from '../../services/config-service/config.service';
 import { EndpointsSharedService } from '../../services/endpoints-shared.service';
-import { Router } from '@angular/router';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { SharedVarsService } from '../../services/shared-vars.service';
+import { SwaggerService } from '../../services/swagger.service';
 
 
 @Component({
@@ -20,7 +19,7 @@ import { Router } from '@angular/router';
   templateUrl: './endpoints-view.component.html',
   styleUrls: ['./endpoints-view.component.scss']
 })
-export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit {
+export class EndpointsViewComponent implements OnInit, OnDestroy {
   wrongTag = false;
   endpointTag: string;
   endpoints;
@@ -30,6 +29,10 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit 
   sortedApiData: Observable < any > = this.swaggerService.getEndpointsSortedByTags();
   apiData;
   hideRestrictedEndpoints: boolean;
+  endpointsComponentsLoadedCount = 0;
+  allChildrenEndpointComponentsLoaded = false;
+
+  scrolledToEndpointId;
 
   public result = {
     header: null,
@@ -54,11 +57,10 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit 
     public accountService: AccountService,
     public endpointsSharedService: EndpointsSharedService,
     public router: Router
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-    this.configService.initConfigService().then( config => {
+    this.configService.initConfigService().then(config => {
       this.swaggerService.initSwagger(config.spec, config.websocket_spec)
         .then((endpoints) => {
           if (endpoints) {
@@ -70,11 +72,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit 
       throw error;
     });
 
-    this.paramSubscription = this.route.params.subscribe(params => {
-      this.endpointTag = params['endpointTag'];
-
-      this.updateEndpoints();
-    });
     this.swaggerService.getApiData().subscribe(data => {
       this.apiData = data;
     });
@@ -86,19 +83,17 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit 
       }
     });
 
+    this.paramSubscription = this.route.params.subscribe(params => {
+      this.endpointTag = params['endpointTag'];
+
+      this.updateEndpoints();
+    });
+
     this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
       if (queryParams.enpt) {
         this.endpointId = queryParams.enpt;
       }
     });
-  }
-
-  ngAfterViewInit() {
-    if (this.endpointId) {
-      this.scrollToElem(this.endpointId);
-    } else {
-      this.scrollToElem();
-    }
   }
 
   findNextAllowedTag() {
@@ -109,7 +104,9 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit 
         const tag = endpoints[key];
         const restrictedEndpoints = [];
         tag.forEach(endpoint => {
-          if (endpoint.restricted) { restrictedEndpoints.push(true); }
+          if (endpoint.restricted) {
+            restrictedEndpoints.push(true);
+          }
         });
         if (tag.length > restrictedEndpoints.length) {
           return tag[0].tags[0];
@@ -124,6 +121,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit 
         if (this.endpointTag) {
           if (data[this.endpointTag]) {
             this.endpoints = data[this.endpointTag];
+            this.clearScrolled();
             this.wrongTag = false;
           } else {
             this.wrongTag = true;
@@ -145,7 +143,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit 
     this.result['websocket'] = false;
     const requestInitiator: RequestInitiator = new RequestInitiator(request, this.localDataService);
     this.clearRes();
-    this.swaggerService.testEndpoint(requestInitiator).subscribe( res => {
+    this.swaggerService.testEndpoint(requestInitiator).subscribe(res => {
       this.setRes(res, request);
       modal.show();
     }, error => {
@@ -209,14 +207,32 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterViewInit 
      this.scrollToElem(e);
   }
 
-  public scrollToElem(id?: string) {
-    setTimeout(() => {
-      const elem = document.getElementById(id);
-      if (elem) {
-        window.scrollTo(0, elem.offsetTop + 40);
+  clearScrolled() {
+    this.endpointsComponentsLoadedCount = 0;
+    this.scrolledToEndpointId = false;
+  }
+
+  handleRenderedEndpointComponent(endpointId) {
+    this.endpointsComponentsLoadedCount++;
+
+    // wait until all child endpoint components load
+    if (this.endpointsComponentsLoadedCount === this.endpoints.length) {
+      if (this.endpointId) {
+        this.scrollToElem(this.endpointId);
       } else {
-        window.scrollTo(0, 40);
+        this.scrollToElem();
       }
-    }, 200);
+    }
+  }
+
+  public scrollToElem(id?: string) {
+    const elem = document.getElementById(id);
+    if (elem) {
+      window.scrollTo(0, elem.offsetTop + 40);
+      // console.log('scroll to elem', elem, elem.offsetTop + 40);
+    } else {
+      window.scrollTo(0, 40);
+      // console.log('scroll top');
+    }
   }
 }
