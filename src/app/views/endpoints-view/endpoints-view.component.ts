@@ -29,7 +29,9 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   sortedApiData: Observable < any > = this.swaggerService.getEndpointsSortedByTags();
   apiData;
   hideRestrictedEndpoints: boolean;
-  endpointsComponentsLoaded = 0;
+  endpointsComponentsLoadedCount = 0;
+  allChildrenEndpointComponentsLoaded = false;
+
   scrolledToEndpointId;
 
   public result = {
@@ -90,7 +92,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     this.queryParamSubscription = this.route.queryParams.subscribe(queryParams => {
       if (queryParams.enpt) {
         this.endpointId = queryParams.enpt;
-        this.scrollToElem(this.endpointId);
       }
     });
   }
@@ -207,18 +208,20 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
   }
 
   clearScrolled() {
-    this.endpointsComponentsLoaded = 0;
+    this.endpointsComponentsLoadedCount = 0;
     this.scrolledToEndpointId = false;
   }
 
   handleRenderedEndpointComponent(endpointId) {
-    this.endpointsComponentsLoaded++;
-    if (endpointId === this.endpointId) {
-      this.scrolledToEndpointId = true;
-      this.scrollToElem(endpointId);
-    }
-    if (this.endpointsComponentsLoaded === this.endpoints.length && !this.scrolledToEndpointId) {
-      this.scrollToElem();
+    this.endpointsComponentsLoadedCount++;
+
+    // wait until all child endpoint components load
+    if (this.endpointsComponentsLoadedCount === this.endpoints.length) {
+      if (this.endpointId) {
+        this.scrollToElem(this.endpointId);
+      } else {
+        this.scrollToElem();
+      }
     }
   }
 
@@ -226,8 +229,10 @@ export class EndpointsViewComponent implements OnInit, OnDestroy {
     const elem = document.getElementById(id);
     if (elem) {
       window.scrollTo(0, elem.offsetTop + 40);
+      // console.log('scroll to elem', elem, elem.offsetTop + 40);
     } else {
       window.scrollTo(0, 40);
+      // console.log('scroll top');
     }
   }
 }
