@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, AfterContentChecked} from '@angular/core';
 import {AppEndPoint, Endpoint} from '../../models/endpoint/endpoint.model';
 import {AppClickedSampleRes} from '../../models/endpoint/clicked-sample-res';
 import {AppClickedTestRes} from '../../models/endpoint/clicked-test-res';
@@ -7,7 +7,8 @@ import {SharedVarsService} from '../../services/shared-vars.service';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {EndpointsSharedService} from '../../services/endpoints-shared.service';
 import {AltInputEventModel} from '../alt-input/model/AltInputEvent.model';
-export class EndpointComponent implements OnInit {
+
+export class EndpointComponent implements OnInit, AfterContentChecked {
   public DEFAULT_SCHEME = 'http';
   @Input() schemes: string[] = [];
   @Input() scrollToId: string;
@@ -20,6 +21,7 @@ export class EndpointComponent implements OnInit {
   @Output() clickedSeeSocketMessages: EventEmitter<Object> = new EventEmitter<any>();
   hideRestrictedEndpoints =  this.endpointsSharedService.isRestrictedHidden || false;
   public altInputs = {};
+  @Output() endpointComponentLoaded = new EventEmitter();
 
   /* Selected wanted response format from endpoint */
   public selectedResponse;
@@ -31,6 +33,7 @@ export class EndpointComponent implements OnInit {
   public Object = Object;
   isExamplesHidden;
   public invalidInputClass = {};
+  loadedOnce = false;
 
   constructor(
     public endpointsSharedService: EndpointsSharedService,
@@ -48,6 +51,16 @@ export class EndpointComponent implements OnInit {
 
     this.endpointsSharedService.onRestrictedEndpointsVisibilityChange().subscribe((value: boolean) => this.hideRestrictedEndpoints = value);
   }
+
+  ngAfterContentChecked() {
+    const elem = document.getElementById(this.endpointData.operationId);
+
+    if (elem && !this.loadedOnce) {
+      this.loadedOnce = true;
+      this.endpointComponentLoaded.emit(this.endpointData.operationId);
+    }
+  }
+
   public initSchemes() {
     // Initialize selected scheme
     if ( this.schemes && this.schemes.length > 0 ) {

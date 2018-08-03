@@ -19,7 +19,7 @@ import { SwaggerService } from '../../services/swagger.service';
   templateUrl: './endpoints-view.component.html',
   styleUrls: ['./endpoints-view.component.scss']
 })
-export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentChecked {
+export class EndpointsViewComponent implements OnInit, OnDestroy {
   wrongTag = false;
   endpointTag: string;
   endpoints;
@@ -29,6 +29,8 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
   sortedApiData: Observable < any > = this.swaggerService.getEndpointsSortedByTags();
   apiData;
   hideRestrictedEndpoints: boolean;
+  endpointsComponentsLoaded = 0;
+  scrolledToEndpointId;
 
   public result = {
     header: null,
@@ -93,14 +95,6 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
     });
   }
 
-  ngAfterContentChecked() {
-    if (this.endpointId) {
-      this.scrollToElem(this.endpointId);
-    } else {
-      this.scrollToElem();
-    }
-  }
-
   findNextAllowedTag() {
     const endpoints = this.swaggerService.endpoints;
 
@@ -126,6 +120,7 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
         if (this.endpointTag) {
           if (data[this.endpointTag]) {
             this.endpoints = data[this.endpointTag];
+            this.clearScrolled();
             this.wrongTag = false;
           } else {
             this.wrongTag = true;
@@ -208,7 +203,23 @@ export class EndpointsViewComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   handleClickedNavLink(e) {
-    //  this.scrollToElem(e);
+     this.scrollToElem(e);
+  }
+
+  clearScrolled() {
+    this.endpointsComponentsLoaded = 0;
+    this.scrolledToEndpointId = false;
+  }
+
+  handleRenderedEndpointComponent(endpointId) {
+    this.endpointsComponentsLoaded++;
+    if (endpointId === this.endpointId) {
+      this.scrolledToEndpointId = true;
+      this.scrollToElem(endpointId);
+    }
+    if (this.endpointsComponentsLoaded === this.endpoints.length && !this.scrolledToEndpointId) {
+      this.scrollToElem();
+    }
   }
 
   public scrollToElem(id?: string) {

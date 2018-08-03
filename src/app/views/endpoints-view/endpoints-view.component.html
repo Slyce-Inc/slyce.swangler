@@ -35,9 +35,9 @@
           <h5 *ngIf="this.wrongTag" class="no-endpoint-data">No data for {{this.endpointTag}}</h5>
           <div *ngIf="!this.wrongTag" class="endpoints" id="Accounts_endpoint_list">
             <div *ngFor="let endpoint of endpoints">
-              <app-rest-endpoint [schemes]="this.apiData.spec.schemes" *ngIf="endpoint.responses"
+              <app-rest-endpoint (endpointComponentLoaded)="handleRenderedEndpointComponent($event)" [schemes]="this.apiData.spec.schemes" *ngIf="endpoint.responses"
                                  (clickedTestEndPoint)="this.clickTest($event, modal)" [endpointData]="endpoint"></app-rest-endpoint>
-              <app-socket-endpoint [schemes]="endpoint.protocol" *ngIf="endpoint.responseMessages"
+              <app-socket-endpoint (endpointComponentLoaded)="handleRenderedEndpointComponent($event)" [schemes]="endpoint.protocol" *ngIf="endpoint.responseMessages"
                                    (clickedSeeSocketMessages)="this.showSocketMessages($event, modal)"
                                    [endpointData]="endpoint"></app-socket-endpoint>
             </div>
