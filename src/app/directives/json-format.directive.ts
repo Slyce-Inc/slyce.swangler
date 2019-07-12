@@ -31,7 +31,7 @@ export class JsonFormatDirective implements OnChanges {
       const elem = formatter.render();
       const links = Array.from(elem.querySelectorAll('a[href]'));
 
-      links.forEach(element => {
+      links.forEach((element: any) => {
         element.setAttribute('target', '_blank');
       });
 
