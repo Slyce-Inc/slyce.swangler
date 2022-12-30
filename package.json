@@ -33,7 +33,7 @@
     "ngx-bootstrap": "^2.0.2",
     "ngx-toggle": "^1.0.1",
     "rxjs": "^5.5.6",
-    "swagger-client": "^3.4.11",
+    "swagger-client": "^3.18.5",
     "cryptiles": ">=4.1.2",
     "axios": ">=0.18.1",
     "zone.js": "^0.8.19"
